@@ -12,7 +12,7 @@
 	<groupId>com.lksk</groupId>
 	<artifactId>lksk_fashion</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>lksk_fashion</name>
 	<description>LKSK Fashion Portal using Spring Boot</description>
 	<properties>
