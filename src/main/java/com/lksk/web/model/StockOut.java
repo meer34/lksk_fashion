@@ -33,7 +33,7 @@ public class StockOut {
 	
 	@Lob
 	@Column(columnDefinition = "BYTEA")
-	private Byte[] sPhotoBlob;
+	private byte[] sPhotoBlob;
 	private String sCode;
 	private String product;
 	private String party;
