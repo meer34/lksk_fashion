@@ -1,6 +1,5 @@
 package com.lksk.web.controller;
 
-import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +48,7 @@ public class StockOutController {
 		
 		String fileName = StringUtils.cleanPath(stockOut.getSPhoto().getOriginalFilename());
 		if(fileName.contains("..")) System.out.println("not a a valid file");
-		stockOut.setSPhotoBlob(Base64.getEncoder().encodeToString(stockOut.getSPhoto().getBytes()));
+		stockOut.setSPhotoBlob(stockOut.getSPhoto().getBytes());
 		
 		stockOut = stockOutService.saveStockOutToDB(stockOut);
 		
