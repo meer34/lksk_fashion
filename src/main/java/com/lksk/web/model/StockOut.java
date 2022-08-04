@@ -32,7 +32,7 @@ public class StockOut {
 	private MultipartFile sPhoto;
 	
 	@Lob
-	@Column(columnDefinition = "MEDIUMBLOB")
+	@Column(columnDefinition = "BYTEA")
 	
 	private String sPhotoBlob;
 	private String sCode;
