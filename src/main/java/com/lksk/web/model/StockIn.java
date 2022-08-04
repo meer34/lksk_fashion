@@ -33,7 +33,7 @@ public class StockIn {
 	
 	@Lob
 	@Column(columnDefinition = "BYTEA")
-	private String sPhotoBlob;
+	private Byte[] sPhotoBlob;
 	
 	private String sCode;
 	private String product;
