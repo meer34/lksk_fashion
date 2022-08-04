@@ -1,0 +1,80 @@
+#iconedit { 
+  -webkit-user-select: none; /* Chrome/Safari */        
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+ */
+  margin: 3em auto;
+  width: 100px; 
+  height: 30px; 
+  line-height: 30px;
+  background: #8d1d53;
+  color: white;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid white;
+}
+
+#iconedit:hover { background: #666; }
+#iconedit:active { background: #444; }
+
+#iconeditForm { 
+
+
+  border: 1px solid #353a35; 
+  padding: 2em;
+  width: 400px;
+  text-align: center;
+
+  background-image:url(../images/edit.jpg) !important;
+  background-repeat:no-repeat;
+  background-size:cover;
+  position: fixed;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
+  	border-radius: 80px 0px 67px 0px;
+-moz-border-radius: 80px 0px 67px 0px;
+-webkit-border-radius: 80px 0px 67px 0px;
+  
+}
+
+input, textarea { 
+  margin: .8em auto;
+  font-family: inherit; 
+  text-transform: inherit; 
+  font-size: inherit;
+  color:#333;  
+  display: block; 
+  width: 280px; 
+  padding: .6em;
+}
+textarea { height: 40px; resize: none; }
+
+.formBtn { 
+  width: 140px;
+  display: inline-block;
+  border:1px solid #FFF; 
+  background: #8d1d53;
+  color: #fff;
+  font-weight: 100;
+  font-size: 1em;
+  height: 40px;
+}
+
+.close {
+  color: white;
+  position: absolute;
+  top: 10px;
+  right: 25px;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #d4d4d4;
+  margin-top:-5px !important;
+  text-decoration: none;
+  cursor: pointer;
+}

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments :: html_head" />
+<body class="app sidebar-mini rtl">
+	<div th:replace="fragments :: app-layout"></div>
+
+
+	<main class="app-content">
+		<div class="row">
+			<div class="col-md-12">
+				<form class="dashboardicon" style="margin-top: 0;">
+					<fieldset style="margin-top: 0;">
+						<legend style="text-align: center; padding-bottom: 60px;">View Stock Out</legend>
+						<div class="col-lg-12 flexdisplay">
+							<div class="col-lg-3 stock-in-marg">
+								<img src="images/1.jpg" class="stock-in-img">
+							</div>
+							<div class="col-lg-3 stock-in-marg">
+								<label style="text-align: left; display: block;">Code</label> <input
+									type="text" name="sCode" placeholder="Scan Code" th:value="${stockOut.sCode}" disabled>
+							</div>
+							<div class="col-lg-3 stock-in-marg">
+								<label style="text-align: left; display: block;">Item</label> <input
+									type="text" name="sItem" placeholder="Item Name" th:value="${stockOut.product}" disabled>
+							</div>
+							<div class="col-lg-3 stock-in-marg">
+								<label style="text-align: left; display: block;">Product</label>
+								<input type="text" name="sProduct" placeholder="Product Name" th:value="${stockOut.product}" disabled>
+							</div>
+						</div>
+						<div class="col-lg-12 flexdisplay">
+							<div class="col-lg-3 stock-in-marg">
+								<img src="images/color.jpg" class="stock-in-img">
+							</div>
+							<div class="col-lg-3 stock-in-marg">
+								<label style="text-align: left; display: block;">Party</label> <input
+									type="text" name="sParty" placeholder="Party" th:value="${stockOut.party}" disabled>
+							</div>
+							<div class="col-lg-3 stock-in-marg">
+								<label style="text-align: left; display: block;">Date</label> <input
+									type="text" name="sDate" placeholder="Date" th:value="${stockOut.date}" disabled>
+							</div>
+							<div class="col-lg-3 stock-in-marg">
+								<label style="text-align: left; display: block;">Quantity</label>
+								<input type="text" name="sQuantity" placeholder="Quantity" th:value="${stockOut.quantity}" disabled>
+							</div>
+						</div>
+						<div class="col-lg-12 flexdisplay">
+							<div class="col-lg-3 stock-in-marg">
+								<label style="text-align: left; display: block;">Price</label> <input
+									type="text" name="sPrice" placeholder="Price" th:value="${stockOut.price}" disabled>
+							</div>
+							<div class="col-lg-3 stock-in-marg">
+								<label style="text-align: left; display: block;">Amount</label>
+								<input type="text" name="sAmount" placeholder="Amount" th:value="${stockOut.amount}" disabled>
+							</div>
+							<div class="col-lg-3 stock-in-marg">
+								<label style="text-align: left; display: block;">Dispatched By</label>
+								<input type="text" name="sReceivedBy" placeholder="Received By" th:value="${stockOut.rBy}" disabled>
+							</div>
+							<div class="col-lg-3 stock-in-marg">
+								<label style="text-align: left; display: block;">Dispatched From</label>
+								<input type="text" name="sReceivedIn" placeholder="Received In" th:value="${stockOut.rFrom}" disabled>
+							</div>
+						</div>
+						<div class="col-lg-12 flexdisplay">
+							<div class="col-lg-12 stock-in-marg">
+								<input type="text" name="review" placeholder="Review" th:value="${stockOut.remakrs}" disabled>
+							</div>
+						</div>
+						<input type="button" name="cancel" class="previous action-button-previous" value="Cancel" onclick="location.href='/stock-out'">
+						<input type="submit" name="print" class="submit action-button" value="Print">
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</main>
+
+
+	<div th:replace="fragments :: html_scripts"></div>
+</body>
+</html>

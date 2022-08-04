@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+   <head>
+      <meta name="description" content="">
+      <title>LKSK FASHTION</title>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="shortcut icon" type="image/icon" href="images/favicon.png"/>
+      <link href="css/bootstrap.css" rel="stylesheet" type="text/css" />
+      <!-- Main CSS-->
+      <link rel="stylesheet" type="text/css" href="css/main.css">
+      <!-- Font-icon css-->
+      <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+   </head>
+   <body class="app sidebar-mini rtl">
+      <main class="app-content">
+         <div class="col-lg-5 col-md-5 col-xs-12 col-sm-6 col-lg-offset-3 col-sm-offset-3 col-xs-offset-0 col-xs-pull-1">
+            <div class="tile">
+               <h1 class="tile-title text-center" style="font-size:16px;">LKSK FASHION</h1>
+               <div class="dashboardicon">
+               <form action="/login" method="post">
+                  <input type="text" name="username" placeholder="Phone Number" class="wow fadeInRight" style="animation-delay:.2s"/>
+                  <input type="text" name="password" placeholder="Enter OTP" class="wow fadeInRight" style="animation-delay:.4s"/>
+                  <input type="button" name="cancel" class="previous action-button-previous" value="Cancel"/>
+                  <input type="submit" name="login" class="submit action-button" value="Login"/>
+                </form>
+               </div>
+            </div>
+         </div>
+      </main>
+      <!-- Essential javascripts for application to work-->
+      <script src="js/jquery-3.2.1.min.js"></script>
+      <script src="js/popper.min.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+      <script src="js/main.js"></script>
+   </body>
+</html>
