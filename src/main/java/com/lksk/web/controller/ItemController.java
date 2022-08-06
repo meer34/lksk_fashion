@@ -10,17 +10,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.lksk.web.model.Item;
-import com.lksk.web.model.TotalStock;
 import com.lksk.web.service.ItemService;
-import com.lksk.web.service.TotalStockService;
 
 @Controller
 public class ItemController {
 	
 	@Autowired
 	ItemService itemService;
-	@Autowired
-	TotalStockService totalStockService;
 	
 	@GetMapping("/item")
 	public String showItemPage(Model model) {
@@ -37,19 +33,9 @@ public class ItemController {
 			method = RequestMethod.POST)
 	public String createItem(Model model, Item item, 
 			RedirectAttributes redirectAttributes) throws Exception{
-		
 		item = itemService.saveItemToDB(item);
 		
-		if(item != null) {
-			TotalStock ts = new TotalStock();
-			ts.setItem(item.getIName());
-			ts.setQuantity(0);
-			ts.setUnit(item.getIUnit());
-			totalStockService.saveTotalStockToDB(ts);
-			System.out.println("Total Stock created for item: " + item);
-		}
 		redirectAttributes.addFlashAttribute("successMessage", item.getIName() + " item added successfully!");
-		
 		return "redirect:/item";
 		
 	}

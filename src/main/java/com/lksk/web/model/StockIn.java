@@ -43,8 +43,8 @@ public class StockIn {
 	private Integer quantity;
 	private Double price;
 	private Double amount;
-	private String rBy;
-	private String rFrom;
+	private String receivedBy;
+	private String receivedIn;
 	private String remakrs;
 	
 }

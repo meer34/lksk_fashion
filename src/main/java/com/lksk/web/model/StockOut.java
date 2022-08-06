@@ -43,8 +43,8 @@ public class StockOut {
 	private Integer quantity;
 	private Double price;
 	private Double amount;
-	private String rBy;
-	private String rFrom;
+	private String dispatchedBy;
+	private String dispatchedFrom;
 	private String remakrs;
 	
 }

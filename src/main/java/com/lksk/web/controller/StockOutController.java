@@ -16,18 +16,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.lksk.web.model.StockOut;
 import com.lksk.web.model.TotalStock;
 import com.lksk.web.service.ItemService;
+import com.lksk.web.service.ModeratorService;
+import com.lksk.web.service.PartyService;
 import com.lksk.web.service.StockOutService;
 import com.lksk.web.service.TotalStockService;
 
 @Controller
 public class StockOutController {
 	
-	@Autowired
-	StockOutService stockOutService;
-	@Autowired
-	ItemService itemService;
-	@Autowired
-	TotalStockService totalStockService;
+	@Autowired StockOutService stockOutService;
+	@Autowired TotalStockService totalStockService;
+	@Autowired ItemService itemService;
+	@Autowired PartyService partyService;
+	@Autowired ModeratorService moderatorService;
 	
 	@GetMapping("/stock-out")
 	public String showStockIn(Model model) {
@@ -39,6 +40,9 @@ public class StockOutController {
 	@GetMapping("/addStockOutPage")
 	public String showAddStockOutPage(Model model) {
 		model.addAttribute("products", itemService.getAllItems());
+		model.addAttribute("parties", partyService.getAllUsers());
+		model.addAttribute("moderators", moderatorService.getAllUsers());
+		model.addAttribute("availableQuantity", "10");
 		return "stock-out-popup";
 	}
 	

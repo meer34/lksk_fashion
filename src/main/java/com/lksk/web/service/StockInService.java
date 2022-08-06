@@ -53,7 +53,7 @@ public class StockInService {
 	
 	
 	public StockIn  saveStockInToDB(MultipartFile file,String sCode, String product, String party, 
-			String quantity, String price, String amount, String rBy, String rFrom, String remarks) {
+			String quantity, String price, String amount, String receivedBy, String receivedIn, String remarks) {
 
 		StockIn stockIn = new StockIn();
 		
@@ -68,8 +68,8 @@ public class StockInService {
 			stockIn.setQuantity(Integer.parseInt(quantity));
 			stockIn.setPrice(Double.parseDouble(price));
 			stockIn.setAmount(Double.parseDouble(amount));
-			stockIn.setRBy(rBy);
-			stockIn.setRFrom(rFrom);
+			stockIn.setReceivedBy(receivedBy);
+			stockIn.setReceivedIn(receivedIn);
 			stockIn.setRemakrs(remarks);
 
 			stockInRepo.save(stockIn);

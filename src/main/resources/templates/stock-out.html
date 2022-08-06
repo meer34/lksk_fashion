@@ -11,7 +11,9 @@
 			<div class="col-md-12">
 				<div class="dashboardicon2" style="text-align: left;">
 					<input type="button" name="sOut" class="submit action-button" value="Add Stock Out" th:attr="onclick=|location.href='@{/addStockOutPage}'|" >
+					
 					<div th:if="${successMessage}" th:text="${successMessage}" class="alert alert-success" role="alert"></div>
+					
 					<div class="tile">
 						<h3 class="tile-title"></h3>
 						<form class="dashboardicon" th:action="@{/searchStockOut}" method="get">
@@ -54,7 +56,7 @@
 											<th class="table_heading">Quantity</th>
 											<th class="table_heading">Price</th>
 											<th class="table_heading">Amount</th>
-											<th class="table_heading">Received By</th>
+											<th class="table_heading">Dispatched By</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -67,7 +69,7 @@
 											<td th:text="${stockOut.quantity}" />
 											<td th:text="${stockOut.price}" />
 											<td th:text="${stockOut.amount}" />
-											<td th:text="${stockOut.rBy}" />
+											<td th:text="${stockOut.dispatchedBy}" />
 										</tr>
 									</tbody>
 								</table>

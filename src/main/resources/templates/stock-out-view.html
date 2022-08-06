@@ -14,7 +14,7 @@
 						<legend style="text-align: center; padding-bottom: 60px;">View Stock Out</legend>
 						<div class="col-lg-12 flexdisplay">
 							<div class="col-lg-3 stock-in-marg">
-								<img src="images/1.jpg" class="stock-in-img">
+								<img th:src="*{'data:image/jpeg;base64,'+{stockOut.sPhotoBlob}}" class="stock-in-img">
 							</div>
 							<div class="col-lg-3 stock-in-marg">
 								<label style="text-align: left; display: block;">Code</label> <input
@@ -57,11 +57,11 @@
 							</div>
 							<div class="col-lg-3 stock-in-marg">
 								<label style="text-align: left; display: block;">Dispatched By</label>
-								<input type="text" name="sReceivedBy" placeholder="Received By" th:value="${stockOut.rBy}" disabled>
+								<input type="text" name="sReceivedBy" placeholder="Dispatched By" th:value="${stockOut.dispatchedBy}" disabled>
 							</div>
 							<div class="col-lg-3 stock-in-marg">
 								<label style="text-align: left; display: block;">Dispatched From</label>
-								<input type="text" name="sReceivedIn" placeholder="Received In" th:value="${stockOut.rFrom}" disabled>
+								<input type="text" name="sReceivedIn" placeholder="Dispatched From" th:value="${stockOut.dispatchedFrom}" disabled>
 							</div>
 						</div>
 						<div class="col-lg-12 flexdisplay">

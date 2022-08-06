@@ -18,18 +18,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.lksk.web.model.StockIn;
 import com.lksk.web.model.TotalStock;
 import com.lksk.web.service.ItemService;
+import com.lksk.web.service.ModeratorService;
+import com.lksk.web.service.PartyService;
 import com.lksk.web.service.StockInService;
 import com.lksk.web.service.TotalStockService;
 
 @Controller
 public class StockInController {
 	
-	@Autowired
-	StockInService stockInService;
-	@Autowired
-	ItemService itemService;
-	@Autowired
-	TotalStockService totalStockService;
+	@Autowired StockInService stockInService;
+	@Autowired TotalStockService totalStockService;
+	@Autowired ItemService itemService;
+	@Autowired PartyService partyService;
+	@Autowired ModeratorService moderatorService;
 	
 	@GetMapping({"/stock-in", "/list"})
 	public String showStockIn(Model model) {
@@ -37,6 +38,14 @@ public class StockInController {
 		model.addAttribute("stockInList", stockInService.getAllStockIns());
 		model.addAttribute("products", itemService.getAllItems());
 		return "stock-in";
+	}
+	
+	@GetMapping("/addStockInPage")
+	public String showAddStockInPage(Model model) {
+		model.addAttribute("products", itemService.getAllItems());
+		model.addAttribute("parties", partyService.getAllUsers());
+		model.addAttribute("moderators", moderatorService.getAllUsers());
+		return "stock-in-popup";
 	}
 	
 	@RequestMapping(value = "/addStockIn",
@@ -122,10 +131,10 @@ public class StockInController {
     		@RequestParam("quantity") String quantity,
     		@RequestParam("price") String price,
     		@RequestParam("amount") String amount,
-    		@RequestParam("rBy") String rBy,
-    		@RequestParam("rFrom") String rFrom,
+    		@RequestParam("receivedBy") String receivedBy,
+    		@RequestParam("receivedIn") String receivedIn,
     		@RequestParam("remakrs") String remakrs) {
-		return stockInService.saveStockInToDB(sPhoto, sCode, product, party, quantity, price, amount, rBy, rFrom, remakrs);
+		return stockInService.saveStockInToDB(sPhoto, sCode, product, party, quantity, price, amount, receivedBy, receivedIn, remakrs);
 		
 	}
 	
