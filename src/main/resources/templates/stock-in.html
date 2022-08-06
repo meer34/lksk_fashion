@@ -17,7 +17,7 @@
 						class="alert alert-success" role="alert"></div>
 					<div class="tile">
 						<h3 class="tile-title"></h3>
-						<form class="dashboardicon" action="/searchStockIn" method="get">
+						<form class="dashboardicon" th:action="@{/searchStockIn}" method="get">
 							<div class="col-lg-12 flexdisplay">
 								<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
 									<label>From Date</label> <input type="date" name="fromDate"
@@ -39,7 +39,7 @@
 							</div>
 						</form>
 						<div class="table-responsive table_size" style="margin-top: 50px;">
-							<form action="/performStockInAction" method="get">
+							<form th:action="@{/performStockInAction}" method="get">
 								<div class="dashboardicon2" style="text-align: left;">
 									<input type="submit" name="action" class="submit action-button" value="View">
 									<input type="submit" name="action" class="submit action-button" value="Edit">
@@ -92,7 +92,7 @@
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-md-12">
-							<form class="dashboardicon" style="margin-top: 0;" action="addStockIn" method="post" enctype="multipart/form-data">
+							<form class="dashboardicon" style="margin-top: 0;" th:action="@{addStockIn}" method="post" enctype="multipart/form-data">
 								<legend style="text-align: center;">New Stock In</legend>
 								  <fieldset style="margin-top: 0;">
 									<div class="col-lg-12 flexdisplay">
@@ -162,11 +162,8 @@
 												placeholder="Remarks"></textarea>
 										</div>
 									</div>
-									<input type="button" name="cancel"
-										class="previous action-button-previous"
-										onclick="location.href='/stock-in'" value="Cancel"> <input
-										type="submit" name="submit" class="submit action-button"
-										value="Save">
+										<input type="button" name="cancel" class="previous action-button-previous" value="Cancel" th:attr="onclick=|location.href='@{/stock-in}'|" >
+										<input type="submit" name="submit" class="submit action-button" value="Save">
 								</fieldset>
 							</form>
 						</div>

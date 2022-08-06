@@ -12,10 +12,10 @@
 			<div class="tile">
 				<h1 class="tile-title text-center" style="font-size:16px;">Create Item</h1>
 				<div class="dashboardicon">
-				<form action="createItem" method="post">
+				<form th:action="@{createItem}" method="post">
 					<input type="text" name="iName" placeholder="Item Name">
 					<input type="text" name="iUnit" placeholder="Unit">
-					<input type="button" name="cancel" class="previous action-button-previous" onclick="location.href='/item'" value="Cancel">
+					<input type="button" name="cancel" class="previous action-button-previous" value="Cancel" th:attr="onclick=|location.href='@{/item}'|" >
 					<input type="submit" name="save" class="submit action-button" value="Save">
 				</form>
 				</div>

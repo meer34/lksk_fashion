@@ -2,7 +2,6 @@ package com.lksk.web.model;
 
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,10 +29,9 @@ public class StockOut {
 	
 	@Transient
 	private MultipartFile sPhoto;
-	
 	@Lob
-	@Column(columnDefinition = "BYTEA")
-	private byte[] sPhotoBlob;
+	private String sPhotoBlob;
+	
 	private String sCode;
 	private String product;
 	private String party;

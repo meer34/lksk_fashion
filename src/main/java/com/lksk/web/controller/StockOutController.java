@@ -1,5 +1,6 @@
 package com.lksk.web.controller;
 
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,7 @@ public class StockOutController {
 		
 		String fileName = StringUtils.cleanPath(stockOut.getSPhoto().getOriginalFilename());
 		if(fileName.contains("..")) System.out.println("not a a valid file");
-		stockOut.setSPhotoBlob(stockOut.getSPhoto().getBytes());
+		stockOut.setSPhotoBlob(Base64.getEncoder().encodeToString(stockOut.getSPhoto().getBytes()));
 		
 		stockOut = stockOutService.saveStockOutToDB(stockOut);
 		
@@ -74,7 +75,7 @@ public class StockOutController {
 		List<StockOut> stockOutList= stockOutService.searchStockOutByDate(fromDate, toDate);
 		System.out.println("Search size: " + stockOutList.size());
 		
-		model.addAttribute("stockInList", stockOutList);
+		model.addAttribute("stockOutList", stockOutList);
 		return "stock-out";
 
 	}

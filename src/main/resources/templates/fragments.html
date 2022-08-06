@@ -16,11 +16,11 @@
   <body class="app sidebar-mini rtl">
   <div th:fragment="app-layout">
     <!-- Navbar-->
-    <header class="app-header"><a class="app-header__logo" href="/index">LKSK FASHION</a>
+    <header class="app-header"><a class="app-header__logo" th:href="@{/index}">LKSK FASHION</a>
       <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
       <!-- Navbar Right Menu-->
       <ul class="app-nav"> 
-        <li><a class="app-nav__item" href="/logout"><i class="fa fa-sign-out fa-lg" title="LOG OUT"></i></a>
+        <li><a class="app-nav__item" th:href="@{/logout}"><i class="fa fa-sign-out fa-lg" title="LOG OUT"></i></a>
         </li>
       </ul>
     </header>
@@ -38,21 +38,21 @@
         </div>
       </div>
       <ul class="app-menu">
-        <li><a class="app-menu__item active" href="/home"><i class="app-menu__icon fa fa-square"></i><span class="app-menu__label">Dashboard</span></a></li>
+        <li><a class="app-menu__item active" th:href="@{/home}"><i class="app-menu__icon fa fa-square"></i><span class="app-menu__label">Dashboard</span></a></li>
        <li class="treeview"><a class="app-menu__item"  href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-user"></i><span class="app-menu__label">User Management</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
-            <li><a class="treeview-item" href="/admin"><i class="icon fa fa-user"></i> Admin</a></li>
-            <li><a class="treeview-item" href="/moderator"><i class="icon fa fa-user-plus"></i>Moderator </a></li>
-            <li><a class="treeview-item" href="/party"><i class="icon fa fa-users"></i>Party</a></li>
-            <li><a class="treeview-item" href="/customer"><i class="icon fa fa-users"></i>Customer</a></li>
+            <li><a class="treeview-item" th:href="@{/admin}"><i class="icon fa fa-user"></i> Admin</a></li>
+            <li><a class="treeview-item" th:href="@{/moderator}"><i class="icon fa fa-user-plus"></i>Moderator </a></li>
+            <li><a class="treeview-item" th:href="@{/party}"><i class="icon fa fa-users"></i>Party</a></li>
+            <li><a class="treeview-item" th:href="@{/customer}"><i class="icon fa fa-users"></i>Customer</a></li>
           </ul>
         </li>
 
-        <li><a class="app-menu__item" href="/stock-in"><i class="app-menu__icon fa fa-arrow-right"></i><span class="app-menu__label">Stock In</span></a></li>
-        <li><a class="app-menu__item" href="/stock-out"><i class="app-menu__icon fa fa-arrow-left"></i><span class="app-menu__label">Stock Out</span></a></li>
-        <li><a class="app-menu__item" href="/stock"><i class="app-menu__icon fa fa-list-ol"></i><span class="app-menu__label">Total Stocks</span></a></li>
-        <li><a class="app-menu__item" href="/order"><i class="app-menu__icon fa fa-archive"></i><span class="app-menu__label">Orders</span></a></li>
-        <li><a class="app-menu__item" href="/item"><i class="app-menu__icon fa fa-plus"></i><span class="app-menu__label">Create Items</span></a></li>
+        <li><a class="app-menu__item" th:href="@{/stock-in}"><i class="app-menu__icon fa fa-arrow-right"></i><span class="app-menu__label">Stock In</span></a></li>
+        <li><a class="app-menu__item" th:href="@{/stock-out}"><i class="app-menu__icon fa fa-arrow-left"></i><span class="app-menu__label">Stock Out</span></a></li>
+        <li><a class="app-menu__item" th:href="@{/stock}"><i class="app-menu__icon fa fa-list-ol"></i><span class="app-menu__label">Total Stocks</span></a></li>
+        <li><a class="app-menu__item" th:href="@{/order}"><i class="app-menu__icon fa fa-archive"></i><span class="app-menu__label">Orders</span></a></li>
+        <li><a class="app-menu__item" th:href="@{/item}"><i class="app-menu__icon fa fa-plus"></i><span class="app-menu__label">Create Items</span></a></li>
       </ul>
     </aside>
 	</div>

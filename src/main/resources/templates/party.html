@@ -10,23 +10,23 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="dashboardicon2" style="text-align: left;">
-					<input type="button" name="addAdmin" class="submit action-button"
-						value="Add New Party">
+					<input type="button" name="addCustomer" class="submit action-button" value="Add New Party" th:attr="onclick=|location.href='@{/add-party-page}'|" >
 				</div>
+				
+				<div th:if="${successMessage}" th:text="${successMessage}" class="alert alert-success" role="alert"></div>
+				
 				<div class="tile">
 					<h3 class="tile-title">Party</h3>
 					<form class="dashboardicon">
 
 						<div class="form-group col-lg-12">
 							<div class="col-lg-12">
-								<input type="text" name="searchModerator"
-									placeholder="Search Party">
+								<input type="text" name="searchParty" placeholder="Search Party">
 							</div>
 						</div>
 					</form>
 					<div class="table-responsive table_size" style="margin-top: 50px;">
-						<table class="table table-bordered table-responsive table-hover"
-							style="width: 100%;">
+						<table class="table table-bordered table-responsive table-hover" style="width: 100%;">
 							<thead class="thead-inverse"
 								style="background-color: #446c9d; color: #FFF;">
 								<tr>
@@ -37,17 +37,19 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr style="background-color: #FFF">
-									<td>lorem ipsum lorem lips</td>
-									<td>lorem ipsum lorem lipsum</td>
-									<td>lorem</td>
+								<tr style="background-color:#FFF" th:each="party : ${partyList}">
+									<td th:text="${party.name}" />
+									<td th:text="${party.phone}" />
+									<td th:text="${party.address}" />
 									<td>
 										<div class="dashboardicon2" style="text-align: left;">
-											<input type="button" name="view" class="submit action-button"
-												value="View"> <input type="button" name="edit"
-												class="submit action-button" value="Edit"> <input
-												type="button" name="delete" class="submit action-button2"
-												value="Delete">
+										  <form th:action="@{performPartyPageAction}" method="get">
+											<input type="hidden" th:value="${party.id}" id="id" name='id'>
+											<input type="hidden" th:value="${party.name}" id="name" name='name'>
+											<input type="submit" name="action" class="submit action-button" value="View">
+											<input type="submit" name="action" class="submit action-button" value="Edit">
+											<input type="submit" name="action" class="submit action-button2" value="Delete">
+										  </form>
 										</div>
 									</td>
 								</tr>
@@ -60,6 +62,6 @@
 	</main>
 
 
-	<div th:replace="fragments :: html_scripts"></div>>
-</body>
+	<div th:replace="fragments :: html_scripts"></div>
+  </body>
 </html>

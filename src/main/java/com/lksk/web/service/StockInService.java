@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +61,7 @@ public class StockInService {
 			String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 			if(fileName.contains("..")) System.out.println("not a a valid file");
 
-			stockIn.setSPhotoBlob(file.getBytes());
+			stockIn.setSPhotoBlob(Base64.getEncoder().encodeToString(file.getBytes()));
 			stockIn.setSCode(sCode);
 			stockIn.setProduct(product);
 			stockIn.setParty(party);

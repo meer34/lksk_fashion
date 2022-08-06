@@ -9,7 +9,7 @@
       <main class="app-content">
          <div class="row">
             <div class="col-md-12">
-               <form class="dashboardicon" style="margin-top: 0;" action="addStockOut" method="post" enctype="multipart/form-data">
+               <form class="dashboardicon" style="margin-top: 0;" th:action="@{addStockOut}" method="post" enctype="multipart/form-data">
                   <fieldset style="margin-top: 0;">
                      <legend style="text-align:center; padding-top: 80px;" >New Stock Out</legend>
                      <div class="col-lg-12 flexdisplay">
@@ -73,7 +73,7 @@
                            <textarea name="remakrs" class="form-control" placeholder="Remarks"></textarea>
                         </div>
                      </div>
-                     <input type="button" name="cancel" class="previous action-button-previous" onclick="location.href='/stock-out'" value="Cancel">
+                     <input type="button" name="cancel" class="previous action-button-previous" value="Cancel" th:attr="onclick=|location.href='@{/stock-out}'|" >
                      <input type="submit" name="submit" class="submit action-button" value="Save">
                </fieldset>
                </form>

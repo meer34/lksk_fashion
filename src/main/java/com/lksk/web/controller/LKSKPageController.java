@@ -26,14 +26,4 @@ public class LKSKPageController {
 		return "index";
 	}
 	
-	@GetMapping("/party")
-	public String showParty() {
-		return "party";
-	}
-	
-	@GetMapping("/customer")
-	public String showCustomer() {
-		return "customer";
-	}
-	
 }

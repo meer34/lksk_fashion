@@ -11,7 +11,7 @@
         <div class="col-md-12">
           <div class="tile">
             <h3 class="tile-title">Stock</h3>
-            <form class="dashboardicon" action="/searchTotalStock" method="get">
+            <form class="dashboardicon" th:action="@{/searchTotalStock}" method="get">
 
             <div class="form-group col-lg-12">
               <div class="col-lg-12">
@@ -23,7 +23,7 @@
             </div>
         </form>
                        <div class="table-responsive table_size" style="margin-top: 50px;">   
-<form action="/performTotalStockAction" method="get">					   
+<form th:action="@{/performTotalStockAction}" method="get">					   
   <table class="table table-bordered table-responsive table-hover" style=" width: 100%;">
     <thead class="thead-inverse" style="background-color:#446c9d; color:#FFF;">
       <tr>

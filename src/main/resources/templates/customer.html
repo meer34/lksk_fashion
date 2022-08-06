@@ -1,59 +1,67 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-  <head th:replace="fragments :: html_head" />
-  <body class="app sidebar-mini rtl">
-    <div th:replace="fragments :: app-layout"></div>
-	
-	
-    <main class="app-content">   
-                   <div class="row">
-        <div class="col-md-12">
-          <div class="dashboardicon2" style="text-align: left;">
-            <input type="button" name="addCustomer" class="submit action-button" value="Add New Customer">            
-        </div>
-          <div class="tile">
-            <h3 class="tile-title">Customer</h3>
-            <form class="dashboardicon">
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments :: html_head" />
+<body class="app sidebar-mini rtl">
+	<div th:replace="fragments :: app-layout"></div>
 
-            <div class="form-group col-lg-12">
-              <div class="col-lg-12">
-                <input type="text" name="searchCustomer" placeholder="Search Customer">
-              </div>
-            </div>
-        </form>
-                       <div class="table-responsive table_size" style="margin-top: 50px;">          
-  <table class="table table-bordered table-responsive table-hover" style=" width: 100%;">
-    <thead class="thead-inverse" style="background-color:#446c9d; color:#FFF;">
-      <tr>
-        <th class="table_heading" style="width: 25%;">Name</th>
-        <th class="table_heading" style="width: 25%;">Phone</th>        
-        <th class="table_heading" style="width: 25%;">Address</th>       
-        <th class="table_heading" style="width: 25%;">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr style="background-color:#FFF">
-        <td>lorem ipsum lorem lips</td>
-        <td>lorem ipsum lorem lipsum</td>
-        <td>lorem</td>
-        <td>
-          <div class="dashboardicon2" style="text-align: left;">
-            <input type="button" name="view" class="submit action-button" value="View">
-            <input type="button" name="edit" class="submit action-button" value="Edit">
-             <input type="button" name="delete" class="submit action-button2" value="Delete">        
-        </div>
-      </td>
- </tr>
-    </tbody>
-  </table>
- </div>    
-          </div>
-        </div>
-      </div>
-    </main>
-	
-	
-    <div th:replace="fragments :: html_scripts"></div>
+
+	<main class="app-content">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="dashboardicon2" style="text-align: left;">
+					<input type="button" name="addCustomer" class="submit action-button" value="Add New Customer" th:attr="onclick=|location.href='@{/add-customer-page}'|" >
+				</div>
+				
+				<div th:if="${successMessage}" th:text="${successMessage}" class="alert alert-success" role="alert"></div>
+				
+				<div class="tile">
+					<h3 class="tile-title">Customer</h3>
+					<form class="dashboardicon">
+
+						<div class="form-group col-lg-12">
+							<div class="col-lg-12">
+								<input type="text" name="searchCustomer" placeholder="Search Customer">
+							</div>
+						</div>
+					</form>
+					<div class="table-responsive table_size" style="margin-top: 50px;">
+						<table class="table table-bordered table-responsive table-hover" style="width: 100%;">
+							<thead class="thead-inverse"
+								style="background-color: #446c9d; color: #FFF;">
+								<tr>
+									<th class="table_heading" style="width: 25%;">Name</th>
+									<th class="table_heading" style="width: 25%;">Phone</th>
+									<th class="table_heading" style="width: 25%;">Address</th>
+									<th class="table_heading" style="width: 25%;">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr style="background-color:#FFF" th:each="customer : ${customerList}">
+									<td th:text="${customer.name}" />
+									<td th:text="${customer.phone}" />
+									<td th:text="${customer.address}" />
+									<td>
+										<div class="dashboardicon2" style="text-align: left;">
+										  <form th:action="@{performCustomerPageAction}" method="get">
+											<input type="hidden" th:value="${customer.id}" id="id" name='id'>
+											<input type="hidden" th:value="${customer.name}" id="name" name='name'>
+											<input type="submit" name="action" class="submit action-button" value="View">
+											<input type="submit" name="action" class="submit action-button" value="Edit">
+											<input type="submit" name="action" class="submit action-button2" value="Delete">
+										  </form>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+
+	<div th:replace="fragments :: html_scripts"></div>
   </body>
 </html>
