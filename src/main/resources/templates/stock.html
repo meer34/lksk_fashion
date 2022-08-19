@@ -15,11 +15,11 @@
 
             <div class="form-group col-lg-12">
               <div class="col-lg-12">
-                <input type="text" name="item" placeholder="Search Product">
+                <input type="text" name="item" placeholder="Search Item">
               </div>
 			  <div class="col-lg-12 flexdisplay">
-					<input type="submit" name="search" class="submit action-button" value="Search">
-				</div>
+					<input type="submit" class="submit action-button" value="Search">
+			  </div>
             </div>
         </form>
                        <div class="table-responsive table_size" style="margin-top: 50px;">   
@@ -27,20 +27,20 @@
   <table class="table table-bordered table-responsive table-hover" style=" width: 100%;">
     <thead class="thead-inverse" style="background-color:#446c9d; color:#FFF;">
       <tr>
-        <th class="table_heading" style="width: 25%;">Item</th>
+        <th class="table_heading" style="width: 25%;">Product</th>
         <th class="table_heading" style="width: 25%;">Quantity</th>       
         <th class="table_heading" style="width: 25%;">Unit</th>       
         <th class="table_heading" style="width: 25%;">Action</th>
       </tr>
     </thead>
     <tbody>
-      <tr style="background-color:#FFF" th:each="totalStock: ${totalStockList}" >
-        <td th:text="${totalStock.item}" />
-		<td th:text="${totalStock.quantity}" />
-		<td th:text="${totalStock.unit}" />
+      <tr style="background-color:#FFF" th:each="item: ${itemList}" >
+        <td th:text="${item.name}" />
+		<td th:text="${item.quantity}" />
+		<td th:text="${item.unit}" />
         <td>
           <div class="dashboardicon2" style="text-align: left;">
-            <input type="button" name="records" class="submit action-button" value="Records">
+            <input type="button" name="records" class="submit action-button" value="Records" th:attr="onclick=|location.href='searchStockIn?fromDate=&toDate=&keyword=${item.name}'|">
              <input type="button" name="print" class="submit action-button2" value="Print">        
         </div>
       </td>

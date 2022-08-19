@@ -2,11 +2,14 @@ package com.lksk.web.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
@@ -16,11 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 @Entity
 public class StockOut {
 	@Id
@@ -29,22 +30,44 @@ public class StockOut {
 	
 	@Transient
 	private MultipartFile sPhoto;
+	@Transient
+	private MultipartFile colour;
 	@Lob
 	private String sPhotoBlob;
+	@Lob
+	private String colourBlob;
 	
 	private String sCode;
-	private String product;
-	private String party;
+	
+	@ManyToOne
+	@JoinColumn(name="stockOutList")
+	private Item item;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name ="party")
+	private Party party;
 	
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date date;
 	
+	private String size;
+	private String unit;
 	private Integer quantity;
 	private Double price;
 	private Double amount;
-	private String dispatchedBy;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name ="dispatchedBy")
+	private Moderator dispatchedBy;
+	
 	private String dispatchedFrom;
 	private String remakrs;
+	
+	@Override
+	public String toString() {
+		return sCode + "~" + item.getProduct().getName() + "~" + item.getName() + "~" + party.getName() + "~" + dispatchedBy.getName() + "~" + dispatchedFrom + "~" + remakrs;
+	}
+	
 	
 }

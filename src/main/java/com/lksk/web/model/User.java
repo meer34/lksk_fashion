@@ -16,12 +16,14 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
 @Entity
 @Table(name="users")
 public class User {
@@ -30,11 +32,20 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String username;
-	private String password;
+	@Column(unique=true)
+	private String phone;
+	private String otp;
 	private Boolean enabled;
 	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name="users_roles", joinColumns=@JoinColumn(name ="user_id"), inverseJoinColumns=@JoinColumn(name="role_id"))
 	private Set<Role> roles = new HashSet<>();
+	
+	public User(String username, String phone, Boolean enabled, String role){
+		this.username = username;
+		this.phone = phone;
+		this.enabled = enabled;
+		this.roles.add(new Role(role));
+	}
 	
 }

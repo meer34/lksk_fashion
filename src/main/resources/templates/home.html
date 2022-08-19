@@ -24,31 +24,30 @@
         <div class="col-md-12">
           <div class="tile">
             <h3 class="tile-title">View Stock Report</h3>
-            <form class="dashboardicon">
-              <div class="col-lg-12 flexdisplay">
-              <div class="col-lg-6">
-            <label>From Date</label>
-                                  <input type="date" name="date" placeholder="">
-                                </div>
-                                <div class="col-lg-6">
-                                  <label>To Date</label>
-                <input type="date" name="pass" placeholder=""  style="animation-delay:.2s">
-              </div>
-            </div>
-            <div class="form-group col-lg-12">
-              <div class="col-lg-12">
-                            <select class="form-control" id="select" style="height:48px;">
-                                <option>Select Product</option>
-                                <option style="color:#333;">Button</option>
-                                <option style="color:#333;">Ribbon</option>
-                            </select>
-                    </div>
-                  </div>
-                <input type="button" name="cancel" class="previous action-button-previous" value="Cancel">
-                <input type="submit" name="submit" class="submit action-button" value="Search">
-            
-        </form>
-                       <div class="table-responsive table_size" style="margin-top: 50px;">          
+					<form class="dashboardicon" th:action="@{/searchStockDashboard}" method="get" >
+						<div class="col-lg-12 flexdisplay">
+							<div class="col-lg-6 col-xs-12">
+								<label>From Date</label>
+								<input type="date" name="fromDate" >
+							</div>
+							<div class="col-lg-6 col-xs-12">
+								<label>To Date</label>
+								<input type="date" name="toDate" style="animation-delay: .2s">
+							</div>
+						</div>
+						<div class="form-group col-lg-12">
+							<div class="col-lg-12">
+								<select class="form-control" name="item" id="select" style="height: 48px;">
+									<option selected="true" disabled="disabled">Select Item</option>
+									<option style="color: #333;" th:each=" itemName : ${itemNames}" th:text="${itemName}" ></option>
+								</select>
+							</div>
+						</div>
+						<input type="button" name="cancel"
+							class="previous action-button-previous" value="Cancel">
+							<input type="submit" name="submit" class="submit action-button" value="Search">
+					</form>
+					<div class="table-responsive table_size" style="margin-top: 50px;">          
   <table class="table table-bordered table-responsive table-hover" style=" width: 100%;">
     <thead class="thead-inverse" style="background-color:#446c9d; color:#FFF;">
       <tr>
@@ -59,11 +58,11 @@
       </tr>
     </thead>
     <tbody>
-      <tr style="background-color:#FFF">
-        <td>lorem ipsum lorem lips</td>
-        <td>lorem ipsum lorem lipsum</td>
-        <td>lorem</td>
-        <td>lorem</td>
+      <tr style="background-color:#FFF" th:each="item : ${itemList}">
+        <td th:text="${item.name}" />
+        <td th:text="${item.getStockInQuantity()}" />
+        <td th:text="${item.getStockOutQuantity()}" />
+        <td th:text="${item.quantity}" />
  </tr>
     </tbody>
   </table>

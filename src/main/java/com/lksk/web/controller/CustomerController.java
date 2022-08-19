@@ -15,8 +15,7 @@ import com.lksk.web.service.CustomerService;
 @Controller
 public class CustomerController {
 	
-	@Autowired
-	CustomerService customerService;
+	@Autowired private CustomerService customerService;
 	
 	@GetMapping("/customer")
 	public String showPartyPage(Model model) {
@@ -26,47 +25,50 @@ public class CustomerController {
 	
 	@GetMapping("/add-customer-page")
 	public String showAddPartyPage(Model model) {
+		model.addAttribute("customer", new Customer());
+		model.addAttribute("header", "Create Customer");
 		return "customer-create";
 	}
 	
 	@RequestMapping(value = "/createCustomer",
 			method = RequestMethod.POST)
-	public String createParty(Model model, Customer customer, 
+	public String createCustomer(Model model, Customer customer, 
 			RedirectAttributes redirectAttributes) throws Exception{
 		
 		customer = customerService.saveUserToDB(customer);
+		
 		redirectAttributes.addFlashAttribute("successMessage", "New customer " + customer.getName() + " added successfully as Admin!");
 		return "redirect:/customer";
 		
 	}
 	
-	@RequestMapping(value = "/performCustomerPageAction",
+	@RequestMapping(value = "/OpenCustomerActionPage",
 			method = RequestMethod.GET)
-	public String performItemAction(RedirectAttributes redirectAttributes, Model model,
+	public String performOrderAction(RedirectAttributes redirectAttributes, Model model,
 			@RequestParam("action") String action,
-			@RequestParam("id") String id,
-			@RequestParam("name") String name) throws Exception{
-		
-		System.out.println("Got " + action + " action request for customer " + name);
-		
+			@RequestParam("id") String id) throws Exception{
+
+		System.out.println("Got " + action + " action request for id " + id);
+
 		if(action.equalsIgnoreCase("View")) {
 			model.addAttribute("customer", customerService.findUserById(Long.parseLong(id)));
-			return "customer";
+			return "view-customer";
 			
 		} else if(action.equalsIgnoreCase("Edit")) {
-			redirectAttributes.addFlashAttribute("customer", customerService.findUserById(Long.parseLong(id)));
-			return "redirect:/customer";
+			model.addAttribute("customer", customerService.findUserById(Long.parseLong(id)));
+			model.addAttribute("header", "Edit Customer");
+			return "customer-create";
 			
 		} else if(action.equalsIgnoreCase("Delete")) {
 			customerService.deleteUserById(Long.parseLong(id));
-			redirectAttributes.addFlashAttribute("successMessage", "Customer \""+ name +"\" deleted successfully!");
-			return "redirect:/customer";
-			
+			redirectAttributes.addFlashAttribute("successMessage", "Customer with id " + id + " deleted successfully!");
+
 		} else {
-			System.out.println("Incorrect page action received!");
-			return "error";
+			System.out.println();
 		}
-		
+
+		return "redirect:/testerror";
+
 	}
 	
 }

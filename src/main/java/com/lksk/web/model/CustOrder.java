@@ -16,11 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 @Entity
 public class CustOrder {
 	@Id
@@ -31,14 +29,19 @@ public class CustOrder {
 	
 	@Transient
 	private MultipartFile sPhoto;
+	@Transient
+	private MultipartFile colour;
 	@Lob
 	private String sPhotoBlob;
+	@Lob
+	private String colourBlob;
 	
+	private String size;
 	private String sLength;
 	private String sWidth;
 	private String color;
 	private Integer quantity;
-	private Integer unit;
+	private String unit;
 	private String reference;
 	private Double price;
 	private Double amount;
@@ -47,6 +50,11 @@ public class CustOrder {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date date;
 	
-	private String remakrs;
+	private String remarks;
+
+	@Override
+	public String toString() {
+		return mark + "~" + supplier + "~" + reference + "~" + remarks;
+	}
 	
 }

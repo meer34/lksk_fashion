@@ -43,7 +43,7 @@
 									<td th:text="${party.address}" />
 									<td>
 										<div class="dashboardicon2" style="text-align: left;">
-										  <form th:action="@{performPartyPageAction}" method="get">
+										  <form th:action="@{openPartyActionPage}" method="get">
 											<input type="hidden" th:value="${party.id}" id="id" name='id'>
 											<input type="hidden" th:value="${party.name}" id="name" name='name'>
 											<input type="submit" name="action" class="submit action-button" value="View">

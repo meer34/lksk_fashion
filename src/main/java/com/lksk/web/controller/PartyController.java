@@ -14,59 +14,56 @@ import com.lksk.web.service.PartyService;
 
 @Controller
 public class PartyController {
-	
-	@Autowired
-	PartyService partyService;
-	
+
+	@Autowired private PartyService partyService;
+
 	@GetMapping("/party")
 	public String showPartyPage(Model model) {
 		model.addAttribute("partyList", partyService.getAllUsers());
 		return "party";
 	}
-	
+
 	@GetMapping("/add-party-page")
 	public String showAddPartyPage(Model model) {
+		model.addAttribute("party", new Party());
+		model.addAttribute("header", "Create Party");
 		return "party-create";
 	}
-	
+
 	@RequestMapping(value = "/create-party",
 			method = RequestMethod.POST)
-	public String createParty(Model model, Party admin, 
+	public String createParty(Model model, Party party, 
 			RedirectAttributes redirectAttributes) throws Exception{
-		
-		admin = partyService.saveUserToDB(admin);
-		redirectAttributes.addFlashAttribute("successMessage", "New user " + admin.getName() + " added successfully as Admin!");
+
+		party = partyService.saveUserToDB(party);
+		redirectAttributes.addFlashAttribute("successMessage", "New user " + party.getName() + " added successfully as Party!");
 		return "redirect:/party";
-		
+
 	}
-	
-	@RequestMapping(value = "/performPartyPageAction",
+
+	@RequestMapping(value = "/OpenPartyActionPage",
 			method = RequestMethod.GET)
-	public String performItemAction(RedirectAttributes redirectAttributes, Model model,
+	public String performOrderAction(RedirectAttributes redirectAttributes, Model model,
 			@RequestParam("action") String action,
-			@RequestParam("id") String id,
-			@RequestParam("name") String name) throws Exception{
-		
-		System.out.println("Got " + action + " action request for party " + name);
-		
+			@RequestParam("id") String id) throws Exception{
+
+		System.out.println("Got " + action + " action request for id " + id);
+
 		if(action.equalsIgnoreCase("View")) {
 			model.addAttribute("party", partyService.findUserById(Long.parseLong(id)));
-			return "party";
-			
-		} else if(action.equalsIgnoreCase("Edit")) {
-			redirectAttributes.addFlashAttribute("party", partyService.findUserById(Long.parseLong(id)));
-			return "redirect:/party";
+			return "view-party";
 			
 		} else if(action.equalsIgnoreCase("Delete")) {
 			partyService.deleteUserById(Long.parseLong(id));
-			redirectAttributes.addFlashAttribute("successMessage", "Party user \""+ name +"\" deleted successfully!");
+			redirectAttributes.addFlashAttribute("successMessage", "Party with id " + id + " deleted successfully!");
 			return "redirect:/party";
 			
 		} else {
-			System.out.println("Incorrect page action received!");
-			return "error";
+			System.out.println();
 		}
-		
+
+		return "redirect:/testerror";
+
 	}
-	
+
 }

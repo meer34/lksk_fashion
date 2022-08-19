@@ -11,64 +11,85 @@
             <div class="col-md-12">
                <form class="dashboardicon" style="margin-top: 0;" action="addOrder" method="post" enctype="multipart/form-data">
                   <fieldset style="margin-top: 0;">
-                     <legend style="text-align:center; padding-top: 80px;" >New Order</legend>
+                     <legend class="order-style">New Order</legend>
                      <div class="col-lg-12 flexdisplay">
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 col-xs-12">
                            <input type="text" name="mark" placeholder="Mark">
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 col-xs-12">
                            <input type="text" name="supplier" placeholder="Supplier">
                         </div>
                      </div>
                      <div class="col-lg-12 flexdisplay">
-                        <div class="col-lg-6">
-                          <input type="file" name="sPhoto" placeholder="Select Photo">
+                        <div class="col-lg-3 col-xs-12">
+                          <div class="image-upload">
+								<label for="sPhoto">
+									<img th:src="@{/images/item_image.jpg}" class="after-ph stock-in-img" />
+								</label>
+								<img src="" class="before-ph" style="display: none;" />
+								<canvas style="display: none;"></canvas>
+								<input type="file" name="sPhoto" id="sPhoto" >
+							</div>
                         </div>
-                        <div class="col-lg-6 flexdisplay">
-                          <div class="col-lg-6">
+                        <div class="col-lg-3 col-xs-12">
+                           <input type="text" name="size" placeholder="Size">
+                        </div>
+                        <div class="col-lg-3 col-xs-12">
                            <input type="text" name="sLength" placeholder="Size(Length)">
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-3 col-xs-12">
                            <input type="text" name="sWidth" placeholder="Size(Width)">
                         </div>
-                      </div>
                      </div>
                      <div class="col-lg-12 flexdisplay">
-                        <div class="col-lg-6">
-                           <input type="text" name="color" placeholder="Color">
+                        <div class="col-lg-3 col-xs-12">
+                           <div class="image-upload">
+								<label for="colour">
+									<img th:src="@{/images/item_colour.jpg}" class="after-col stock-in-img" />
+								</label>
+								<img src="" class="before-col" style="display: none;" />
+								<canvas style="display: none;"></canvas>
+								<input type="file" name="colour" id="colour" >
+							</div>
                         </div>
-                        <div class="col-lg-6">
-                           <input type="text" name="quantity" placeholder="Quantity">
+                        <div class="col-lg-9 col-xs-12">
+                           <input type="number" id="quantity" name="quantity" placeholder="Quantity" min="1" required 
+									oninvalid="this.setCustomValidity('Quantity cannot be 0 or blank')" oninput="this.setCustomValidity('')"
+									onchange="calculateAmount()" >
                         </div>
                      </div>
                      <div class="col-lg-12 flexdisplay">
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 col-xs-12">
                            <input type="text" name="unit" placeholder="Unit">
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 col-xs-12">
                            <input type="text" name="reference" placeholder="Reference">
                         </div>
                      </div>
                      <div class="col-lg-12 flexdisplay">
-                        <div class="col-lg-6">
-                           <input type="text" name="price" placeholder="Price">
+                        <div class="col-lg-6 col-xs-12">
+                           <input type="number" name="price" placeholder="Price" min="0" step=".01" onchange="calculateAmount()" >
                         </div>
-                        <div class="col-lg-6">
-                           <input type="text" name="amount" placeholder="Amount">
+                        <div class="col-lg-6 col-xs-12">
+                           <input type="number" name="amount" placeholder="Amount" value="0" readonly>
                         </div>
                      </div>
                      <div class="col-lg-12 flexdisplay">
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 col-xs-12">
                            <input type="date" name="date" placeholder="Date">
                         </div>
-                        <div class="col-lg-6">
-                           <textarea name="remakrs" class="form-control" placeholder="Remarks" style="height: 52px;"></textarea>
+                        <div class="col-lg-6 col-xs-12">
+                           <textarea name="remarks" class="form-control" placeholder="Remarks" style="height: 52px;"></textarea>
                      </div>
                    </div>
                      <input type="button" name="cancel" class="previous action-button-previous" onclick="location.href='/order'" value="Cancel">
                      <input type="submit" name="submit" class="submit action-button" value="Save">
                </fieldset>
                </form>
+			   <div>
+					<p name="before-compression"></p>
+					<p name="after-compression"></p>
+				</div>
             </div>
          </div>
       </main>

@@ -10,7 +10,8 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="dashboardicon2" style="text-align: left;">
-					<input type="button" name="addAdmin" class="submit action-button" value="Add New Admin" th:attr="onclick=|location.href='@{/addAdminPage}'|" >
+					<input type="button" name="addAdmin" class="submit action-button" value="Add New Admin" th:attr="onclick=|location.href='@{/addAdminPage}'|" 
+						sec:authorize="hasAuthority('ADMIN')" >
 				</div>
 
 				<div th:if="${successMessage}" th:text="${successMessage}" class="alert alert-success" role="alert"></div>
@@ -42,12 +43,12 @@
 									<td th:text="${admin.address}" />
 									<td>
 										<div class="dashboardicon2" style="text-align: left;">
-										  <form th:action="@{performAdminPageAction}" method="get">
+										  <form th:action="@{/OpenAdminActionPage}" method="get">
 											<input type="hidden" th:value="${admin.id}" id="id" name='id'>
 											<input type="hidden" th:value="${admin.name}" id="name" name='name'>
 											<input type="submit" name="action" class="submit action-button" value="View">
-											<input type="submit" name="action" class="submit action-button" value="Edit">
-											<input type="submit" name="action" class="submit action-button2" value="Delete">
+											<input type="submit" name="action" class="submit action-button" value="Edit" sec:authorize="hasAuthority('ADMIN')" >
+											<input type="submit" name="action" class="submit action-button2" value="Delete" sec:authorize="hasAuthority('ADMIN')" >
 										  </form>
 										</div>
 									</td>

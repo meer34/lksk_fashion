@@ -17,21 +17,33 @@ public class OrderService {
 	@Autowired
 	private OrderRepo orderRepo;
 
-	public void saveOrderToDB(CustOrder order) {
-		orderRepo.save(order);
+	public CustOrder saveOrderToDB(CustOrder order) {
+		return orderRepo.save(order);
+	}
+	
+	public CustOrder findOrderById(Long id) {
+		return orderRepo.findById(id).get();
 	}
 
 	public List<CustOrder> getAllOrders() {
-		return orderRepo.findAll();
+		return orderRepo.findAllByOrderByIdDesc();
 	}
 
 	public List<CustOrder> searchOrderByDate(String fromDate, String toDate) throws ParseException {
 
-		System.out.println("From Date is - " + fromDate);
-		System.out.println("To Date is - " + toDate);
-
 		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		return orderRepo.findByDateBetween(formatter.parse(fromDate), formatter.parse(toDate));
+		
+		if(fromDate != null && !fromDate.equalsIgnoreCase("") && toDate != null && !toDate.equalsIgnoreCase("")) {
+			return orderRepo.findByDateBetween(formatter.parse(fromDate), formatter.parse(toDate));
+		} else if((fromDate == null || fromDate.equalsIgnoreCase("")) && toDate != null && !toDate.equalsIgnoreCase("")) {
+			return orderRepo.findByDateLessThanEqual(formatter.parse(toDate));
+			
+		} else if((toDate == null || toDate.equalsIgnoreCase("")) && fromDate != null && !fromDate.equalsIgnoreCase("")) {
+			return orderRepo.findByDateGreaterThanEqual(formatter.parse(fromDate));
+			
+		} else {
+			return orderRepo.findAll();
+		}
 		
 	}
 

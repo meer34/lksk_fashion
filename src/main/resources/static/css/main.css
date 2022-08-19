@@ -356,7 +356,7 @@ output {
 }
 
 summary {
-  display: list-item;
+  display: list-product;
   cursor: pointer;
 }
 
@@ -459,11 +459,11 @@ mark,
   list-style: none;
 }
 
-.list-inline-item {
+.list-inline-product {
   display: inline-block;
 }
 
-.list-inline-item:not(:last-child) {
+.list-inline-product:not(:last-child) {
   margin-right: 0.5rem;
 }
 
@@ -1913,6 +1913,9 @@ pre code {
   }
 }
 
+.col-xs-6{
+}
+
 @media (max-width: 767.98px) {
   .table-responsive-md {
     display: block;
@@ -1924,6 +1927,12 @@ pre code {
   .table-responsive-md > .table-bordered {
     border: 0;
   }
+  .flexdisplay {
+	display: block;
+}
+.col-xs-6{
+	width:50% !important;
+	}
 }
 
 @media (max-width: 991.98px) {
@@ -2171,7 +2180,7 @@ select.form-control-lg:not([size]):not([multiple]), .input-group-lg > select.for
   display: inline-flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
+          align-products: center;
   padding-left: 0;
   margin-right: 0.75rem;
 }
@@ -2393,7 +2402,7 @@ select.form-control-lg:not([size]):not([multiple]), .input-group-lg > select.for
           flex-flow: row wrap;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
+          align-products: center;
 }
 
 .form-inline .form-check {
@@ -2407,7 +2416,7 @@ select.form-control-lg:not([size]):not([multiple]), .input-group-lg > select.for
     display: flex;
     -webkit-box-align: center;
         -ms-flex-align: center;
-            align-items: center;
+            align-products: center;
     -webkit-box-pack: center;
         -ms-flex-pack: center;
             justify-content: center;
@@ -2426,7 +2435,7 @@ select.form-control-lg:not([size]):not([multiple]), .input-group-lg > select.for
             flex-flow: row wrap;
     -webkit-box-align: center;
         -ms-flex-align: center;
-            align-items: center;
+            align-products: center;
     margin-bottom: 0;
   }
   .form-inline .form-control {
@@ -2446,7 +2455,7 @@ select.form-control-lg:not([size]):not([multiple]), .input-group-lg > select.for
     display: flex;
     -webkit-box-align: center;
         -ms-flex-align: center;
-            align-items: center;
+            align-products: center;
     -webkit-box-pack: center;
         -ms-flex-pack: center;
             justify-content: center;
@@ -2462,7 +2471,7 @@ select.form-control-lg:not([size]):not([multiple]), .input-group-lg > select.for
   .form-inline .custom-control {
     -webkit-box-align: center;
         -ms-flex-align: center;
-            align-items: center;
+            align-products: center;
     -webkit-box-pack: center;
         -ms-flex-pack: center;
             justify-content: center;
@@ -3320,7 +3329,7 @@ tbody.collapse.show {
   border-top: 1px solid #e9ecef;
 }
 
-.dropdown-item {
+.dropdown-product {
   display: block;
   width: 100%;
   padding: 8px 20px;
@@ -3333,19 +3342,19 @@ tbody.collapse.show {
   border: 0;
 }
 
-.dropdown-item:hover, .dropdown-item:focus {
+.dropdown-product:hover, .dropdown-product:focus {
   color: #16181b;
   text-decoration: none;
   background-color: #f8f9fa;
 }
 
-.dropdown-item.active, .dropdown-item:active {
+.dropdown-product.active, .dropdown-product:active {
   color: #FFF;
   text-decoration: none;
   background-color: #009688;
 }
 
-.dropdown-item.disabled, .dropdown-item:disabled {
+.dropdown-product.disabled, .dropdown-product:disabled {
   color: #6c757d;
   background-color: transparent;
 }
@@ -3460,7 +3469,7 @@ tbody.collapse.show {
           flex-direction: column;
   -webkit-box-align: start;
       -ms-flex-align: start;
-          align-items: flex-start;
+          align-products: flex-start;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -3514,7 +3523,7 @@ tbody.collapse.show {
       flex-wrap: wrap;
   -webkit-box-align: stretch;
       -ms-flex-align: stretch;
-          align-items: stretch;
+          align-products: stretch;
   width: 100%;
 }
 
@@ -3565,7 +3574,7 @@ tbody.collapse.show {
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
+          align-products: center;
 }
 
 .input-group > .custom-file:not(:last-child) .custom-file-label,
@@ -3618,7 +3627,7 @@ tbody.collapse.show {
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
+          align-products: center;
   padding: 0.375rem 0.75rem;
   margin-bottom: 0;
   font-size: 0.875rem;
@@ -3926,7 +3935,7 @@ tbody.collapse.show {
   border-bottom: 1px solid #dee2e6;
 }
 
-.nav-tabs .nav-item {
+.nav-tabs .nav-product {
   margin-bottom: -1px;
 }
 
@@ -3947,7 +3956,7 @@ tbody.collapse.show {
 }
 
 .nav-tabs .nav-link.active,
-.nav-tabs .nav-item.show .nav-link {
+.nav-tabs .nav-product.show .nav-link {
   color: #495057;
   background-color: #FFF;
   border-color: #dee2e6 #dee2e6 #FFF;
@@ -3969,14 +3978,14 @@ tbody.collapse.show {
   background-color: #009688;
 }
 
-.nav-fill .nav-item {
+.nav-fill .nav-product {
   -webkit-box-flex: 1;
       -ms-flex: 1 1 auto;
           flex: 1 1 auto;
   text-align: center;
 }
 
-.nav-justified .nav-item {
+.nav-justified .nav-product {
   -ms-flex-preferred-size: 0;
       flex-basis: 0;
   -webkit-box-flex: 1;
@@ -4002,7 +4011,7 @@ tbody.collapse.show {
       flex-wrap: wrap;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
+          align-products: center;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
@@ -4018,7 +4027,7 @@ tbody.collapse.show {
       flex-wrap: wrap;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
+          align-products: center;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
@@ -4075,7 +4084,7 @@ tbody.collapse.show {
           flex-grow: 1;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
+          align-products: center;
 }
 
 .navbar-toggler {
@@ -4550,7 +4559,7 @@ tbody.collapse.show {
   display: flex;
   -webkit-box-align: start;
       -ms-flex-align: start;
-          align-items: flex-start;
+          align-products: flex-start;
 }
 
 .media-body {
@@ -4571,24 +4580,24 @@ tbody.collapse.show {
   margin-bottom: 0;
 }
 
-.list-group-item-action {
+.list-group-product-action {
   width: 100%;
   color: #495057;
   text-align: inherit;
 }
 
-.list-group-item-action:hover, .list-group-item-action:focus {
+.list-group-product-action:hover, .list-group-product-action:focus {
   color: #495057;
   text-decoration: none;
   background-color: #f8f9fa;
 }
 
-.list-group-item-action:active {
+.list-group-product-action:active {
   color: #212529;
   background-color: #e9ecef;
 }
 
-.list-group-item {
+.list-group-product {
   position: relative;
   display: block;
   padding: 0.75rem 1.25rem;
@@ -4597,171 +4606,171 @@ tbody.collapse.show {
   border: 1px solid rgba(0, 0, 0, 0.125);
 }
 
-.list-group-item:first-child {
+.list-group-product:first-child {
   border-top-left-radius: 0.25rem;
   border-top-right-radius: 0.25rem;
 }
 
-.list-group-item:last-child {
+.list-group-product:last-child {
   margin-bottom: 0;
   border-bottom-right-radius: 0.25rem;
   border-bottom-left-radius: 0.25rem;
 }
 
-.list-group-item:hover, .list-group-item:focus {
+.list-group-product:hover, .list-group-product:focus {
   z-index: 1;
   text-decoration: none;
 }
 
-.list-group-item.disabled, .list-group-item:disabled {
+.list-group-product.disabled, .list-group-product:disabled {
   color: #6c757d;
   background-color: #FFF;
 }
 
-.list-group-item.active {
+.list-group-product.active {
   z-index: 2;
   color: #FFF;
   background-color: #009688;
   border-color: #009688;
 }
 
-.list-group-flush .list-group-item {
+.list-group-flush .list-group-product {
   border-right: 0;
   border-left: 0;
   border-radius: 0;
 }
 
-.list-group-flush:first-child .list-group-item:first-child {
+.list-group-flush:first-child .list-group-product:first-child {
   border-top: 0;
 }
 
-.list-group-flush:last-child .list-group-item:last-child {
+.list-group-flush:last-child .list-group-product:last-child {
   border-bottom: 0;
 }
 
-.list-group-item-primary {
+.list-group-product-primary {
   color: #004e47;
   background-color: #b8e2de;
 }
 
-.list-group-item-primary.list-group-item-action:hover, .list-group-item-primary.list-group-item-action:focus {
+.list-group-product-primary.list-group-product-action:hover, .list-group-product-primary.list-group-product-action:focus {
   color: #004e47;
   background-color: #a6dbd6;
 }
 
-.list-group-item-primary.list-group-item-action.active {
+.list-group-product-primary.list-group-product-action.active {
   color: #fff;
   background-color: #004e47;
   border-color: #004e47;
 }
 
-.list-group-item-secondary {
+.list-group-product-secondary {
   color: #383d41;
   background-color: #d6d8db;
 }
 
-.list-group-item-secondary.list-group-item-action:hover, .list-group-item-secondary.list-group-item-action:focus {
+.list-group-product-secondary.list-group-product-action:hover, .list-group-product-secondary.list-group-product-action:focus {
   color: #383d41;
   background-color: #c8cbcf;
 }
 
-.list-group-item-secondary.list-group-item-action.active {
+.list-group-product-secondary.list-group-product-action.active {
   color: #fff;
   background-color: #383d41;
   border-color: #383d41;
 }
 
-.list-group-item-success {
+.list-group-product-success {
   color: #155724;
   background-color: #c3e6cb;
 }
 
-.list-group-item-success.list-group-item-action:hover, .list-group-item-success.list-group-item-action:focus {
+.list-group-product-success.list-group-product-action:hover, .list-group-product-success.list-group-product-action:focus {
   color: #155724;
   background-color: #b1dfbb;
 }
 
-.list-group-item-success.list-group-item-action.active {
+.list-group-product-success.list-group-product-action.active {
   color: #fff;
   background-color: #155724;
   border-color: #155724;
 }
 
-.list-group-item-info {
+.list-group-product-info {
   color: #0c5460;
   background-color: #bee5eb;
 }
 
-.list-group-item-info.list-group-item-action:hover, .list-group-item-info.list-group-item-action:focus {
+.list-group-product-info.list-group-product-action:hover, .list-group-product-info.list-group-product-action:focus {
   color: #0c5460;
   background-color: #abdde5;
 }
 
-.list-group-item-info.list-group-item-action.active {
+.list-group-product-info.list-group-product-action.active {
   color: #fff;
   background-color: #0c5460;
   border-color: #0c5460;
 }
 
-.list-group-item-warning {
+.list-group-product-warning {
   color: #856404;
   background-color: #ffeeba;
 }
 
-.list-group-item-warning.list-group-item-action:hover, .list-group-item-warning.list-group-item-action:focus {
+.list-group-product-warning.list-group-product-action:hover, .list-group-product-warning.list-group-product-action:focus {
   color: #856404;
   background-color: #ffe8a1;
 }
 
-.list-group-item-warning.list-group-item-action.active {
+.list-group-product-warning.list-group-product-action.active {
   color: #fff;
   background-color: #856404;
   border-color: #856404;
 }
 
-.list-group-item-danger {
+.list-group-product-danger {
   color: #721c24;
   background-color: #f5c6cb;
 }
 
-.list-group-item-danger.list-group-item-action:hover, .list-group-item-danger.list-group-item-action:focus {
+.list-group-product-danger.list-group-product-action:hover, .list-group-product-danger.list-group-product-action:focus {
   color: #721c24;
   background-color: #f1b0b7;
 }
 
-.list-group-item-danger.list-group-item-action.active {
+.list-group-product-danger.list-group-product-action.active {
   color: #fff;
   background-color: #721c24;
   border-color: #721c24;
 }
 
-.list-group-item-light {
+.list-group-product-light {
   color: #818182;
   background-color: #fdfdfe;
 }
 
-.list-group-item-light.list-group-item-action:hover, .list-group-item-light.list-group-item-action:focus {
+.list-group-product-light.list-group-product-action:hover, .list-group-product-light.list-group-product-action:focus {
   color: #818182;
   background-color: #ececf6;
 }
 
-.list-group-item-light.list-group-item-action.active {
+.list-group-product-light.list-group-product-action.active {
   color: #fff;
   background-color: #818182;
   border-color: #818182;
 }
 
-.list-group-item-dark {
+.list-group-product-dark {
   color: #1b1e21;
   background-color: #c6c8ca;
 }
 
-.list-group-item-dark.list-group-item-action:hover, .list-group-item-dark.list-group-item-action:focus {
+.list-group-product-dark.list-group-product-action:hover, .list-group-product-dark.list-group-product-action:focus {
   color: #1b1e21;
   background-color: #b9bbbe;
 }
 
-.list-group-item-dark.list-group-item-action.active {
+.list-group-product-dark.list-group-product-action.active {
   color: #fff;
   background-color: #1b1e21;
   border-color: #1b1e21;
@@ -4845,7 +4854,7 @@ button.close {
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
+          align-products: center;
   min-height: calc(100% - (0.5rem * 2));
 }
 
@@ -4889,7 +4898,7 @@ button.close {
   display: flex;
   -webkit-box-align: start;
       -ms-flex-align: start;
-          align-items: flex-start;
+          align-products: flex-start;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
@@ -4922,7 +4931,7 @@ button.close {
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
+          align-products: center;
   -webkit-box-pack: end;
       -ms-flex-pack: end;
           justify-content: flex-end;
@@ -5260,12 +5269,12 @@ button.close {
   overflow: hidden;
 }
 
-.carousel-item {
+.carousel-product {
   position: relative;
   display: none;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
+          align-products: center;
   width: 100%;
   -webkit-transition: -webkit-transform 0.6s ease;
   transition: -webkit-transform 0.6s ease;
@@ -5278,58 +5287,58 @@ button.close {
           perspective: 1000px;
 }
 
-.carousel-item.active,
-.carousel-item-next,
-.carousel-item-prev {
+.carousel-product.active,
+.carousel-product-next,
+.carousel-product-prev {
   display: block;
 }
 
-.carousel-item-next,
-.carousel-item-prev {
+.carousel-product-next,
+.carousel-product-prev {
   position: absolute;
   top: 0;
 }
 
-.carousel-item-next.carousel-item-left,
-.carousel-item-prev.carousel-item-right {
+.carousel-product-next.carousel-product-left,
+.carousel-product-prev.carousel-product-right {
   -webkit-transform: translateX(0);
       -ms-transform: translateX(0);
           transform: translateX(0);
 }
 
 @supports ((-webkit-transform-style: preserve-3d) or (transform-style: preserve-3d)) {
-  .carousel-item-next.carousel-item-left,
-  .carousel-item-prev.carousel-item-right {
+  .carousel-product-next.carousel-product-left,
+  .carousel-product-prev.carousel-product-right {
     -webkit-transform: translate3d(0, 0, 0);
             transform: translate3d(0, 0, 0);
   }
 }
 
-.carousel-item-next,
-.active.carousel-item-right {
+.carousel-product-next,
+.active.carousel-product-right {
   -webkit-transform: translateX(100%);
       -ms-transform: translateX(100%);
           transform: translateX(100%);
 }
 
 @supports ((-webkit-transform-style: preserve-3d) or (transform-style: preserve-3d)) {
-  .carousel-item-next,
-  .active.carousel-item-right {
+  .carousel-product-next,
+  .active.carousel-product-right {
     -webkit-transform: translate3d(100%, 0, 0);
             transform: translate3d(100%, 0, 0);
   }
 }
 
-.carousel-item-prev,
-.active.carousel-item-left {
+.carousel-product-prev,
+.active.carousel-product-left {
   -webkit-transform: translateX(-100%);
       -ms-transform: translateX(-100%);
           transform: translateX(-100%);
 }
 
 @supports ((-webkit-transform-style: preserve-3d) or (transform-style: preserve-3d)) {
-  .carousel-item-prev,
-  .active.carousel-item-left {
+  .carousel-product-prev,
+  .active.carousel-product-left {
     -webkit-transform: translate3d(-100%, 0, 0);
             transform: translate3d(-100%, 0, 0);
   }
@@ -5345,7 +5354,7 @@ button.close {
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
+          align-products: center;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -5905,7 +5914,7 @@ button.bg-dark:focus {
   content: "";
 }
 
-.embed-responsive .embed-responsive-item,
+.embed-responsive .embed-responsive-product,
 .embed-responsive iframe,
 .embed-responsive embed,
 .embed-responsive object,
@@ -6007,34 +6016,34 @@ button.bg-dark:focus {
       justify-content: space-around !important;
 }
 
-.align-items-start {
+.align-products-start {
   -webkit-box-align: start !important;
       -ms-flex-align: start !important;
-          align-items: flex-start !important;
+          align-products: flex-start !important;
 }
 
-.align-items-end {
+.align-products-end {
   -webkit-box-align: end !important;
       -ms-flex-align: end !important;
-          align-items: flex-end !important;
+          align-products: flex-end !important;
 }
 
-.align-items-center {
+.align-products-center {
   -webkit-box-align: center !important;
       -ms-flex-align: center !important;
-          align-items: center !important;
+          align-products: center !important;
 }
 
-.align-items-baseline {
+.align-products-baseline {
   -webkit-box-align: baseline !important;
       -ms-flex-align: baseline !important;
-          align-items: baseline !important;
+          align-products: baseline !important;
 }
 
-.align-items-stretch {
+.align-products-stretch {
   -webkit-box-align: stretch !important;
       -ms-flex-align: stretch !important;
-          align-items: stretch !important;
+          align-products: stretch !important;
 }
 
 .align-content-start {
@@ -6068,32 +6077,32 @@ button.bg-dark:focus {
 }
 
 .align-self-auto {
-  -ms-flex-item-align: auto !important;
+  -ms-flex-product-align: auto !important;
       align-self: auto !important;
 }
 
 .align-self-start {
-  -ms-flex-item-align: start !important;
+  -ms-flex-product-align: start !important;
       align-self: flex-start !important;
 }
 
 .align-self-end {
-  -ms-flex-item-align: end !important;
+  -ms-flex-product-align: end !important;
       align-self: flex-end !important;
 }
 
 .align-self-center {
-  -ms-flex-item-align: center !important;
+  -ms-flex-product-align: center !important;
       align-self: center !important;
 }
 
 .align-self-baseline {
-  -ms-flex-item-align: baseline !important;
+  -ms-flex-product-align: baseline !important;
       align-self: baseline !important;
 }
 
 .align-self-stretch {
-  -ms-flex-item-align: stretch !important;
+  -ms-flex-product-align: stretch !important;
       align-self: stretch !important;
 }
 
@@ -6158,30 +6167,30 @@ button.bg-dark:focus {
     -ms-flex-pack: distribute !important;
         justify-content: space-around !important;
   }
-  .align-items-sm-start {
+  .align-products-sm-start {
     -webkit-box-align: start !important;
         -ms-flex-align: start !important;
-            align-items: flex-start !important;
+            align-products: flex-start !important;
   }
-  .align-items-sm-end {
+  .align-products-sm-end {
     -webkit-box-align: end !important;
         -ms-flex-align: end !important;
-            align-items: flex-end !important;
+            align-products: flex-end !important;
   }
-  .align-items-sm-center {
+  .align-products-sm-center {
     -webkit-box-align: center !important;
         -ms-flex-align: center !important;
-            align-items: center !important;
+            align-products: center !important;
   }
-  .align-items-sm-baseline {
+  .align-products-sm-baseline {
     -webkit-box-align: baseline !important;
         -ms-flex-align: baseline !important;
-            align-items: baseline !important;
+            align-products: baseline !important;
   }
-  .align-items-sm-stretch {
+  .align-products-sm-stretch {
     -webkit-box-align: stretch !important;
         -ms-flex-align: stretch !important;
-            align-items: stretch !important;
+            align-products: stretch !important;
   }
   .align-content-sm-start {
     -ms-flex-line-pack: start !important;
@@ -6208,27 +6217,27 @@ button.bg-dark:focus {
         align-content: stretch !important;
   }
   .align-self-sm-auto {
-    -ms-flex-item-align: auto !important;
+    -ms-flex-product-align: auto !important;
         align-self: auto !important;
   }
   .align-self-sm-start {
-    -ms-flex-item-align: start !important;
+    -ms-flex-product-align: start !important;
         align-self: flex-start !important;
   }
   .align-self-sm-end {
-    -ms-flex-item-align: end !important;
+    -ms-flex-product-align: end !important;
         align-self: flex-end !important;
   }
   .align-self-sm-center {
-    -ms-flex-item-align: center !important;
+    -ms-flex-product-align: center !important;
         align-self: center !important;
   }
   .align-self-sm-baseline {
-    -ms-flex-item-align: baseline !important;
+    -ms-flex-product-align: baseline !important;
         align-self: baseline !important;
   }
   .align-self-sm-stretch {
-    -ms-flex-item-align: stretch !important;
+    -ms-flex-product-align: stretch !important;
         align-self: stretch !important;
   }
 }
@@ -6294,30 +6303,30 @@ button.bg-dark:focus {
     -ms-flex-pack: distribute !important;
         justify-content: space-around !important;
   }
-  .align-items-md-start {
+  .align-products-md-start {
     -webkit-box-align: start !important;
         -ms-flex-align: start !important;
-            align-items: flex-start !important;
+            align-products: flex-start !important;
   }
-  .align-items-md-end {
+  .align-products-md-end {
     -webkit-box-align: end !important;
         -ms-flex-align: end !important;
-            align-items: flex-end !important;
+            align-products: flex-end !important;
   }
-  .align-items-md-center {
+  .align-products-md-center {
     -webkit-box-align: center !important;
         -ms-flex-align: center !important;
-            align-items: center !important;
+            align-products: center !important;
   }
-  .align-items-md-baseline {
+  .align-products-md-baseline {
     -webkit-box-align: baseline !important;
         -ms-flex-align: baseline !important;
-            align-items: baseline !important;
+            align-products: baseline !important;
   }
-  .align-items-md-stretch {
+  .align-products-md-stretch {
     -webkit-box-align: stretch !important;
         -ms-flex-align: stretch !important;
-            align-items: stretch !important;
+            align-products: stretch !important;
   }
   .align-content-md-start {
     -ms-flex-line-pack: start !important;
@@ -6344,27 +6353,27 @@ button.bg-dark:focus {
         align-content: stretch !important;
   }
   .align-self-md-auto {
-    -ms-flex-item-align: auto !important;
+    -ms-flex-product-align: auto !important;
         align-self: auto !important;
   }
   .align-self-md-start {
-    -ms-flex-item-align: start !important;
+    -ms-flex-product-align: start !important;
         align-self: flex-start !important;
   }
   .align-self-md-end {
-    -ms-flex-item-align: end !important;
+    -ms-flex-product-align: end !important;
         align-self: flex-end !important;
   }
   .align-self-md-center {
-    -ms-flex-item-align: center !important;
+    -ms-flex-product-align: center !important;
         align-self: center !important;
   }
   .align-self-md-baseline {
-    -ms-flex-item-align: baseline !important;
+    -ms-flex-product-align: baseline !important;
         align-self: baseline !important;
   }
   .align-self-md-stretch {
-    -ms-flex-item-align: stretch !important;
+    -ms-flex-product-align: stretch !important;
         align-self: stretch !important;
   }
 }
@@ -6430,30 +6439,30 @@ button.bg-dark:focus {
     -ms-flex-pack: distribute !important;
         justify-content: space-around !important;
   }
-  .align-items-lg-start {
+  .align-products-lg-start {
     -webkit-box-align: start !important;
         -ms-flex-align: start !important;
-            align-items: flex-start !important;
+            align-products: flex-start !important;
   }
-  .align-items-lg-end {
+  .align-products-lg-end {
     -webkit-box-align: end !important;
         -ms-flex-align: end !important;
-            align-items: flex-end !important;
+            align-products: flex-end !important;
   }
-  .align-items-lg-center {
+  .align-products-lg-center {
     -webkit-box-align: center !important;
         -ms-flex-align: center !important;
-            align-items: center !important;
+            align-products: center !important;
   }
-  .align-items-lg-baseline {
+  .align-products-lg-baseline {
     -webkit-box-align: baseline !important;
         -ms-flex-align: baseline !important;
-            align-items: baseline !important;
+            align-products: baseline !important;
   }
-  .align-items-lg-stretch {
+  .align-products-lg-stretch {
     -webkit-box-align: stretch !important;
         -ms-flex-align: stretch !important;
-            align-items: stretch !important;
+            align-products: stretch !important;
   }
   .align-content-lg-start {
     -ms-flex-line-pack: start !important;
@@ -6480,27 +6489,27 @@ button.bg-dark:focus {
         align-content: stretch !important;
   }
   .align-self-lg-auto {
-    -ms-flex-item-align: auto !important;
+    -ms-flex-product-align: auto !important;
         align-self: auto !important;
   }
   .align-self-lg-start {
-    -ms-flex-item-align: start !important;
+    -ms-flex-product-align: start !important;
         align-self: flex-start !important;
   }
   .align-self-lg-end {
-    -ms-flex-item-align: end !important;
+    -ms-flex-product-align: end !important;
         align-self: flex-end !important;
   }
   .align-self-lg-center {
-    -ms-flex-item-align: center !important;
+    -ms-flex-product-align: center !important;
         align-self: center !important;
   }
   .align-self-lg-baseline {
-    -ms-flex-item-align: baseline !important;
+    -ms-flex-product-align: baseline !important;
         align-self: baseline !important;
   }
   .align-self-lg-stretch {
-    -ms-flex-item-align: stretch !important;
+    -ms-flex-product-align: stretch !important;
         align-self: stretch !important;
   }
 }
@@ -6566,30 +6575,30 @@ button.bg-dark:focus {
     -ms-flex-pack: distribute !important;
         justify-content: space-around !important;
   }
-  .align-items-xl-start {
+  .align-products-xl-start {
     -webkit-box-align: start !important;
         -ms-flex-align: start !important;
-            align-items: flex-start !important;
+            align-products: flex-start !important;
   }
-  .align-items-xl-end {
+  .align-products-xl-end {
     -webkit-box-align: end !important;
         -ms-flex-align: end !important;
-            align-items: flex-end !important;
+            align-products: flex-end !important;
   }
-  .align-items-xl-center {
+  .align-products-xl-center {
     -webkit-box-align: center !important;
         -ms-flex-align: center !important;
-            align-items: center !important;
+            align-products: center !important;
   }
-  .align-items-xl-baseline {
+  .align-products-xl-baseline {
     -webkit-box-align: baseline !important;
         -ms-flex-align: baseline !important;
-            align-items: baseline !important;
+            align-products: baseline !important;
   }
-  .align-items-xl-stretch {
+  .align-products-xl-stretch {
     -webkit-box-align: stretch !important;
         -ms-flex-align: stretch !important;
-            align-items: stretch !important;
+            align-products: stretch !important;
   }
   .align-content-xl-start {
     -ms-flex-line-pack: start !important;
@@ -6616,27 +6625,27 @@ button.bg-dark:focus {
         align-content: stretch !important;
   }
   .align-self-xl-auto {
-    -ms-flex-item-align: auto !important;
+    -ms-flex-product-align: auto !important;
         align-self: auto !important;
   }
   .align-self-xl-start {
-    -ms-flex-item-align: start !important;
+    -ms-flex-product-align: start !important;
         align-self: flex-start !important;
   }
   .align-self-xl-end {
-    -ms-flex-item-align: end !important;
+    -ms-flex-product-align: end !important;
         align-self: flex-end !important;
   }
   .align-self-xl-center {
-    -ms-flex-item-align: center !important;
+    -ms-flex-product-align: center !important;
         align-self: center !important;
   }
   .align-self-xl-baseline {
-    -ms-flex-item-align: baseline !important;
+    -ms-flex-product-align: baseline !important;
         align-self: baseline !important;
   }
   .align-self-xl-stretch {
-    -ms-flex-item-align: stretch !important;
+    -ms-flex-product-align: stretch !important;
         align-self: stretch !important;
   }
 }
@@ -12569,7 +12578,7 @@ be a descendant of the grid when it is being dragged.
   }
 }
 
-.app-nav__item {
+.app-nav__product {
   display: block;
   padding: 15px;
   line-height: 20px;
@@ -12579,7 +12588,7 @@ be a descendant of the grid when it is being dragged.
   transition: background-color 0.3s ease;
 }
 
-.app-nav__item:hover, .app-nav__item:focus {
+.app-nav__product:hover, .app-nav__product:focus {
   background: rgba(0, 0, 0, 0.1);
   color: #f6f6f6;
 }
@@ -12589,7 +12598,7 @@ be a descendant of the grid when it is being dragged.
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-item-align: center;
+  -ms-flex-product-align: center;
       align-self: center;
   margin-right: 15px;
   padding: 10px 0;
@@ -12670,7 +12679,7 @@ be a descendant of the grid when it is being dragged.
   background: rgba(0, 0, 0, 0.2);
 }
 
-.app-notification__item {
+.app-notification__product {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -12682,7 +12691,7 @@ be a descendant of the grid when it is being dragged.
   transition: background-color 0.3s ease;
 }
 
-.app-notification__item:focus, .app-notification__item:hover {
+.app-notification__product:focus, .app-notification__product:hover {
   color: inherit;
   text-decoration: none;
   background-color: #e0e0e0;
@@ -12755,7 +12764,7 @@ be a descendant of the grid when it is being dragged.
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
+          align-products: center;
   padding: 10px;
   margin-bottom: 20px;
   color: #fff;
@@ -12786,14 +12795,14 @@ be a descendant of the grid when it is being dragged.
   margin-bottom: 0;
 }
 
-.app-menu__item {
+.app-menu__product {
   position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
+          align-products: center;
   padding: 12px 3px;
   font-size: 1em;
   border-left: 3px solid transparent;
@@ -12806,7 +12815,7 @@ be a descendant of the grid when it is being dragged.
   color: #fff;
 }
 
-.app-menu__item.active, .app-menu__item:hover, .app-menu__item:focus {
+.app-menu__product.active, .app-menu__product:hover, .app-menu__product:focus {
   background: #5b7fac;
   border-left-color: #f70000;
   text-decoration: none;
@@ -12850,25 +12859,25 @@ be a descendant of the grid when it is being dragged.
   background: #2a383e;
 }
 
-.treeview-item {
+.treeview-product {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
+          align-products: center;
   padding: 5px 5px 5px 20px;
   font-size: 1em;
   color: #fff;
 }
 
-.treeview-item.active, .treeview-item:hover, .treeview-item:focus {
+.treeview-product.active, .treeview-product:hover, .treeview-product:focus {
   background: #0d1214;
   text-decoration: none;
   color: #fff;
 }
 
-.treeview-item .icon {
+.treeview-product .icon {
   margin-right: 5px;
 }
 
@@ -12905,16 +12914,16 @@ be a descendant of the grid when it is being dragged.
   .sidebar-mini.sidenav-toggled .app-sidebar:hover {
     overflow: visible;
   }
-  .sidebar-mini.sidenav-toggled .app-menu__item {
+  .sidebar-mini.sidenav-toggled .app-menu__product {
     overflow: hidden;
   }
-  .sidebar-mini.sidenav-toggled .app-menu__item:hover {
+  .sidebar-mini.sidenav-toggled .app-menu__product:hover {
     overflow: visible;
   }
-  .sidebar-mini.sidenav-toggled .app-menu__item:hover .app-menu__label {
+  .sidebar-mini.sidenav-toggled .app-menu__product:hover .app-menu__label {
     opacity: 1;
   }
-  .sidebar-mini.sidenav-toggled .app-menu__item:hover + .treeview-menu {
+  .sidebar-mini.sidenav-toggled .app-menu__product:hover + .treeview-menu {
     visibility: visible;
   }
   .sidebar-mini.sidenav-toggled .app-menu__label {
@@ -12931,7 +12940,7 @@ be a descendant of the grid when it is being dragged.
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
   }
-  .sidebar-mini.sidenav-toggled .treeview:hover .app-menu__item {
+  .sidebar-mini.sidenav-toggled .treeview:hover .app-menu__product {
     overflow: visible;
     background: #0d1214;
     border-left-color: #009688;
@@ -12975,8 +12984,8 @@ be a descendant of the grid when it is being dragged.
   right: 0;
 }
 
-.dropdown-item .fa,
-.dropdown-item .icon {
+.dropdown-product .fa,
+.dropdown-product .icon {
   margin-right: 5px;
   vertical-align: middle;
 }
@@ -13010,7 +13019,7 @@ be a descendant of the grid when it is being dragged.
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
+          align-products: center;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
@@ -13041,7 +13050,7 @@ be a descendant of the grid when it is being dragged.
             flex-direction: column;
     -webkit-box-align: start;
         -ms-flex-align: start;
-            align-items: flex-start;
+            align-products: flex-start;
   }
 }
 
@@ -13114,7 +13123,7 @@ be a descendant of the grid when it is being dragged.
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
+          align-products: center;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -13148,7 +13157,7 @@ be a descendant of the grid when it is being dragged.
           justify-content: space-between;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
+          align-products: center;
   margin-bottom: 20px;
 }
 
@@ -13586,7 +13595,7 @@ be a descendant of the grid when it is being dragged.
   min-width: 85px;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
+          align-products: center;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -13601,7 +13610,7 @@ be a descendant of the grid when it is being dragged.
       -ms-flex: 1;
           flex: 1;
   padding: 0 20px;
-  -ms-flex-item-align: center;
+  -ms-flex-product-align: center;
       align-self: center;
 }
 
@@ -13702,7 +13711,7 @@ be a descendant of the grid when it is being dragged.
   margin-bottom: 15px;
   -webkit-box-align: start;
       -ms-flex-align: start;
-          align-items: flex-start;
+          align-products: flex-start;
 }
 
 .messanger .messages .message.me {
@@ -13752,7 +13761,7 @@ be a descendant of the grid when it is being dragged.
   padding: 5px 10px;
   border-radius: 3px;
   position: relative;
-  -ms-flex-item-align: start;
+  -ms-flex-product-align: start;
       align-self: flex-start;
 }
 
@@ -13797,7 +13806,7 @@ be a descendant of the grid when it is being dragged.
           flex-direction: column;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
+          align-products: center;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -13852,7 +13861,7 @@ be a descendant of the grid when it is being dragged.
           justify-content: space-between;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
+          align-products: center;
 }
 
 .login-content .login-box .btn-container {
@@ -13914,7 +13923,7 @@ be a descendant of the grid when it is being dragged.
           flex-direction: column;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
+          align-products: center;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -13968,7 +13977,7 @@ be a descendant of the grid when it is being dragged.
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
+          align-products: center;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -14001,7 +14010,7 @@ be a descendant of the grid when it is being dragged.
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
+          align-products: center;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
@@ -14105,7 +14114,7 @@ be a descendant of the grid when it is being dragged.
   display: flex;
   -webkit-box-align: start;
       -ms-flex-align: start;
-          align-items: flex-start;
+          align-products: flex-start;
   margin-bottom: 15px;
 }
 
@@ -14253,13 +14262,6 @@ be a descendant of the grid when it is being dragged.
 
 @media screen and (max-width: 570px) and (min-width: 320px) {
 
-.app-content, .app-content2, .app-content3  {
-  min-height: calc(100vh - 50px);
-  margin-top: 50px;
-  margin-left:0% !important;
-  
-
-}
 .margin{
 	 margin-top:0 !important;
 }
@@ -14629,7 +14631,10 @@ margin-top:10px;
 }
 @media only screen and (max-width: 500px) {
 .table_size{
-	font-size:8px;
+	font-size:10px;
+}
+.col-xs-12{
+	width:100%;
 }
 .table_heading{
 	font-size:7px;
@@ -14892,3 +14897,63 @@ margin-top:10px;
   border: 1px solid #bdb9b9;
   margin: 5px;
 }
+
+@media(min-width:320px) and (max-width:780px){
+	.dashboardicon fieldset {
+	background: white;
+	border: 0 none;
+	border-radius: 0px;
+	box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+	padding: 20px 30px;
+	box-sizing: border-box;
+	width: 100%;
+	margin: 0;
+	position: relative;
+	padding: 5px;
+}
+.marginl {
+  margin-left: 0;
+  padding-right: 0px;
+}
+.app-content, .app-content2, .app-content3  {
+  min-height: calc(100vh - 50px);
+  margin-top: 50px;
+  margin-left:0% !important;
+  padding:0;
+}
+.order-style{
+   text-align:center;
+   padding-top: 20px; 
+}
+.tile .tile-title {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 15px;
+  font-weight: 400;
+  color: #333;
+  text-align: center;
+}
+}
+.order-style{ 
+   text-align:center;
+   padding-top: 80px; 
+}
+
+.image-upload>input {
+  display: none;
+}
+
+#qr-reader{
+	margin-top:25px;
+}
+
+
+.add-unit {
+	padding-top:2px !important;
+	padding-bottom:2px !important;
+}
+
+.add-unit-group {
+	margin-bottom:2px !important;
+}
+

@@ -1,9 +1,12 @@
 package com.lksk.web.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -21,5 +24,11 @@ public class Party {
 	private String phone;
 	private String address;
 	private String gst;
+	
+	@OneToMany(mappedBy="party")
+	private List<StockIn> stockInList;
+	
+	@OneToMany(mappedBy="party")
+	private List<StockOut> stockOutList;
 	
 }

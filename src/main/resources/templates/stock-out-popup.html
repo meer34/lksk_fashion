@@ -5,7 +5,6 @@
   <body class="app sidebar-mini rtl">
     <div th:replace="fragments :: app-layout"></div>
 	
-	
       <main class="app-content">
          <div class="row">
             <div class="col-md-12">
@@ -13,58 +12,86 @@
                   <fieldset style="margin-top: 0;">
                      <legend style="text-align:center; padding-top: 80px;" >New Stock Out</legend>
                      <div class="col-lg-12 flexdisplay">
-                        <div class="col-lg-6">
-                           <input type="file" name="sPhoto" placeholder="Select Photo">
-                        </div>
-                        <div class="col-lg-6">
-                           <input type="text" name="sCode" placeholder="Scan Code">
-                        </div>
+                        <div class="col-lg-4">
+								<div class="image-upload">
+									<label for="sPhoto">
+										<img th:src="@{/images/item_image.jpg}" class="after-ph stock-in-img" />
+									</label>
+									<img src="" class="before-ph" style="display: none;" />
+									<canvas style="display: none;"></canvas>
+									<input type="file" name="sPhoto" id="sPhoto" >
+								</div>
+							</div>
+							<div class="col-lg-4">
+								<div class="image-upload">
+									<label for="colour">
+										<img th:src="@{/images/item_colour.jpg}" class="after-col stock-in-img" />
+									</label>
+									<img src="" class="before-col" style="display: none;" />
+									<canvas style="display: none;"></canvas>
+									<input type="file" name="colour" id="colour" >
+								</div>
+							</div>
+							<div class="col-lg-4" >
+								<div id="qr-reader"></div>
+								<div id="qr-reader-results">
+									<input type="text" name="sCode" placeholder="Scan Code" autocomplete="off" onClick="scanItemQRCode()" >
+								</div>
+							</div>
                      </div>
                      <div class="col-lg-12 flexdisplay">
-                        <div class="col-lg-6">
-                           <select class="form-control" name="product" id="select" style="height:48px;" required>
-							  <option selected="true" disabled="disabled" value="">Product</option>
-							  <option style="color:#333;" th:each="product: ${products}">
-								<span th:text="${product.iName}"></span>
-							  </option>
-                           </select>
-                        </div>
-                        <div class="col-lg-6">
-                           <select class="form-control" name="party" id="select" style="height:48px;">
-                           	<option selected="true" disabled="disabled">Party</option>
-							<option style="color: #333;" th:each="party : ${parties}">
-								<span th:text="${party.name}"></span>
-							</option>
-                           </select>
-                        </div>
+                        <div class="col-lg-4">
+							<select class="form-control" name="productId" id="products" style="height: 48px;" onchange="onProductChange(this.value)" required>
+								<option selected disabled="disabled" value="">Product</option>
+								<option style="color: #333;" th:each="product : ${products}" th:text="${product.name}" th:value="${product.id}"></option>
+							</select>
+						</div>
+						<div class="col-lg-4">
+							<select class="form-control" name="itemId" id="items" style="height: 48px;" onchange="onItemChange(this.value)" required>
+								<option selected disabled="disabled" value="">Item</option>
+							</select>
+						</div>
+						<div class="col-lg-4">
+							<select class="form-control" name="party" id="select" style="height: 48px;" >
+								<option selected disabled="disabled" value="">Party</option>
+								<option style="color: #333;" th:each="party : ${parties}" th:text="${party.name}" th:value="${party.id}" ></option>
+							</select>
+						</div>
                      </div>
                      <div class="col-lg-12 flexdisplay">
-                        <div class="col-lg-6">
+                        <div class="col-lg-4 col-xs-12">
                            <input type="Date" class="form-control" name="date" id="inputDate" placeholder="Date of Birth">
                         </div>
-                        <div class="col-lg-6">
-                        	<input type="number" id="quantity" name="quantity" placeholder="Quantity" min="1" th:max="${availableQuantity}" required
-                        		oninvalid="this.setCustomValidity('Quantity cannot be 0 or blank')" oninput="this.setCustomValidity('')">
+						<div class="col-lg-4">
+							<input type="text" class="form-control" name="size" id="size" placeholder="Size">
+						</div>
+                        <div class="col-lg-4 col-xs-6">
+								<select class="form-control" name="unit" id="units" style="height: 48px;" >
+									<option selected disabled="disabled" value="">Unit</option>
+								</select>
+						</div>
+                     </div>
+                     <div class="col-lg-12 flexdisplay">
+						<div class="col-lg-4 col-xs-12">
+                        	<input type="number" id="quantity" name="quantity" placeholder="Quantity" min="1" required
+                        		oninvalid="this.setCustomValidity('Quantity cannot be 0 or blank or more than available stock')" oninput="this.setCustomValidity('')"
+								onchange="calculateAmount()" >
+                        </div>
+                        <div class="col-lg-4 col-xs-12">
+                           <input type="number" name="price" placeholder="Price" min="0" step=".01" onchange="calculateAmount()" >
+                        </div>
+                        <div class="col-lg-4 col-xs-12">
+                           <input type="number" name="amount" placeholder="Amount" value="0" readonly>
                         </div>
                      </div>
                      <div class="col-lg-12 flexdisplay">
-                        <div class="col-lg-6">
-                           <input type="text" name="price" placeholder="Price">
-                        </div>
-                        <div class="col-lg-6">
-                           <input type="text" name="amount" placeholder="Amount">
-                        </div>
-                     </div>
-                     <div class="col-lg-12 flexdisplay">
-                        <div class="col-lg-6">
-                           <select class="form-control" name="dispatchedBy" id="select" style="height:48px;">
-                           	<option selected="true" disabled="disabled">Dispatched By</option>
-                            <option style="color: #333;" th:each=" moderator : ${ moderators }">
-								<span th:text="${moderator.name}"></span>
-							</option>
+                        <div class="col-lg-6 col-xs-12">
+							<select class="form-control" name="dispatchedBy" id="select" style="height:48px;">
+								<option selected="true" disabled="disabled">Dispatched By</option>
+								<option style="color: #333;" th:each=" moderator : ${ moderators }" th:text="${moderator.name}" th:value="${moderator.id}"></option>
                            </select>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 col-xs-12">
                            <select class="form-control" name="dispatchedFrom" id="select" style="height:48px;">
                               <option>Dispatched From</option>
                               <option style="color:#333;">Metiya Bruz</option>
@@ -80,12 +107,16 @@
                      <input type="button" name="cancel" class="previous action-button-previous" value="Cancel" th:attr="onclick=|location.href='@{/stock-out}'|" >
                      <input type="submit" name="submit" class="submit action-button" value="Save">
                </fieldset>
+			   <div>
+					<p name="before-compression"></p>
+					<p name="after-compression"></p>
+				</div>
                </form>
             </div>
          </div>
       </main>
 	  
-	  
+	  <script th:src="@{js/html5-qrcode.js}"></script>
       <div th:replace="fragments :: html_scripts"></div>
    </body>
 </html>

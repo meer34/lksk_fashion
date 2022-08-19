@@ -18,12 +18,25 @@ public class ProductService {
 		return productRepo.save(product);
 	}
 
+	public Product findProductById(Long name) {
+		return productRepo.findById(name).get();
+	}
+	
 	public List<Product> getAllProducts() {
-		return productRepo.findAll();
+		return productRepo.findAllByOrderByIdDesc();
 	}
 
-	public void deleteProductById(String id) {
+	public void deleteProductById(Long id) {
 		productRepo.deleteById(id);
+	}
+
+	public List<Product> findProductsByNameContaining(String product) {
+		return productRepo.findByNameContainingIgnoreCase(product);
+		
+	}
+
+	public Product findProductByName(String productName) {
+		return productRepo.findByName(productName);
 	}
 
 }

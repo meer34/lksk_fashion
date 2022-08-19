@@ -43,7 +43,7 @@
 									<td th:text="${customer.address}" />
 									<td>
 										<div class="dashboardicon2" style="text-align: left;">
-										  <form th:action="@{performCustomerPageAction}" method="get">
+										  <form th:action="@{openCustomerActionPage}" method="get">
 											<input type="hidden" th:value="${customer.id}" id="id" name='id'>
 											<input type="hidden" th:value="${customer.name}" id="name" name='name'>
 											<input type="submit" name="action" class="submit action-button" value="View">

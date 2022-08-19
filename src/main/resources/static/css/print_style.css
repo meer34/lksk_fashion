@@ -1,0 +1,25 @@
+input[type="button"]{
+    	display: none;
+}
+
+body{
+	background-image: none;
+}
+
+input {
+	border:none;	
+    font-family: Myriad Pro;
+    color: #2C3E50;
+    font-size: 15px;
+}
+
+.moz-cover-clear {
+	position: relative;
+	z-index: 0;
+	display: inline-block;
+	left: -20px;
+	top: 6px;
+	width: 18px;
+	height: 18px;
+	background-color: white;
+}

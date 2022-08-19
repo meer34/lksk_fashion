@@ -5,79 +5,135 @@
 <body class="app sidebar-mini rtl">
 	<div th:replace="fragments :: app-layout"></div>
 
-
 	<main class="app-content">
 		<div class="row">
-			<div class="col-md-12">
-				<form class="dashboardicon" style="margin-top: 0;">
-					<fieldset style="margin-top: 0;">
-						<legend style="text-align: center; padding-bottom: 60px;">View Stock Out</legend>
-						<div class="col-lg-12 flexdisplay">
-							<div class="col-lg-3 stock-in-marg">
-								<img th:src="*{'data:image/jpeg;base64,'+{stockOut.sPhotoBlob}}" class="stock-in-img">
+			<div class="col-md-12" >
+				<form class="dashboardicon" style="margin-top: 0;" th:action="@{/performStockOutAction}" method="post" enctype="multipart/form-data" >
+					<fieldset style="margin-top: 0;" id="printTable">
+						<legend style="text-align: center; padding-bottom: 60px;" th:text="${header}" ></legend>
+						<div class="col-lg-12 flexdisplay" >
+							<div class="col-lg-3 col-xs-6 stock-in-marg">
+								<div class="image-upload">
+									<label for="sPhoto">
+										<img th:src="*{'data:image/jpeg;base64,'+{stockOut.sPhotoBlob}}" class="after-ph stock-in-img" />
+									</label>
+									<img src="" class="before-ph" style="display: none;" />
+									<canvas style="display: none;"></canvas>
+									<input type="file" name="sPhoto" id="sPhoto" th:disabled="${param.action[0]=='View'}">
+								</div>
 							</div>
-							<div class="col-lg-3 stock-in-marg">
-								<label style="text-align: left; display: block;">Code</label> <input
-									type="text" name="sCode" placeholder="Scan Code" th:value="${stockOut.sCode}" disabled>
+							<div class="col-lg-3 col-xs-6 stock-in-marg">
+								<label style="text-align: left; display: block;">Code</label>
+								<div id="qr-reader"></div>
+								<div id="qr-reader-results">
+									<input type="text" name="sCode" th:value="${stockOut.sCode}" 
+										autocomplete="off" onClick="scanItemQRCode()" th:disabled="${param.action[0]=='View'}" >
+								</div>
 							</div>
-							<div class="col-lg-3 stock-in-marg">
-								<label style="text-align: left; display: block;">Item</label> <input
-									type="text" name="sItem" placeholder="Item Name" th:value="${stockOut.product}" disabled>
-							</div>
-							<div class="col-lg-3 stock-in-marg">
+							<div class="col-lg-3 col-xs-6 stock-in-marg">
 								<label style="text-align: left; display: block;">Product</label>
-								<input type="text" name="sProduct" placeholder="Product Name" th:value="${stockOut.product}" disabled>
+								<select class="form-control" name="productId" id="products" style="height: 48px;" onchange="onProductChange(this.value)" 
+									th:disabled="${param.action[0]=='View'}" required>
+									<option selected disabled="disabled" value="">Product</option>
+									<option style="color: #333;" th:each="product : ${products}" th:text="${product.name}" 
+										th:value="${product.id}" th:selected="${product.name==stockOut.item?.product?.name}"></option>
+								</select>
+							</div>
+							<div class="col-lg-3 col-xs-6 stock-in-marg">
+								<label style="text-align: left; display: block;">Item</label>
+								<select class="form-control" name="itemId" id="items" style="height: 48px;" onchange="onItemChange(this.value)" 
+									th:disabled="${param.action[0]=='View'}" required>
+									<option selected disabled="disabled" value="">Item</option>
+									<option selected th:text="${stockOut.item?.name}" th:value="${stockOut.item?.id}"></option>
+								</select>
 							</div>
 						</div>
 						<div class="col-lg-12 flexdisplay">
-							<div class="col-lg-3 stock-in-marg">
-								<img src="images/color.jpg" class="stock-in-img">
+							<div class="col-lg-3 col-xs-6 stock-in-marg">
+								<div class="image-upload">
+									<label for="colour">
+										<img th:src="*{'data:image/jpeg;base64,'+{stockOut.colourBlob}}" class="after-col stock-in-img" />
+									</label>
+									<img src="" class="before-col" style="display: none;" />
+									<canvas style="display: none;"></canvas>
+									<input type="file" name="colour" id="colour" th:disabled="${param.action[0]=='View'}">
+								</div>
 							</div>
-							<div class="col-lg-3 stock-in-marg">
-								<label style="text-align: left; display: block;">Party</label> <input
-									type="text" name="sParty" placeholder="Party" th:value="${stockOut.party}" disabled>
+							<div class="col-lg-3 col-xs-6 stock-in-marg">
+								<label style="text-align: left; display: block;">Party</label>
+								<select class="form-control" name="party" id="select" style="height: 48px;" th:disabled="${param.action[0]=='View'}" >
+									<option selected disabled="disabled" value="">Party</option>
+									<option style="color: #333;" th:each="party : ${parties}" th:text="${party.name}"  th:value="${party.id}"
+										th:selected="${party.name==stockOut.party?.name}" ></option>
+								</select>
 							</div>
-							<div class="col-lg-3 stock-in-marg">
-								<label style="text-align: left; display: block;">Date</label> <input
-									type="text" name="sDate" placeholder="Date" th:value="${stockOut.date}" disabled>
+							<div class="col-lg-3 col-xs-6 stock-in-marg">
+								<label style="text-align: left; display: block;">Date</label>
+								<input type="Date" name="date" th:value="${stockOut.date}" th:readonly="${param.action[0]=='View'}" ><i class="moz-cover-clear"></i>
 							</div>
-							<div class="col-lg-3 stock-in-marg">
+							<div class="col-lg-3 col-xs-6 stock-in-marg">
 								<label style="text-align: left; display: block;">Quantity</label>
-								<input type="text" name="sQuantity" placeholder="Quantity" th:value="${stockOut.quantity}" disabled>
+								<input type="text" name="quantity" th:value="${stockOut.quantity}" th:readonly="${param.action[0]=='View'}" >
 							</div>
 						</div>
 						<div class="col-lg-12 flexdisplay">
-							<div class="col-lg-3 stock-in-marg">
+							<div class="col-lg-3 col-xs-6 stock-in-marg">
 								<label style="text-align: left; display: block;">Price</label> <input
-									type="text" name="sPrice" placeholder="Price" th:value="${stockOut.price}" disabled>
+									type="text" name="price" th:value="${stockOut.price}" th:readonly="${param.action[0]=='View'}" >
 							</div>
-							<div class="col-lg-3 stock-in-marg">
+							<div class="col-lg-3 col-xs-6 stock-in-marg">
 								<label style="text-align: left; display: block;">Amount</label>
-								<input type="text" name="sAmount" placeholder="Amount" th:value="${stockOut.amount}" disabled>
+								<input type="text" name="amount" th:value="${stockOut.amount}" th:readonly="${param.action[0]=='View'}" >
 							</div>
-							<div class="col-lg-3 stock-in-marg">
+							<div class="col-lg-3 col-xs-12 stock-in-marg">
 								<label style="text-align: left; display: block;">Dispatched By</label>
-								<input type="text" name="sReceivedBy" placeholder="Dispatched By" th:value="${stockOut.dispatchedBy}" disabled>
+								<select class="form-control" name="dispatchedBy" id="select" style="height: 48px;" th:disabled="${param.action[0]=='View'}" >
+									<option selected disabled="disabled" value="">Dispatched By</option>
+									<option style="color: #333;" th:each="moderator : ${moderators}" th:text="${moderator.name}"  th:value="${moderator.id}"
+										th:selected="${moderator.name==stockOut.dispatchedBy?.name}" ></option>
+								</select>
 							</div>
-							<div class="col-lg-3 stock-in-marg">
+							<div class="col-lg-3 col-xs-12 stock-in-marg">
 								<label style="text-align: left; display: block;">Dispatched From</label>
-								<input type="text" name="sReceivedIn" placeholder="Dispatched From" th:value="${stockOut.dispatchedFrom}" disabled>
+								<select class="form-control" name="dispatchedFrom" id="select" style="height: 48px;" th:disabled="${param.action[0]=='View'}" >
+									<option selected="true" disabled="disabled">Dispatched From</option>
+									<option style="color: #333;" th:selected="${stockOut.dispatchedFrom=='Metiya Bruz'}" >Metiya Bruz</option>
+									<option style="color: #333;" th:selected="${stockOut.dispatchedFrom=='Barabazar'}" >Barabazar</option>
+								</select>
 							</div>
 						</div>
 						<div class="col-lg-12 flexdisplay">
-							<div class="col-lg-12 stock-in-marg">
-								<input type="text" name="review" placeholder="Review" th:value="${stockOut.remakrs}" disabled>
+							<div class="col-lg-3 stock-in-marg">
+								<label style="text-align: left; display: block;">Size</label>
+								<input type="text" name="size" th:value="${stockOut.size}" th:readonly="${param.action[0]=='View'}" >
+							</div>
+							<div class="col-lg-3 stock-in-marg">
+								<label style="text-align: left; display: block;">Unit</label>
+								<select class="form-control" name="unit" id="units" style="height: 48px;" th:disabled="${param.action[0]=='View'}" required>
+									<option selected disabled="disabled" value="">Unit</option>
+									<option selected th:text="${stockOut.unit}" ></option>
+								</select>
+							</div>
+							<div class="col-lg-6 stock-in-marg">
+								<label style="text-align: left; display: block;">Remarks</label>
+								<input type="text" name="remakrs" th:value="${stockOut.remakrs}" th:readonly="${param.action[0]=='View'}" >
 							</div>
 						</div>
-						<input type="button" name="cancel" class="previous action-button-previous" value="Cancel" th:attr="onclick=|location.href='@{/stock-out}'|" >
-						<input type="submit" name="print" class="submit action-button" value="Print">
+						<input type="button" name="cancel" class="previous action-button-previous" value="Cancel" th:attr="onclick=|location.href='@{/stock-in}'|" >
+						<input type='hidden' th:value="${stockOut.id}" id="id" name='id'>
+						<input th:if="'Print' == ${submitValue}" type="button" name="action" class="submit action-button" value="Print" onclick="printData()" >
+						<input th:if="'Edit' == ${submitValue}" type="submit" name="action" class="submit action-button" value="Save">
 					</fieldset>
+					<div>
+						<p name="before-compression"></p>
+						<p name="after-compression"></p>
+					</div>
 				</form>
 			</div>
 		</div>
 	</main>
 
-
+	<script th:src="@{js/html5-qrcode.js}"></script>
 	<div th:replace="fragments :: html_scripts"></div>
 </body>
 </html>

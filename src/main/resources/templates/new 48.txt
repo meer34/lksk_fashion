@@ -1,4 +1,0 @@
-.w.s.m.s.DefaultHandlerExceptionResolver 
-
-.w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.validation.BindException: org.springframework.validation.BeanPropertyBindingResult: 1 errors<EOL>Field error in object 'stockOut' on field 'quantity': rejected value [10.5]; codes [typeMismatch.stockOut.quantity,typeMismatch.quantity,typeMismatch.java.lang.Integer,typeMismatch]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [stockOut.quantity,quantity]; arguments []; default message [quantity]]; default message [Failed to convert property value of type 'java.lang.String' to required type 'java.lang.Integer' for property 'quantity'; nested exception is java.lang.NumberFormatException: For input string: "10.5"]]
-
