@@ -2,7 +2,6 @@ package com.lksk.web.model;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -37,13 +36,13 @@ public class StockIn {
 	@Lob
 	private String colourBlob;
 	
-	private String sCode;
+	private String scanCode;
 	
 	@ManyToOne
 	@JoinColumn(name="item")
 	private Item item;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name ="party")
 	private Party party;
 	
@@ -57,7 +56,7 @@ public class StockIn {
 	private Double price;
 	private Double amount;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name ="receivedBy")
 	private Moderator receivedBy;
 	
@@ -66,7 +65,16 @@ public class StockIn {
 	
 	@Override
 	public String toString() {
-		return sCode + "~" + item.getProduct().getName() + "~" + item.getName() + "~" + party.getName() + "~" + receivedBy.getName() + "~" + receivedIn + "~" + remakrs;
+		StringBuilder sb = new StringBuilder(scanCode);
+		sb.append("~").append(receivedIn).append("~").append(remakrs);
+		if(item != null) {
+			sb.append("~").append(item.getName());
+			if(item.getProduct() != null) sb.append("~").append(item.getProduct().getName());
+		}
+		if(party != null) sb.append("~").append(party.getName());
+		if(receivedBy != null) sb.append("~").append(receivedBy.getName());
+
+		return sb.toString();
 	}
-	
+
 }

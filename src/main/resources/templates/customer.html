@@ -21,7 +21,7 @@
 
 						<div class="form-group col-lg-12">
 							<div class="col-lg-12">
-								<input type="text" name="searchCustomer" placeholder="Search Customer">
+								<input type="text" name="searchCustomer" id="searchUser" placeholder="Search Customer">
 							</div>
 						</div>
 					</form>
@@ -43,12 +43,12 @@
 									<td th:text="${customer.address}" />
 									<td>
 										<div class="dashboardicon2" style="text-align: left;">
-										  <form th:action="@{openCustomerActionPage}" method="get">
+										  <form th:action="@{/customer}" method="get">
 											<input type="hidden" th:value="${customer.id}" id="id" name='id'>
 											<input type="hidden" th:value="${customer.name}" id="name" name='name'>
-											<input type="submit" name="action" class="submit action-button" value="View">
-											<input type="submit" name="action" class="submit action-button" value="Edit">
-											<input type="submit" name="action" class="submit action-button2" value="Delete">
+											<input type="submit" th:formaction="@{/viewCustomer}" name="action" class="submit action-button" value="View">
+											<input type="submit" th:formaction="@{/editCustomer}" name="action" class="submit action-button" value="Edit">
+											<input type="submit" th:formaction="@{/deleteCustomer}" name="action" class="submit action-button2" value="Delete">
 										  </form>
 										</div>
 									</td>
@@ -63,5 +63,6 @@
 
 
 	<div th:replace="fragments :: html_scripts"></div>
+	<div th:replace="fragments :: user_search_script"></div>
   </body>
 </html>

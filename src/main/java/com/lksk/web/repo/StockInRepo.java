@@ -20,4 +20,6 @@ public interface StockInRepo extends JpaRepository<StockIn, Long>{
 	
 	List<StockIn> findAllByOrderByIdDesc();
 	
+	StockIn findFirstByScanCodeOrderByIdDesc(String scanCode);
+	
 }

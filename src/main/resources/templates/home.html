@@ -8,11 +8,13 @@
 	
     <main class="app-content">   
      <div class="row">  
-     <div class="col-lg-12 col-sm-5 col-lg-offset-4 col-sm-offset-3 col-md-offset-2 col-xs-offset-0">
+     <div class="col-lg-12">
        <div class="tile">
                      <div class="dashboardicon2">
                 <a th:href="@{/stock-in}"><input type="button" name="sIn" class="submit action-button" value="Stock In"></a>
                 <a th:href="@{/stock-out}"><input type="button" name="sOut" class="submit action-button" value="Stock Out"></a>
+				<a th:href="@{//addStockInPage}"><input type="button" name="addSIn" class="submit action-button" value="Add Stock In"></a>
+				<a th:href="@{/addStockOutPage}"><input type="button" name="addSOut" class="submit action-button" value="Add Stock Out"></a>
                 <a th:href="@{/order}"><input type="button" name="order" class="submit action-button" value="Orders"></a>
                 <a th:href="@{/stock}"><input type="button" name="stock" class="submit action-button" value="Total Stock"></a>
             
@@ -38,7 +40,7 @@
 						<div class="form-group col-lg-12">
 							<div class="col-lg-12">
 								<select class="form-control" name="item" id="select" style="height: 48px;">
-									<option selected="true" disabled="disabled">Select Item</option>
+									<option selected="selected" disabled="disabled">Select Item</option>
 									<option style="color: #333;" th:each=" itemName : ${itemNames}" th:text="${itemName}" ></option>
 								</select>
 							</div>

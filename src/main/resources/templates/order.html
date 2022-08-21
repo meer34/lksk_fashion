@@ -35,12 +35,12 @@
 							</div>
 						</form>
 						<div class="table-responsive table_size" style="margin-top: 50px;">
-							<form th:action="@{/openOrderActionPage}" method="get">
+							<form th:action="@{/order}" method="get">
 								<div class="dashboardicon2" style="text-align: left;" th:if="${orderList.size() > 0}" >
-									<input type="submit" name="action" class="submit action-button" value="View">
-									<input type="submit" name="action" class="submit action-button" value="Edit">
+									<input type="submit" th:formaction="@{/viewOrder}" name="action" class="submit action-button" value="View">
+									<input type="submit" th:formaction="@{/editOrder}" name="action" class="submit action-button" value="Edit">
 									<input type="button" name="action" class="submit action-button" value="Print" onclick="printData()">
-									<input type="submit" name="action" class="submit action-button2" value="Delete">
+									<input type="submit" th:formaction="@{/deleteOrder}" name="action" class="submit action-button2" value="Delete">
 								</div>
 								<table class="table table-bordered table-responsive table-hover" style="width: 100%;" id="printTable" >
 									<thead class="thead-inverse"

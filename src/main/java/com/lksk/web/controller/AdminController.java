@@ -7,16 +7,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.lksk.web.model.Admin;
 import com.lksk.web.model.User;
+import com.lksk.web.repo.UserRepository;
 import com.lksk.web.service.AdminService;
 
 @Controller
 public class AdminController {
 
 	@Autowired AdminService adminService;
+	@Autowired UserRepository userRepository;
 
 	@GetMapping("/admin")
 	public String showAdminPage(Model model) {
@@ -39,53 +42,70 @@ public class AdminController {
 		if(admin.getId() == null) {
 			admin.setUser(new User(admin.getName(), admin.getPhone(), true, "ADMIN"));
 			admin = adminService.saveUserToDB(admin);
-			
+
 		} else {
 			Admin tempAdmin = adminService.findUserById(admin.getId());
-			
+
 			tempAdmin.setName(admin.getName());
 			tempAdmin.setPhone(admin.getPhone());
 			tempAdmin.setAddress(admin.getAddress());
-			
+
 			tempAdmin.getUser().setUsername(admin.getName());
 			tempAdmin.getUser().setPhone(admin.getPhone());
-			
+
 			admin = adminService.saveUserToDB(tempAdmin);
 		}
-		
+
 		redirectAttributes.addFlashAttribute("successMessage", "New user " + admin.getName() + " added successfully as Admin!");
 		return "redirect:/admin";
 
 	}
 
-	@RequestMapping(value = "/OpenAdminActionPage",
+	@RequestMapping(value = "/viewAdmin",
 			method = RequestMethod.GET)
-	public String performOrderAction(RedirectAttributes redirectAttributes, Model model,
+	public String viewAdmin(RedirectAttributes redirectAttributes, Model model,
 			@RequestParam("action") String action,
 			@RequestParam("id") String id) throws Exception{
 
-		System.out.println("Got " + action + " action request for id " + id);
+		System.out.println("Got view request for admin id " + id);
 
-		if(action.equalsIgnoreCase("View")) {
-			model.addAttribute("admin", adminService.findUserById(Long.parseLong(id)));
-			return "view-admin";
+		model.addAttribute("admin", adminService.findUserById(Long.parseLong(id)));
+		return "view-admin";
+	}
 
-		} else if(action.equalsIgnoreCase("Edit")) {
-			model.addAttribute("admin", adminService.findUserById(Long.parseLong(id)));
-			model.addAttribute("header", "Edit Admin");
-			return "admin-create";
+	@RequestMapping(value = "/editAdmin",
+			method = RequestMethod.GET)
+	public String editAdmin(RedirectAttributes redirectAttributes, Model model,
+			@RequestParam("action") String action,
+			@RequestParam("id") String id) throws Exception{
 
-		} else if(action.equalsIgnoreCase("Delete")) {
-			adminService.deleteUserById(Long.parseLong(id));
-			redirectAttributes.addFlashAttribute("successMessage", "Admin with id " + id + " deleted successfully!");
-			return "redirect:/admin";
+		System.out.println("Got edit request for admin id " + id);
 
-		} else {
-			System.out.println();
+		model.addAttribute("admin", adminService.findUserById(Long.parseLong(id)));
+		model.addAttribute("header", "Edit Admin");
+		return "admin-create";
+	}
+	
+	@RequestMapping(value = "/deleteAdmin",
+			method = RequestMethod.GET)
+	public String deleteAdmin(RedirectAttributes redirectAttributes, Model model,
+			@RequestParam("action") String action,
+			@RequestParam("id") String id) throws Exception{
+
+		System.out.println("Got delete request for admin id " + id);
+
+		adminService.deleteUserById(Long.parseLong(id));
+		redirectAttributes.addFlashAttribute("successMessage", "Admin with id " + id + " deleted successfully!");
+		return "redirect:/admin";
+	}
+
+	@GetMapping("/checkIfNumberExistsForUser")
+	@ResponseBody
+	public String checkIfNumberExistsForUser(@RequestParam String number) {
+		if(userRepository.getUserByPhoneNumber(number) != null) {
+			return "Exist";
 		}
-
-		return "redirect:/testerror";
-
+		return "Not Exist";
 	}
 
 }

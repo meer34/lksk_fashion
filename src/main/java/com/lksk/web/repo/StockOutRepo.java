@@ -18,5 +18,7 @@ public interface StockOutRepo extends JpaRepository<StockOut, Long>{
 	List<StockOut> findByItemNameAndDateGreaterThanEqual(String item, Date fromDate);
 	List<StockOut> findByItemName(String item);
 	List<StockOut> findAllByOrderByIdDesc();
+	
+	StockOut findFirstByScanCodeOrderByIdDesc(String scanCode);
 
 }

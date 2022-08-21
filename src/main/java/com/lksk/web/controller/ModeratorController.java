@@ -19,7 +19,7 @@ public class ModeratorController {
 	@Autowired ModeratorService moderatorService;
 
 	@GetMapping("/moderator")
-	public String showAdminPage(Model model) {
+	public String showModeratorPage(Model model) {
 		model.addAttribute("moderatorList", moderatorService.getAllUsers());
 		return "moderator";
 	}
@@ -35,9 +35,6 @@ public class ModeratorController {
 			method = RequestMethod.POST)
 	public String createModerator(Model model, Moderator moderator, 
 			RedirectAttributes redirectAttributes) throws Exception{
-		
-		/*moderator.setUser(new User(moderator.getName(), moderator.getPhone(), true, "MODERATOR"));
-		moderator = moderatorService.saveUserToDB(moderator);*/
 		
 		if(moderator.getId() == null) {
 			moderator.setUser(new User(moderator.getName(), moderator.getPhone(), true, "MODERATOR"));
@@ -61,35 +58,42 @@ public class ModeratorController {
 
 	}
 
-	@RequestMapping(value = "/openModeratorActionPage",
+	@RequestMapping(value = "/viewModerator",
 			method = RequestMethod.GET)
-	public String performOrderAction(RedirectAttributes redirectAttributes, Model model,
+	public String viewModerator(RedirectAttributes redirectAttributes, Model model,
 			@RequestParam("action") String action,
 			@RequestParam("id") String id) throws Exception{
 
-		System.out.println("Got " + action + " action request for id " + id);
+		System.out.println("Got view request for moderator id " + id);
+		model.addAttribute("moderator", moderatorService.findUserById(Long.parseLong(id)));
+		return "view-moderator";
+		
+	}
+	
+	@RequestMapping(value = "/editModerator",
+			method = RequestMethod.GET)
+	public String editModerator(RedirectAttributes redirectAttributes, Model model,
+			@RequestParam("action") String action,
+			@RequestParam("id") String id) throws Exception{
+		
+		System.out.println("Got edit request for moderator id " + id);
+		model.addAttribute("moderator", moderatorService.findUserById(Long.parseLong(id)));
+		model.addAttribute("header", "Edit Moderator");
+		return "moderator-create";
+		
+	}
+	
+	@RequestMapping(value = "/deleteModerator",
+			method = RequestMethod.GET)
+	public String deleteModerator(RedirectAttributes redirectAttributes, Model model,
+			@RequestParam("action") String action,
+			@RequestParam("id") String id) throws Exception{
 
-		if(action.equalsIgnoreCase("View")) {
-			model.addAttribute("moderator", moderatorService.findUserById(Long.parseLong(id)));
-			return "view-moderator";
-
-		} else if(action.equalsIgnoreCase("Edit")) {
-			model.addAttribute("moderator", moderatorService.findUserById(Long.parseLong(id)));
-			System.out.println("Found moderator with name: " + moderatorService.findUserById(Long.parseLong(id)).getName());
-			model.addAttribute("header", "Edit Moderator");
-			return "moderator-create";
-
-		} else if(action.equalsIgnoreCase("Delete")) {
-			moderatorService.deleteUserById(Long.parseLong(id));
-			redirectAttributes.addFlashAttribute("successMessage", "Moderator with id " + id + " deleted successfully!");
-			return "redirect:/moderator";
-
-		} else {
-			System.out.println();
-		}
-
-		return "redirect:/testerror";
-
+		System.out.println("Got delete request moderator for id " + id);
+		moderatorService.deleteUserById(Long.parseLong(id));
+		redirectAttributes.addFlashAttribute("successMessage", "Moderator with id " + id + " deleted successfully!");
+		return "redirect:/moderator";
+		
 	}
 
 }

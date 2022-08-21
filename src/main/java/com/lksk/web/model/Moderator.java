@@ -13,11 +13,9 @@ import javax.persistence.OneToOne;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 @Entity
 public class Moderator {
 	@Id
@@ -36,5 +34,10 @@ public class Moderator {
 	
 	@OneToMany(mappedBy="dispatchedBy")
 	private List<StockOut> stockOutList;
+	
+	@Override
+	public String toString() {
+		return name + "~" + phone + "~" + address;
+	}
 	
 }

@@ -70,4 +70,8 @@ public class StockInService {
 		stockInRepo.deleteById(id);
 	}
 
+	public StockIn findStockInByScanCode(String scanCode) {
+		return stockInRepo.findFirstByScanCodeOrderByIdDesc(scanCode);
+	}
+
 }

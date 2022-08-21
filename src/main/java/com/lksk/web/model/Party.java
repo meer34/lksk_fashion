@@ -10,11 +10,9 @@ import javax.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 @Entity
 public class Party {
 	@Id
@@ -30,5 +28,10 @@ public class Party {
 	
 	@OneToMany(mappedBy="party")
 	private List<StockOut> stockOutList;
+	
+	@Override
+	public String toString() {
+		return name + "~" + phone + "~" + address + "~" + gst;
+	}
 	
 }

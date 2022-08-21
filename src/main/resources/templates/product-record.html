@@ -26,7 +26,7 @@
 						</div>
 					</form>
 					<div class="table-responsive table_size" style="margin-top: 50px;">
-					<form th:action="@{/performItemAction}" method="get">
+					<form th:action="@{/item}" method="get">
 						<table class="table table-bordered table-responsive table-hover" style="width: 100%;">
 							<thead class="thead-inverse"
 								style="background-color: #446c9d; color: #FFF;">
@@ -48,7 +48,7 @@
 											<input type="button" name="item" class="submit action-button" th:value="Stock" 
 												th:attr="onclick=|location.href='@{/searchTotalStock}?item=${item.name}'|" >
 											<input type="button" name="action" class="submit action-button" value="Edit" 
-												th:attr="onclick=|location.href='@{/performItemAction}?action=Edit&id=${item.id}&product=${item.product}'|" >
+												th:attr="onclick=|location.href='@{/editItem}?action=Edit&id=${item.id}&product=${item.product}'|" >
 											<input type="button" name="action" class="submit action-button2" value="Print">
 										</div>
 									</td>

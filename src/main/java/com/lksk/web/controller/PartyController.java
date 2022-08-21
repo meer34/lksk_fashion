@@ -41,29 +41,42 @@ public class PartyController {
 
 	}
 
-	@RequestMapping(value = "/OpenPartyActionPage",
+	@RequestMapping(value = "/viewParty",
 			method = RequestMethod.GET)
-	public String performOrderAction(RedirectAttributes redirectAttributes, Model model,
+	public String viewParty(Model model,
 			@RequestParam("action") String action,
 			@RequestParam("id") String id) throws Exception{
 
-		System.out.println("Got " + action + " action request for id " + id);
+		System.out.println("Got view request for party id " + id);
+		model.addAttribute("party", partyService.findUserById(Long.parseLong(id)));
+		return "view-party";
 
-		if(action.equalsIgnoreCase("View")) {
-			model.addAttribute("party", partyService.findUserById(Long.parseLong(id)));
-			return "view-party";
-			
-		} else if(action.equalsIgnoreCase("Delete")) {
-			partyService.deleteUserById(Long.parseLong(id));
-			redirectAttributes.addFlashAttribute("successMessage", "Party with id " + id + " deleted successfully!");
-			return "redirect:/party";
-			
-		} else {
-			System.out.println();
-		}
+	}
 
-		return "redirect:/testerror";
+	@RequestMapping(value = "/editParty",
+			method = RequestMethod.GET)
+	public String editParty(Model model,
+			@RequestParam("action") String action,
+			@RequestParam("id") String id) throws Exception{
 
+		System.out.println("Got edit request for party id " + id);
+		model.addAttribute("party", partyService.findUserById(Long.parseLong(id)));
+		model.addAttribute("header", "Edit Party");
+		return "party-create";
+
+	}
+
+	@RequestMapping(value = "/deleteParty",
+			method = RequestMethod.GET)
+	public String deleteParty(RedirectAttributes redirectAttributes,
+			@RequestParam("action") String action,
+			@RequestParam("id") String id) throws Exception{
+
+		System.out.println("Got delete request for party id " + id);
+		partyService.deleteUserById(Long.parseLong(id));
+		redirectAttributes.addFlashAttribute("successMessage", "Party with id " + id + " deleted successfully!");
+		return "redirect:/party";
+		
 	}
 
 }

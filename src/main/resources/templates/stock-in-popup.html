@@ -15,7 +15,7 @@
 							<div class="col-lg-4">
 								<div class="image-upload">
 									<label for="sPhoto">
-										<img th:src="@{/images/item_image.jpg}" class="after-ph stock-in-img" />
+										<img th:src="@{/images/product_image.jpg}" class="after-ph stock-in-img" />
 									</label>
 									<img src="" class="before-ph" style="display: none;" />
 									<canvas style="display: none;"></canvas>
@@ -25,7 +25,7 @@
 							<div class="col-lg-4">
 								<div class="image-upload">
 									<label for="colour">
-										<img th:src="@{/images/item_colour.jpg}" class="after-col stock-in-img" />
+										<img th:src="@{/images/product_colour.jpg}" class="after-col stock-in-img" />
 									</label>
 									<img src="" class="before-col" style="display: none;" />
 									<canvas style="display: none;"></canvas>
@@ -33,9 +33,17 @@
 								</div>
 							</div>
 							<div class="col-lg-4" >
-								<div id="qr-reader"></div>
+								<div class="modal fade" id="scanModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-body">
+												<div id="qr-reader"></div>
+											</div>
+										</div>
+									</div>
+								</div>
 								<div id="qr-reader-results">
-									<input type="text" name="sCode" placeholder="Scan Code" autocomplete="off" onClick="scanItemQRCode()" >
+									<input type="text" name="scanCode" placeholder="Scan Code" autocomplete="off" onClick="scanItemQRCode('Stock In')" >
 								</div>
 							</div>
 						</div>
@@ -88,13 +96,13 @@
 						<div class="col-lg-12 flexdisplay">
 							<div class="col-lg-6 col-xs-6">
 								<select class="form-control" name="receivedBy" id="select" style="height: 48px;">
-									<option selected="true" disabled="disabled">Received By</option>
+									<option selected="selected" disabled="disabled">Received By</option>
 									<option style="color: #333;" th:each=" moderator : ${ moderators }" th:text="${moderator.name}" th:value="${moderator.id}"></option>
 								</select>
 							</div>
 							<div class="col-lg-6 col-xs-6">
 								<select class="form-control" name="receivedIn" id="select" style="height: 48px;">
-									<option selected="true" disabled="disabled">Received In</option>
+									<option selected="selected" disabled="disabled">Received In</option>
 									<option style="color: #333;">Metiya Bruz</option>
 									<option style="color: #333;">Barabazar</option>
 								</select>

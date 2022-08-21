@@ -37,12 +37,14 @@
 							</div>
 						</form>
 						<div class="table-responsive table_size" style="margin-top: 50px;">
-							<form th:action="@{/openStockInActionPage}" method="get">
+							<form th:action="@{/stock-in}" method="get">
 								<div class="dashboardicon2" style="text-align: left;" th:if="${stockInList.size() > 0}">
-									<input type="submit" name="action" class="submit action-button" value="View">
-									<input type="submit" name="action" class="submit action-button" value="Edit" sec:authorize="hasAuthority('ADMIN')" >
+									<input type="submit" th:formaction="@{/viewStockIn}" name="action" class="submit action-button" value="View">
+									<input type="submit" th:formaction="@{/editStockIn}" name="action" class="submit action-button" value="Edit" 
+																										sec:authorize="hasAuthority('ADMIN')" >
 									<input type="button" name="action" class="submit action-button" value="Print" onclick="printData()" >
-									<input type="submit" name="action" class="submit action-button2" value="Delete" sec:authorize="hasAuthority('ADMIN')" >
+									<input type="submit" th:formaction="@{/deleteStockIn}" name="action" class="submit action-button2" value="Delete" 
+																										sec:authorize="hasAuthority('ADMIN')" >
 								</div>
 								<table class="table table-bordered table-responsive table-hover" style="width: 100%;" id="printTable" >
 									<thead class="thead-inverse" style="background-color: #446c9d; color: #FFF;">
@@ -62,7 +64,7 @@
 										<tr style="background-color: #FFF" th:each="stockIn: ${stockInList}">
 											<td><input type='radio' th:value="${stockIn.id}" class="radioBtn" name='id'></td>
 											<td th:text="${stockIn.date}" />
-											<td th:text="${stockIn.sCode}" />
+											<td th:text="${stockIn.scanCode}" />
 											<td th:text="${stockIn.item?.name}" />
 											<td th:text="${stockIn.party?.name}" />
 											<td th:text="${stockIn.quantity}" />

@@ -28,8 +28,8 @@
 					<div class="table-responsive table_size" style="margin-top: 50px;">
 						<form th:action="@{/performProductAction}" method="get">
 							<div class="dashboardicon2" style="text-align: left;" th:if="${productList.size() > 0}">
-								<input type="submit" name="action" class="submit action-button" value="Records">
-								<input type="submit" name="action" class="submit action-button" value="Edit">
+								<input type="submit" th:formaction="@{/viewProductRecords}" name="action" class="submit action-button" value="Records">
+								<input type="submit" th:formaction="@{/editProduct}" name="action" class="submit action-button" value="Edit">
 								<input type="submit" name="action" class="submit action-button2" value="Print">
 							</div>
 							<table class="table table-bordered table-responsive table-hover"

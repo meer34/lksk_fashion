@@ -8,7 +8,7 @@
 	<main class="app-content">
 		<div class="row">
 			<div class="col-md-12" >
-				<form class="dashboardicon" style="margin-top: 0;" th:action="@{/performStockInAction}" method="post" enctype="multipart/form-data" >
+				<form class="dashboardicon" style="margin-top: 0;" th:action="@{/saveStockInEdit}" method="post" enctype="multipart/form-data" >
 					<fieldset style="margin-top: 0;" id="printTable">
 						<legend style="text-align: center; padding-bottom: 60px;" th:text="${header}" ></legend>
 						<div class="col-lg-12 flexdisplay" >
@@ -24,9 +24,17 @@
 							</div>
 							<div class="col-lg-3 col-xs-6 stock-in-marg">
 								<label style="text-align: left; display: block;">Code</label>
-								<div id="qr-reader"></div>
+								<div class="modal fade" id="scanModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-body">
+												<div id="qr-reader"></div>
+											</div>
+										</div>
+									</div>
+								</div>
 								<div id="qr-reader-results">
-									<input type="text" name="sCode" th:value="${stockIn.sCode}" 
+									<input type="text" name="scanCode" th:value="${stockIn.scanCode}" 
 										autocomplete="off" onClick="scanItemQRCode()" th:disabled="${param.action[0]=='View'}" >
 								</div>
 							</div>
@@ -88,7 +96,7 @@
 							<div class="col-lg-3 col-xs-6 stock-in-marg">
 								<label style="text-align: left; display: block;">Received By</label>
 								<select class="form-control" name="receivedBy" id="select" style="height: 48px;" th:disabled="${param.action[0]=='View'}" >
-									<option selected disabled="disabled" value="">Received By</option>
+									<option disabled="disabled" value="">Received By</option>
 									<option style="color: #333;" th:each="moderator : ${moderators}" th:text="${moderator.name}"  th:value="${moderator.id}"
 										th:selected="${moderator.name==stockIn.receivedBy?.name}" ></option>
 								</select>
@@ -96,7 +104,7 @@
 							<div class="col-lg-3 col-xs-6 stock-in-marg">
 								<label style="text-align: left; display: block;">Received In</label>
 								<select class="form-control" name="receivedIn" id="select" style="height: 48px;" th:disabled="${param.action[0]=='View'}" >
-									<option selected="true" disabled="disabled">Received In</option>
+									<option disabled="disabled">Received In</option>
 									<option style="color: #333;" th:selected="${stockIn.receivedIn=='Metiya Bruz'}" >Metiya Bruz</option>
 									<option style="color: #333;" th:selected="${stockIn.receivedIn=='Barabazar'}" >Barabazar</option>
 								</select>
@@ -119,10 +127,13 @@
 								<input type="text" name="remakrs" th:value="${stockIn.remakrs}" th:readonly="${param.action[0]=='View'}" >
 							</div>
 						</div>
-						<input type="button" name="cancel" class="previous action-button-previous" value="Cancel" th:attr="onclick=|location.href='@{/stock-in}'|" >
 						<input type='hidden' th:value="${stockIn.id}" id="id" name='id'>
+						
+						<input type="button" name="cancel" class="previous action-button-previous" value="Cancel" th:attr="onclick=|location.href='@{/stock-in}'|" >
+						
+						<input th:if="'Save' == ${submitValue}" type="submit" name="action" class="submit action-button" value="Save" >
 						<input th:if="'Print' == ${submitValue}" type="button" name="action" class="submit action-button" value="Print" onclick="printData()" >
-						<input th:if="'Edit' == ${submitValue}" type="submit" name="action" class="submit action-button" value="Save">
+						
 					</fieldset>
 					<div>
 						<p name="before-compression"></p>

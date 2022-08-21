@@ -8,6 +8,7 @@ import java.util.Set;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.lksk.web.model.Role;
 import com.lksk.web.model.User;
@@ -35,6 +36,7 @@ public class MyUserDetails implements UserDetails {
 	@Override
 	public String getPassword() {
 		return user.getOtp();
+//		return new BCryptPasswordEncoder().encode("1234");
 	}
 
 	@Override

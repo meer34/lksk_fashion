@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.google.gson.Gson;
 import com.lksk.web.model.Item;
 import com.lksk.web.model.Product;
+import com.lksk.web.model.StockOut;
 import com.lksk.web.service.ItemService;
 import com.lksk.web.service.ProductService;
 
@@ -26,12 +27,6 @@ public class ItemController {
 	@Autowired
 	ItemService itemService;
 	@Autowired ProductService productService;
-
-	@GetMapping("/item")
-	public String showItemPage(Model model) {
-		model.addAttribute("itemList", itemService.getAllItems());
-		return "item";
-	}
 
 	@GetMapping("/createItemPage")
 	public String showCreateItemPage(Model model) {
@@ -67,32 +62,29 @@ public class ItemController {
 		} else return "";
 	}
 
-	@RequestMapping(value = "/performItemAction",
+	@RequestMapping(value = "/editItem",
 			method = RequestMethod.GET)
-	public String performProductAction(RedirectAttributes redirectAttributes, Model model,
-			@RequestParam("action") String action,
+	public String editItem(Model model,
 			@RequestParam("id") Long id,
 			@RequestParam("product") String product) throws Exception{
 		
-		System.out.println("Got " + action + " action request for item with id " + id);
+		System.out.println("Got edit request for item with id " + id);
+		model.addAttribute("item", itemService.findItemById(id));
+		model.addAttribute("products", productService.getAllProducts());
+		model.addAttribute("header", "Edit Item");
+		return "item-popup";
 		
-		if(action.equalsIgnoreCase("Edit")) {
-			model.addAttribute("item", itemService.findItemById(id));
-			model.addAttribute("products", productService.getAllProducts());
-			model.addAttribute("header", "Edit Item");
-			return "item-popup";
-
-		} else if(action.equalsIgnoreCase("Print")) {
-			
-		} else if(action.equalsIgnoreCase("Delete")) {
-			itemService.deleteItemById(id);
-			redirectAttributes.addFlashAttribute("successMessage", "Item deleted successfully!");
-			return "redirect:/product";
-			
-		} else {
-			System.out.println();
-		}
+	}
+	
+	@RequestMapping(value = "/deleteItem",
+			method = RequestMethod.GET)
+	public String deleteItem(RedirectAttributes redirectAttributes,
+			@RequestParam("id") Long id,
+			@RequestParam("product") String product) throws Exception{
 		
+		System.out.println("Got delete request for item with id " + id);
+		itemService.deleteItemById(id);
+		redirectAttributes.addFlashAttribute("successMessage", "Item deleted successfully!");
 		return "redirect:/product";
 		
 	}
@@ -134,6 +126,34 @@ public class ItemController {
 			units.addAll(Arrays.asList(unit.split("~~")));
 		}
 		return new Gson().toJson(units);
+	}
+	
+	@RequestMapping(value = "/loadAvailableStockByItemId",
+			method = RequestMethod.GET)
+	@ResponseBody
+	public String loadAvailableStockByItem(@RequestParam Long id) {
+		System.out.println("Searching available stock for item id " + id);
+		return String.valueOf(itemService.findItemById(id).getQuantity());
+	}
+	
+	@RequestMapping(value = "/checkIfQuantityPermittedByItem",
+			method = RequestMethod.GET)
+	@ResponseBody
+	public String checkIfQuantityPermittedByItem(@RequestParam Long id, @RequestParam Integer quantity) {
+		
+		System.out.println("Checking if quantity" + quantity + " peritted to stock out for item id " + id);
+		
+		StockOut stockOut = new StockOut();
+		stockOut.setQuantity(quantity);
+		
+		Item item = itemService.findItemById(id);
+		item.getStockOutList().add(stockOut);
+		
+		if(item.getQuantity() < 0) {
+			return "Exceeded";
+		}
+		return String.valueOf(itemService.findItemById(id).getQuantity());
+		
 	}
 
 }

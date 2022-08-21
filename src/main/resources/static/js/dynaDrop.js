@@ -19,7 +19,7 @@ function onProductChange(id) {
 }
 
 function onItemChange(id) {
-      var s = '<option selected disabled="disabled" value="">Unit</option>';
+      var unitTag = '<option selected disabled="disabled" value="">Unit</option>';
       if (id) {
       	$.ajax({
         url : '/loadUnitByItemId',
@@ -27,12 +27,30 @@ function onItemChange(id) {
         success : function(result) {
         	var result = JSON.parse(result);
         	for (var i = 0; i < result.length; i++) {
-        	  s += '<option value="' + result[i] + '">'+ result[i]+ '</option>';
+        		unitTag += '<option value="' + result[i] + '">'+ result[i]+ '</option>';
         	}
-        	$('#units').html(s);
+        	$('#units').html(unitTag);
         }
       });
+      
      }
      //reset data
-     $('#units').html(s);
+     $('#units').html(unitTag);
+}
+
+function setMaxQuantity(id) {
+    var quantityTagPrefix = `<input type="number" id="quantity" name="quantity" placeholder="Quantity" min="1" `;
+    var quantityTagSuffix = `required oninvalid="this.setCustomValidity('Quantity cannot be blank or 0 or more than available stock')" oninput="this.setCustomValidity('')"`
+  		  					+ ` onchange="calculateAmount()" >`;
+    if (id) {
+    $.ajax({
+         url : '/loadAvailableStockByItemId',
+         data : { "id" : id },
+         success : function(result) {
+         	result = `max="` + result + `"`;
+         	$('#quantity').html(quantityTagPrefix + result + quantityTagSuffix);
+         }
+       });
+   }
+    
 }

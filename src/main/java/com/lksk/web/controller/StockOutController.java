@@ -12,13 +12,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.lksk.web.model.StockOut;
-import com.lksk.web.service.ProductService;
+import com.lksk.web.service.ItemService;
 import com.lksk.web.service.ModeratorService;
 import com.lksk.web.service.PartyService;
-import com.lksk.web.service.ItemService;
+import com.lksk.web.service.ProductService;
 import com.lksk.web.service.StockOutService;
 
 @Controller
@@ -84,82 +85,107 @@ public class StockOutController {
 		return "stock-out";
 
 	}
-
-	@RequestMapping(value = "/openStockOutActionPage",
+	
+	@RequestMapping(value = "/viewStockOut",
 			method = RequestMethod.GET)
-	public String performStockOutAction(RedirectAttributes redirectAttributes, Model model,
-			@RequestParam("action") String action,
-			@RequestParam("id") String id) throws Exception{
+	public String viewStockOut(Model model, @RequestParam("id") String id) throws Exception{
 
-		System.out.println("Got " + action + " action request for id " + id);
+		System.out.println("Got view request for stock_out id " + id);
 
-		if(action.equalsIgnoreCase("View")) {
-			model.addAttribute("stockOut", stockOutService.findStockOutById(Long.parseLong(id)));
-			model.addAttribute("header", "Stock Out");
-			model.addAttribute("submitValue", "Print");
+		model.addAttribute("stockOut", stockOutService.findStockOutById(Long.parseLong(id)));
+		model.addAttribute("header", "Stock Out");
+		model.addAttribute("submitValue", "Print");
 
-			model.addAttribute("products", productService.getAllProducts());
-			model.addAttribute("parties", partyService.getAllUsers());
-			model.addAttribute("moderators", moderatorService.getAllUsers());
+		model.addAttribute("products", productService.getAllProducts());
+		model.addAttribute("parties", partyService.getAllUsers());
+		model.addAttribute("moderators", moderatorService.getAllUsers());
 
-			return "stock-out-view";
+		return "stock-out-view";
 
-		} else if(action.equalsIgnoreCase("Edit")) {
-			model.addAttribute("stockOut", stockOutService.findStockOutById(Long.parseLong(id)));
-			model.addAttribute("header", "Edit Stock Out");
-			model.addAttribute("submitValue", "Edit");
-
-			model.addAttribute("products", productService.getAllProducts());
-			model.addAttribute("parties", partyService.getAllUsers());
-			model.addAttribute("moderators", moderatorService.getAllUsers());
-
-			return "stock-out-view";
-
-		} else if(action.equalsIgnoreCase("Print")) {
-			redirectAttributes.addFlashAttribute("stockOut", stockOutService.findStockOutById(Long.parseLong(id)));
-			return "redirect:/stock-out";
-
-		} else if(action.equalsIgnoreCase("Delete")) {
-			stockOutService.deleteStockOutById(Long.parseLong(id));
-			redirectAttributes.addFlashAttribute("successMessage", "Stock Out with id " + id + " deleted successfully!");
-			return "redirect:/stock-out";
-
-		} else {
-			System.out.println();
-			return "error";
-		}
 	}
 
-	@RequestMapping(value = "/performStockOutAction",
+	@RequestMapping(value = "/editStockOut",
+			method = RequestMethod.GET)
+	public String editStockOut(Model model, @RequestParam("id") String id) throws Exception{
+
+		System.out.println("Got edit request for stock-out id " + id);
+
+		model.addAttribute("stockOut", stockOutService.findStockOutById(Long.parseLong(id)));
+		model.addAttribute("header", "Edit Stock Out");
+		model.addAttribute("submitValue", "Save");
+
+		model.addAttribute("products", productService.getAllProducts());
+		model.addAttribute("parties", partyService.getAllUsers());
+		model.addAttribute("moderators", moderatorService.getAllUsers());
+
+		return "stock-out-view";
+
+	}
+
+	@RequestMapping(value = "/deleteStockOut",
+			method = RequestMethod.GET)
+	public String deleteStockOut(RedirectAttributes redirectAttributes, @RequestParam("id") String id) throws Exception{
+
+		System.out.println("Got delete request for stock-out id " + id);
+		stockOutService.deleteStockOutById(Long.parseLong(id));
+		redirectAttributes.addFlashAttribute("successMessage", "Stock Out with id " + id + " deleted successfully!");
+		return "redirect:/stock-out";
+
+	}
+
+	@RequestMapping(value = "/saveStockOutEdit",
 			method = RequestMethod.POST)
-	public String doStockOutAction(RedirectAttributes redirectAttributes, Model model, StockOut stockOut,
+	public String saveStockOutEdit(RedirectAttributes redirectAttributes, StockOut stockOut,
 			@RequestParam Long itemId,
-			@RequestParam("action") String action,
 			@RequestParam("id") String id) throws Exception{
 
-		System.out.println("Got " + action + " action request for id " + id);
+		System.out.println("Got save edit request for stock_out id " + id);
+		if(StringUtils.cleanPath(stockOut.getSPhoto().getOriginalFilename()).contains("..")) System.out.println("Photo not a a valid file");
+		stockOut.setSPhotoBlob(Base64.getEncoder().encodeToString(stockOut.getSPhoto().getBytes()));
 
-		if(action.equalsIgnoreCase("Save")) {
-			if(StringUtils.cleanPath(stockOut.getSPhoto().getOriginalFilename()).contains("..")) System.out.println("Photo not a a valid file");
-			stockOut.setSPhotoBlob(Base64.getEncoder().encodeToString(stockOut.getSPhoto().getBytes()));
+		if(StringUtils.cleanPath(stockOut.getColour().getOriginalFilename()).contains("..")) System.out.println("Colour not a a valid file");
+		stockOut.setColourBlob(Base64.getEncoder().encodeToString(stockOut.getColour().getBytes()));
 
-			if(StringUtils.cleanPath(stockOut.getColour().getOriginalFilename()).contains("..")) System.out.println("Colour not a a valid file");
-			stockOut.setColourBlob(Base64.getEncoder().encodeToString(stockOut.getColour().getBytes()));
+		stockOut.setItem(itemService.findItemById(itemId));
+		stockOutService.saveStockOutToDB(stockOut);
 
-			stockOut.setItem(itemService.findItemById(itemId));
-			stockOut = stockOutService.saveStockOutToDB(stockOut);
+		redirectAttributes.addFlashAttribute("successMessage", "Stock Out edited successfully!");
+		return "redirect:/stock-out";
 
-			redirectAttributes.addFlashAttribute("successMessage", "Stock Out edited successfully!");
-			return "redirect:/stock-out";
+	}
+	
+	@RequestMapping(value = "/addStockOutForScanCode",
+			method = RequestMethod.GET)
+	public String addStockOutForScanCode(Model model, @RequestParam("action") String action, 
+			@RequestParam("scanCode") String scanCode) throws Exception{
 
-		} else if(action.equalsIgnoreCase("Print")) {
-			redirectAttributes.addFlashAttribute("stockOut", stockOutService.findStockOutById(Long.parseLong(id)));
-			return "redirect:/stock-out";
+		System.out.println("Got prefetch request for id " + scanCode);
+		
+		StockOut stockOut = stockOutService.findStockOutByScanCode(scanCode);
+		stockOut.setId(0);
+		
+		model.addAttribute("stockOut", stockOut);
+		model.addAttribute("header", "New Stock Out");
+		model.addAttribute("submitValue", "Save");
 
-		} else {
-			System.out.println();
-			return "error";
-		}
+		model.addAttribute("products", productService.getAllProducts());
+		model.addAttribute("parties", partyService.getAllUsers());
+		model.addAttribute("moderators", moderatorService.getAllUsers());
+
+		return "stock-out-view";
+
 	}
 
+	@RequestMapping(value = "/checkIfScanCodeExistsForStockOut",
+			method = RequestMethod.GET)
+	@ResponseBody
+	public String checkIfScanCodeExists(@RequestParam String scanCode) {
+		System.out.println("Searching StockOut for scan code - " + scanCode);
+		if(stockOutService.findStockOutByScanCode(scanCode) != null) {
+			return "Exist";
+		} else {
+			return "Not Exist";
+		}
+	}
+	
 }

@@ -152,3 +152,23 @@ function calculateAmount() {
 	document.querySelector("input[name=amount]").outerHTML =
 						`<input type="number" name="amount" placeholder="Amount" value="` + amount + `" readonly>`;
 }
+
+function checkIfNumberExist() {
+	let number = document.getElementById("phone").value;
+	var retVal = true;
+	
+	$.ajax({
+	url : '/checkIfNumberExistsForUser',
+	data : { "number" : number },
+	async: false,
+	success : function(result) {
+		if(result == "Exist"){
+			alert("Number is already registered with another user!");
+			retVal = false;
+		}
+	}
+	});
+	
+	return retVal;
+}
+

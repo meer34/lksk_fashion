@@ -1,10 +1,11 @@
-
-function scanItemQRCode() {
+function scanItemQRCode(entryType) {
+	alert(entryType);
+	$('#scanModal').modal('show');
     var resultContainer = document.getElementById('qr-reader-results');
     var lastResult, countResults = 0;
     
     var html5QrcodeScanner = new Html5QrcodeScanner(
-        "qr-reader", { fps: 10, qrbox: 250 });
+        "qr-reader", { fps: 10, qrbox: 400 });
     
     function onScanSuccess(decodedText, decodedResult) {
         if (decodedText !== lastResult) {
@@ -12,10 +13,15 @@ function scanItemQRCode() {
             lastResult = decodedText;
             console.log(`Scan result = ${decodedText}`, decodedResult);
  
-			resultContainer.innerHTML = `<input type="text" name="sCode" placeholder="Scan Code" value="${decodedText}" autocomplete="off" onClick="scanItemQRCode()" >`;
+			resultContainer.innerHTML = `<input type="text" name="scanCode" placeholder="Scan Code" value="${decodedText}" autocomplete="off" onClick="scanItemQRCode()" >`;
             
             // Optional: To close the QR code scannign after the result is found
             html5QrcodeScanner.clear();
+            $('#scanModal').modal('hide');
+            if(entryType != null) {
+            	populateDataIfScanCodeExists(entryType, decodedText);
+            }
+			
         }
     }
     
@@ -27,3 +33,29 @@ function scanItemQRCode() {
     
     html5QrcodeScanner.render(onScanSuccess, onScanError);
 };
+
+function populateDataIfScanCodeExists(entryType, scanCode){
+	var checkCodeUrl, prefetchDataURL;
+	if(entryType == "Stock In") {
+		checkCodeUrl = '/checkIfScanCodeExistsForStockIn';
+		prefetchDataURL = '/addStockInForScanCode?action=Add&scanCode=';
+		
+	} else if(entryType == "Stock Out") {
+		checkCodeUrl = '/checkIfScanCodeExistsForStockOut';
+		prefetchDataURL = '/addStockOutForScanCode?action=Add&scanCode=';
+	} else return;
+	if (scanCode) {
+      	$.ajax({
+        url : checkCodeUrl,
+        data : { "scanCode" : scanCode },
+        success : function(result) {
+        	if(result == "Exist"){
+				window.open(prefetchDataURL + scanCode, '_self');
+			}
+        }
+      });
+     }
+	
+}
+
+

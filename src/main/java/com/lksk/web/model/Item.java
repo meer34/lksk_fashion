@@ -67,4 +67,9 @@ public class Item {
 		return stockOutQuantity;
 	}
 	
+	@Override
+	public String toString() {
+		return name;
+	}
+	
 }

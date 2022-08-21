@@ -39,10 +39,12 @@
 						<div class="table-responsive table_size" style="margin-top: 50px;">
 							<form th:action="@{/openStockOutActionPage}" method="get">
 								<div class="dashboardicon2" style="text-align: left;" th:if="${stockOutList.size() > 0}">
-									<input type="submit" name="action" class="submit action-button" value="View">
-									<input type="submit" name="action" class="submit action-button" value="Edit" sec:authorize="hasAuthority('ADMIN')" >
+									<input type="submit" th:formaction="@{/viewStockOut}" name="action" class="submit action-button" value="View">
+									<input type="submit" th:formaction="@{/editStockOut}" name="action" class="submit action-button" value="Edit" 
+																										sec:authorize="hasAuthority('ADMIN')" >
 									<input type="button" name="action" class="submit action-button" value="Print" onclick="printData()">
-									<input type="submit" name="action" class="submit action-button2" value="Delete" sec:authorize="hasAuthority('ADMIN')" >
+									<input type="submit" th:formaction="@{/deleteStockOut}" name="action" class="submit action-button2" value="Delete" 
+																										sec:authorize="hasAuthority('ADMIN')" >
 								</div>
 								<table class="table table-bordered table-responsive table-hover" style="width: 100%;" id="printTable">
 									<thead class="thead-inverse"
@@ -63,7 +65,7 @@
 										<tr style="background-color: #FFF" th:each="stockOut: ${stockOutList}">
 											<td><input type='radio' th:value="${stockOut.id}" class="radioBtn" name='id'></td>
 											<td th:text="${stockOut.date}" />
-											<td th:text="${stockOut.sCode}" />
+											<td th:text="${stockOut.scanCode}" />
 											<td th:text="${stockOut.item?.name}" />
 											<td th:text="${stockOut.party?.name}" />
 											<td th:text="${stockOut.quantity}" />

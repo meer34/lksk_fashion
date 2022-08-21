@@ -41,10 +41,10 @@ public class OrderController {
 
 		if(StringUtils.cleanPath(order.getSPhoto().getOriginalFilename()).contains("..")) System.out.println("Photo not a a valid file");
 		order.setSPhotoBlob(Base64.getEncoder().encodeToString(order.getSPhoto().getBytes()));
-		
+
 		if(StringUtils.cleanPath(order.getColour().getOriginalFilename()).contains("..")) System.out.println("Colour not a a valid file");
 		order.setColourBlob(Base64.getEncoder().encodeToString(order.getColour().getBytes()));
-		
+
 		orderService.saveOrderToDB(order);
 
 		redirectAttributes.addFlashAttribute("successMessage", "Order for mark " + order.getMark() + " placed successfully!");
@@ -73,71 +73,60 @@ public class OrderController {
 
 	}
 
-
-	@RequestMapping(value = "/openOrderActionPage",
+	@RequestMapping(value = "/viewOrder",
 			method = RequestMethod.GET)
-	public String performOrderAction(RedirectAttributes redirectAttributes, Model model,
-			@RequestParam("action") String action,
+	public String viewOrder(Model model, @RequestParam("id") String id) throws Exception{
+		
+		System.out.println("Got view request for order id " + id);
+		CustOrder order = orderService.findOrderById(Long.parseLong(id));
+		model.addAttribute("order", order);
+		model.addAttribute("header", order.getMark());
+		model.addAttribute("submitValue", "Print");
+		return "order-view";
+		
+	}
+	
+	@RequestMapping(value = "/editOrder",
+			method = RequestMethod.GET)
+	public String editOrder(Model model, @RequestParam("id") String id) throws Exception{
+		
+		System.out.println("Got edit request for order id " + id);
+		CustOrder order = orderService.findOrderById(Long.parseLong(id));
+		model.addAttribute("order", order);
+		model.addAttribute("header", order.getMark());
+		model.addAttribute("submitValue", "Edit");
+		return "order-view";
+		
+	}
+	
+	@RequestMapping(value = "/deleteOrder",
+			method = RequestMethod.GET)
+	public String deleteOrder(RedirectAttributes redirectAttributes, Model model,
 			@RequestParam("id") String id) throws Exception{
-
-		System.out.println("Got " + action + " action request for id " + id);
-
-		if(action.equalsIgnoreCase("View")) {
-			CustOrder order = orderService.findOrderById(Long.parseLong(id));
-			model.addAttribute("order", order);
-			model.addAttribute("header", order.getMark());
-			model.addAttribute("submitValue", "Print");
-			return "order-view";
-
-		} else if(action.equalsIgnoreCase("Edit")) {
-			CustOrder order = orderService.findOrderById(Long.parseLong(id));
-			model.addAttribute("order", order);
-			model.addAttribute("header", order.getMark());
-			model.addAttribute("submitValue", "Edit");
-			return "order-view";
-
-		} else if(action.equalsIgnoreCase("Print")) {
-			redirectAttributes.addFlashAttribute("order", orderService.findOrderById(Long.parseLong(id)));
-			return "redirect:/order";
-
-		} else if(action.equalsIgnoreCase("Delete")) {
-			orderService.deleteOrderById(Long.parseLong(id));
-			redirectAttributes.addFlashAttribute("successMessage", "Order with id " + id + " deleted successfully!");
-
-		} else {
-			System.out.println();
-		}
-
+		
+		System.out.println("Got delete request for order id " + id);
+		orderService.deleteOrderById(Long.parseLong(id));
+		redirectAttributes.addFlashAttribute("successMessage", "Order with id " + id + " deleted successfully!");
 		return "redirect:/order";
-
+		
 	}
 
-	@RequestMapping(value = "/performOrderAction",
+	@RequestMapping(value = "/saveOrderEdit",
 			method = RequestMethod.POST)
-	public String performOrderAction(RedirectAttributes redirectAttributes, Model model, CustOrder order,
-			@RequestParam("action") String action,
+	public String saveOrderEdit(RedirectAttributes redirectAttributes, CustOrder order,
 			@RequestParam("id") String id) throws Exception{
 
-		System.out.println("Got " + action + " action request for id " + id);
+		System.out.println("Got edit save request for id " + id);
 
-		if(action.equalsIgnoreCase("Save")) {
-			String fileName = StringUtils.cleanPath(order.getSPhoto().getOriginalFilename());
-			if(fileName.contains("..")) System.out.println("not a a valid file");
-			order.setSPhotoBlob(Base64.getEncoder().encodeToString(order.getSPhoto().getBytes()));
+		String fileName = StringUtils.cleanPath(order.getSPhoto().getOriginalFilename());
+		if(fileName.contains("..")) System.out.println("not a a valid file");
+		order.setSPhotoBlob(Base64.getEncoder().encodeToString(order.getSPhoto().getBytes()));
 
-			order = orderService.saveOrderToDB(order);
+		order = orderService.saveOrderToDB(order);
 
-			redirectAttributes.addFlashAttribute("successMessage", "Order edited successfully!");
-			return "redirect:/order";
+		redirectAttributes.addFlashAttribute("successMessage", "Order edited successfully!");
+		return "redirect:/order";
 
-		} else if(action.equalsIgnoreCase("Print")) {
-			redirectAttributes.addFlashAttribute("order", orderService.findOrderById(Long.parseLong(id)));
-			return "redirect:/order";
-
-		} else {
-			System.out.println();
-			return "error";
-		}
 	}
 
 }
