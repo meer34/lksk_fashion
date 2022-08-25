@@ -1,7 +1,5 @@
 package com.lksk.web.controller;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -41,12 +39,16 @@ public class OTPController {
 	@ResponseBody 
 	public String showCreateItemPage(HttpServletResponse response, @RequestParam String phone) {
 		try {
+			response.setContentType("text/plain");
+			response.setCharacterEncoding("UTF-8");
+			
 			String otp= new DecimalFormat("000000").format(new Random().nextInt(999999));
-
+			
 			User user = userRepo.getUserByPhoneNumber(phone);
 			if(user != null && phone.equals(user.getPhone())) {
 				user.setOtp(new BCryptPasswordEncoder().encode(otp));
 				userRepo.save(user);
+				
 			} else {
 				System.out.println("User Not Found");
 				return "User Not Found";
@@ -63,14 +65,7 @@ public class OTPController {
 					.append("0")
 					.toString();
 			
-			String responseText = "";
-			responseText = sendPOSTRequest(apiURL, requestBody);
-			System.out.println("responseText is " + responseText);
-
-			response.setContentType("text/plain");
-			response.setCharacterEncoding("UTF-8");
-			
-			return responseText;
+			return sendPOSTRequest(apiURL, requestBody);
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -80,7 +75,6 @@ public class OTPController {
 	}
 
 	private String sendPOSTRequest(String url, String requestBody) throws Exception {
-		StringBuffer response = new StringBuffer();
 		
 		URL urlObj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) urlObj.openConnection();
@@ -99,16 +93,7 @@ public class OTPController {
 		System.out.println("Received Response Code for Fast2SMS Server :: " + responseCode);
 
 		if (responseCode == HttpURLConnection.HTTP_OK) {
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-					con.getInputStream()));
-			String inputLine;
-
-			while ((inputLine = in.readLine()) != null) {
-				response.append(inputLine);
-			}
-			in.close();
-			return response.toString();
-			
+			return "Success";
 		} else {
 			System.out.println("OTP request did not work!");
 			return "Request Failed";

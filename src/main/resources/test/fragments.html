@@ -9,8 +9,10 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="shortcut icon" type="image/icon" href="images/favicon.png" />
+	<!-- Main CSS-->
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<!-- Font-icon css-->
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
@@ -81,71 +83,42 @@
 		</aside>
 	</div>
 	
-	<div th:fragment="img_upd_modal" class="modal fade" id="imageUploadModal" tabindex="-1" role="dialog" aria-labelledby="imageUploadModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-body">
-						<div class="image_container">
-							<img id="blah" src="#" alt="your image" />
-						</div>
-						<button id="crop_button">Crop</button> 
-					</div>
-				</div>
-			</div>
-	</div>
-	
 	<!-- Essential javascripts for application to work-->
 	<script th:fragment="main_scripts" src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script th:fragment="main_scripts" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-	<script th:fragment="main_scripts" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
-	<script th:fragment="main_scripts" src="js/main.js"></script>
+	<script th:fragment="main_scripts1" src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+	<script th:fragment="main_scripts1" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<script th:fragment="main_scripts1" th:src="@{js/main.js}"></script>
+	
+	<!-- jQuery library -->
+
+
+	<!-- Latest compiled JavaScript -->
+	<!-- The javascript plugin to display page loading on top-->
 	<script th:fragment="main_scripts" src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js"></script>
 	
+	<!-- Page specific javascripts-->
+	<script th:fragment="main_scripts" th:src="@{js/dynaDrop.js}"></script>
+	<script th:fragment="main_scripts" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 	
-	<link th:fragment="add_edit_scripts" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.0.0/cropper.min.css" integrity="sha256-FeDcPwV8ZgxG1MU5L/b2i8clOmqZJKK0eyDHqrQaXxY=" crossorigin="anonymous">
-	<script th:fragment="add_edit_scripts" src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.0.0/cropper.min.js"></script>
-	<script th:fragment="add_edit_scripts" src="js/dynaDrop.js"></script>
-	<script th:fragment="add_edit_scripts" src="js/crop_compress.js"></script>
-	<!-- <script th:fragment="add_edit_scripts" src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script>-->
-	<script th:fragment="add_edit_scripts" src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.2.1/html5-qrcode.min.js"></script>
-	<script th:fragment="add_edit_scripts" src="js/html5-qrcode.js"></script>
-	  
+	<script th:fragment="html5qr_scripts" src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.2.1/html5-qrcode.min.js"></script>
 	<script th:fragment="main_scripts" >
-		document.addEventListener("DOMContentLoaded", function() {
-			var radio = document.querySelectorAll('.radioBtn'),
-			checked = false;
-			if(radio){
-				for (var i = 0; i < radio.length; i++) {
-					if (radio[i].checked) {
-						checked = true;
-						break;
-					}
-				}
-				if (!checked) radio[0].checked = true;
-			}
+		sindow.addEventListener("load", function() {
+			checkFirstRadioButton();
+			cons script = document.createElement("script");
+			script.src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js";
+			document.body.appendChild(script);
+			script.src="js/main.js";
+			document.body.appendChild(script);
+			script.src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js";
+			document.body.appendChild(script);
+			script.src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js";
+			document.body.appendChild(script);
+			script.src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js";
+			document.body.appendChild(script);
+			
 		});
 	</script>
-	
-	<script th:fragment="otp_generate_script">
-		function generateOTP() {
-			let phone = document.getElementById("phone").value;
-			$.ajax({
-			url : 'send-login-otp',
-			data : { "phone" : phone },
-			success : function(result) {
-				if(result == 'Success'){
-					document.querySelector("p[name=status]").innerHTML = `OTP Sent successfully!`;
-				} else if(result == 'User Not Found'){
-					document.querySelector("p[name=status]").innerHTML = `The entered number is not registered!`;
-				} else {
-					document.querySelector("p[name=status]").innerHTML = `OTP request failed!`;
-				}
-			}
-			});
-		}
-	</script>
-	
-	<script th:fragment="user_search_script">
+	<script th:fragment="user_search_script" >
 		$("#searchUser").on("keyup", function() {
 		var value = $(this).val();
 	
@@ -165,29 +138,6 @@
 			}
 		});
 		});
-	</script>
-	<script th:fragment="create_item_script">
-		$("#rowAdder").click(function () {
-				addUnit = document.getElementById("addUnit").value;
-				newRowAdd =
-				'<div id="row">' +
-				'	<div class="input-group add-unit-group">' +
-				'		<div class="input-group-prepend">' +
-				'			<button class="btn btn-danger" id="DeleteRow" type="button">' +
-				'				<i class="bi bi-trash"></i> Delete</button>' +
-				'		</div>' +
-				'		<input type="text" name="units" class="form-control m-input add-unit" value="' + addUnit +'" readonly>' +
-					'</div>' +
-				'</div>';
-	
-				$('#newinput').append(newRowAdd);
-				$('#addUnit').val('');
-			});
-	
-			$("body").on("click", "#DeleteRow", function () {
-				$(this).parents("#row").remove();
-			})
-			
 	</script>
 	
 </body>

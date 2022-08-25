@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head th:replace="fragments :: html_head" />
+  <body class="app sidebar-mini rtl">
+    <div th:replace="fragments :: app-layout"></div>
+	
+	
+    <main class="app-content">   
+	<div class="row">
+		<div class="col-lg-5 col-md-5 col-xs-12 col-sm-6 col-lg-offset-3 col-sm-offset-3 col-xs-offset-0 marginl">
+			<div class="tile">
+				<h1 class="tile-title text-center" style="font-size:16px;" th:text="${header}" ></h1>
+				<div class="dashboardicon">
+				<form th:action="@{createItem}" method="post">
+					<select class="form-control" name="productId" id="select" style="height: 48px;" required>
+						<option th:if="${header} == 'Create Item'" disabled="disabled" selected>Select Product</option>
+						<option style="color: #333;" th:each="product : ${products}" th:text="${product.name}"
+							th:value="${product.id}" th:selected="${product==item.product}"></option>
+					</select>
+					<input type="text" name="name" placeholder="Item Name" th:value="${item.name}" required>
+					<input type="text" name="addUnit" id="addUnit" placeholder="Unit" >
+					<input type="button" id="rowAdder" value = "Add Unit">
+					<div id="newinput"></div>
+					
+					<div id="row" th:each="unit : ${item.units}">
+						<div class="input-group add-unit-group">
+							<div class="input-group-prepend"><button class="btn btn-danger" id="DeleteRow" type="button"><i class="bi bi-trash"></i> Delete</button></div>
+							<input type="text" name="units" class="form-control m-input add-unit" th:value="${unit}" readonly>
+						</div>
+					</div>
+          
+					<input type="button" name="cancel" class="previous action-button-previous" value="Cancel" th:attr="onclick=|location.href='@{/product}'|" >
+					<input type="hidden" name="id" th:value="${item.id}" >
+					<input type="submit" name="save" class="submit action-button" value="Save">
+				</form>
+				</div>
+			</div>
+		</div>
+	</div>
+    </main>
+    
+	<div th:replace="fragments :: main_scripts"></div>
+	<div th:replace="fragments :: create_item_script"></div>
+	
+  </body>
+</html>

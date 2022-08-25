@@ -31,7 +31,7 @@ public class ProductController {
 	public String showCreateProductPage(Model model) {
 		model.addAttribute("product", new Product());
 		model.addAttribute("header", "Create Product");
-		return "product-popup";
+		return "product-create";
 	}
 
 	@RequestMapping(value = "/createProduct",
@@ -83,7 +83,7 @@ public class ProductController {
 		System.out.println("Got edit request for product " + id);
 		model.addAttribute("product", productService.findProductById(id));
 		model.addAttribute("header", "Edit Product");
-		return "product-popup";
+		return "product-create";
 
 	}
 

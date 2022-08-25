@@ -41,7 +41,7 @@
 								<tr style="background-color: #FFF" th:each="item: ${product.itemList}" >
 									<td th:text="${item.name}" />
 									<td th:text="${item.product.name}" />
-									<td th:text="${item.unit}" />
+									<td th:text="${item.units}" />
 									<td>
 										<div class="dashboardicon2" style="text-align: left;">
 											<!--go to item stock-->
@@ -63,6 +63,6 @@
 	</main>
 
 
-	<div th:replace="fragments :: html_scripts"></div>
+	<div th:replace="fragments :: main_scripts"></div>
 </body>
 </html>

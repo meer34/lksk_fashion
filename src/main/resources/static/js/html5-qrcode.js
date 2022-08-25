@@ -1,11 +1,10 @@
 function scanItemQRCode(entryType) {
-	alert(entryType);
 	$('#scanModal').modal('show');
     var resultContainer = document.getElementById('qr-reader-results');
     var lastResult, countResults = 0;
     
     var html5QrcodeScanner = new Html5QrcodeScanner(
-        "qr-reader", { fps: 10, qrbox: 400 });
+        "qr-reader", { fps: 10, qrbox: 250 });
     
     function onScanSuccess(decodedText, decodedResult) {
         if (decodedText !== lastResult) {
@@ -13,7 +12,8 @@ function scanItemQRCode(entryType) {
             lastResult = decodedText;
             console.log(`Scan result = ${decodedText}`, decodedResult);
  
-			resultContainer.innerHTML = `<input type="text" name="scanCode" placeholder="Scan Code" value="${decodedText}" autocomplete="off" onClick="scanItemQRCode()" >`;
+			resultContainer.innerHTML = `<input type="text" name="scanCode" placeholder="Scan Code" value="${decodedText}" autocomplete="off" >`
+										+ `<button name="Scan" value="Scan" onClick="scanItemQRCode('Stock Out')">`;
             
             // Optional: To close the QR code scannign after the result is found
             html5QrcodeScanner.clear();
@@ -55,7 +55,37 @@ function populateDataIfScanCodeExists(entryType, scanCode){
         }
       });
      }
-	
 }
+
+
+$(document).ready(() => {
+    document.getElementById('scanCode').addEventListener('blur', function(event) {
+    	console.log('Onblur even occured for scanCode');
+    	
+    	if(document.getElementsByName("stockInScan").length > 0) {
+    		console.log('Populating data for stock in');
+    		populateDataIfScanCodeExists('Stock In', event.target.value);
+    		
+    	} else if(document.getElementsByName("stockOutScan").length > 0) {
+    		console.log('Populating data for stock out');
+    		populateDataIfScanCodeExists('Stock Out', event.target.value);
+    	}
+    });
+    
+    document.getElementById('scanCodeBtn').addEventListener('click', function(event) {
+    	console.log('Onclick even occured for scan button');
+    	
+    	if(document.getElementsByName("stockInScan").length > 0) {
+    		console.log('Populating data for stock in');
+    		scanItemQRCode('Stock In');
+    		
+    	} else if(document.getElementsByName("stockOutScan").length > 0) {
+    		console.log('Populating data for stock out');
+    		scanItemQRCode('Stock Out');
+    	}
+    });
+
+})
+
 
 

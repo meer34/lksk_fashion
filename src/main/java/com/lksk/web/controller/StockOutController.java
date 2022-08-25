@@ -1,13 +1,11 @@
 package com.lksk.web.controller;
 
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -43,20 +41,13 @@ public class StockOutController {
 		model.addAttribute("products", productService.getAllProducts());
 		model.addAttribute("parties", partyService.getAllUsers());
 		model.addAttribute("moderators", moderatorService.getAllUsers());
-		//		model.addAttribute("availableQuantity", "10"); th:max="${availableQuantity}"
-		return "stock-out-popup";
+		return "stock-out-create";
 	}
 
 	@RequestMapping(value = "/addStockOut",
 			method = RequestMethod.POST)
 	public String addStockOut(Model model, StockOut stockOut, @RequestParam Long itemId,
 			RedirectAttributes redirectAttributes) throws Exception{
-
-		if(StringUtils.cleanPath(stockOut.getSPhoto().getOriginalFilename()).contains("..")) System.out.println("Photo not a a valid file");
-		stockOut.setSPhotoBlob(Base64.getEncoder().encodeToString(stockOut.getSPhoto().getBytes()));
-
-		if(StringUtils.cleanPath(stockOut.getColour().getOriginalFilename()).contains("..")) System.out.println("Colour not a a valid file");
-		stockOut.setColourBlob(Base64.getEncoder().encodeToString(stockOut.getColour().getBytes()));
 
 		stockOut.setItem(itemService.findItemById(itemId));
 		stockOutService.saveStockOutToDB(stockOut);
@@ -140,12 +131,6 @@ public class StockOutController {
 			@RequestParam("id") String id) throws Exception{
 
 		System.out.println("Got save edit request for stock_out id " + id);
-		if(StringUtils.cleanPath(stockOut.getSPhoto().getOriginalFilename()).contains("..")) System.out.println("Photo not a a valid file");
-		stockOut.setSPhotoBlob(Base64.getEncoder().encodeToString(stockOut.getSPhoto().getBytes()));
-
-		if(StringUtils.cleanPath(stockOut.getColour().getOriginalFilename()).contains("..")) System.out.println("Colour not a a valid file");
-		stockOut.setColourBlob(Base64.getEncoder().encodeToString(stockOut.getColour().getBytes()));
-
 		stockOut.setItem(itemService.findItemById(itemId));
 		stockOutService.saveStockOutToDB(stockOut);
 

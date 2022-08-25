@@ -3,6 +3,7 @@ package com.lksk.web.model;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,23 +22,35 @@ public class Item {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	@Column(unique=true)
 	private String name;
-	
+
 	@ManyToOne
 	@JoinColumn(name="product")
 	private Product product;
 	
-	private String unit;
-	private Integer quantity;
+	@ElementCollection
+	private List<String> units;
 	
+	private Integer quantity;
+
 	@OneToMany(mappedBy="item")
 	private List<StockIn> stockInList;
-	
+
 	@OneToMany(mappedBy="item")
 	private List<StockOut> stockOutList;
-	
+
+	public int getQuantity(String unit) {
+		quantity = 0;
+		for (StockIn stockIn : stockInList) {
+			if(unit!=null && unit.equalsIgnoreCase(stockIn.getUnit())) quantity += stockIn.getQuantity();
+		}
+		for (StockOut stockOut : stockOutList) {
+			if(unit!=null && unit.equalsIgnoreCase(stockOut.getUnit())) quantity -= stockOut.getQuantity();
+		}
+		return quantity;
+	}
 	
 	public int getQuantity() {
 		quantity = 0;
@@ -48,7 +61,6 @@ public class Item {
 			quantity -= stockOut.getQuantity();
 		}
 		return quantity;
-		
 	}
 	
 	public int getStockInQuantity() {
@@ -58,7 +70,7 @@ public class Item {
 		}
 		return stockInQuantity;
 	}
-	
+
 	public int getStockOutQuantity() {
 		int stockOutQuantity = 0;
 		for (StockOut stockOut : stockOutList) {
@@ -66,10 +78,10 @@ public class Item {
 		}
 		return stockOutQuantity;
 	}
-	
+
 	@Override
 	public String toString() {
 		return name;
 	}
-	
+
 }

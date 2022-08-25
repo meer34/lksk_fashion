@@ -38,15 +38,13 @@
 									style="background-color: #446c9d; color: #FFF;">
 									<tr>
 										<th class="table_heading" style="width: 10%;"></th>
-										<th class="table_heading" style="width: 45%;">Item</th>
-										<th class="table_heading" style="width: 45%;">Unit</th>
+										<th class="table_heading" style="width: 90%;">Item</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr style="background-color: #FFF" th:each="product: ${productList}">
 										<td><input type='radio' th:value="${product.id}" class="radioBtn" name='id'></td>
 										<td th:text="${product.name}" />
-										<td th:text="${product.iUnit}" />
 										<td></td>
 									</tr>
 								</tbody>
@@ -59,6 +57,6 @@
     </main>
 	
 	
-    <div th:replace="fragments :: html_scripts"></div>
+    <div th:replace="fragments :: main_scripts"></div>
   </body>
 </html>

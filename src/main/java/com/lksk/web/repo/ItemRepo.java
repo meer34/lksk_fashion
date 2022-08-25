@@ -21,8 +21,7 @@ public interface ItemRepo extends JpaRepository<Item, Long>{
 
 	List<Item> findItemByNameContainingIgnoreCase(String name);
 	
-	@Query("select unit from Item p where p.id = ?1")
-	List<String> findUnitsByItemId(Long name);
+	List<String> findUnitsById(Long name);
 	
 	@Query("select p from Item p where p.name = ?1")
 	Item findByName(String name);

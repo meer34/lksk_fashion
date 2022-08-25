@@ -54,10 +54,10 @@
 											<th class="table_heading">Code</th>
 											<th class="table_heading">Item Name</th>
 											<th class="table_heading">Party</th>
+											<th class="table_heading">Unit</th>
 											<th class="table_heading">Quantity</th>
 											<th class="table_heading">Price</th>
 											<th class="table_heading">Amount</th>
-											<th class="table_heading">Received By</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -67,10 +67,10 @@
 											<td th:text="${stockIn.scanCode}" />
 											<td th:text="${stockIn.item?.name}" />
 											<td th:text="${stockIn.party?.name}" />
+											<td th:text="${stockIn.unit}" />
 											<td th:text="${stockIn.quantity}" />
 											<td th:text="${stockIn.price}" />
 											<td th:text="${stockIn.amount}" />
-											<td th:text="${stockIn.receivedBy?.name}" />
 										</tr>
 									</tbody>
 								</table>
@@ -82,7 +82,6 @@
 		</div>
 	</main>
 
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-	<div th:replace="fragments :: html_scripts"></div>
+	<div th:replace="fragments :: main_scripts"></div>
 </body>
 </html>

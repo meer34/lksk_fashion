@@ -14,7 +14,6 @@
 				<div class="dashboardicon">
 				<form th:action="@{createProduct}" method="post">
 					<input type="text" name="name" placeholder="Product Name" th:value="${product.name}" >
-					<input type="text" name="iUnit" placeholder="Unit" th:value="${product.iUnit}" >
 					<input type="button" name="cancel" class="previous action-button-previous" value="Cancel" th:attr="onclick=|location.href='@{/product}'|" >
 					<input type="hidden" name="id" th:value="${product.id}" >
 					<input type="submit" name="save" class="submit action-button" value="Save">
@@ -26,6 +25,6 @@
     </main>
     
 	
-	<div th:replace="fragments :: html_scripts"></div>
+	<div th:replace="fragments :: main_scripts"></div>
   </body>
 </html>

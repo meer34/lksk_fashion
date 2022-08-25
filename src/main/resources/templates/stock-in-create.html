@@ -14,22 +14,22 @@
 						<div class="col-lg-12 flexdisplay">
 							<div class="col-lg-4">
 								<div class="image-upload">
-									<label for="sPhoto">
+									<label for="itemImage">
 										<img th:src="@{/images/product_image.jpg}" class="after-ph stock-in-img" />
 									</label>
 									<img src="" class="before-ph" style="display: none;" />
 									<canvas style="display: none;"></canvas>
-									<input type="file" name="sPhoto" id="sPhoto" >
+									<input type="file" id="itemImage" >
 								</div>
 							</div>
 							<div class="col-lg-4">
 								<div class="image-upload">
-									<label for="colour">
+									<label for="colourImage">
 										<img th:src="@{/images/product_colour.jpg}" class="after-col stock-in-img" />
 									</label>
 									<img src="" class="before-col" style="display: none;" />
 									<canvas style="display: none;"></canvas>
-									<input type="file" name="colour" id="colour" >
+									<input type="file" id="colourImage" >
 								</div>
 							</div>
 							<div class="col-lg-4" >
@@ -43,7 +43,8 @@
 									</div>
 								</div>
 								<div id="qr-reader-results">
-									<input type="text" name="scanCode" placeholder="Scan Code" autocomplete="off" onClick="scanItemQRCode('Stock In')" >
+									<input type="text" name="scanCode" id="scanCode" placeholder="Scan Code" autocomplete="off" >
+									<input type="button" name="stockInScan" id="scanCodeBtn" value="Scan">
 								</div>
 							</div>
 						</div>
@@ -117,16 +118,15 @@
 							<input type="button" name="cancel" class="previous action-button-previous" value="Cancel" th:attr="onclick=|location.href='@{/stock-in}'|" >
 							<input type="submit" name="submit" class="submit action-button" value="Save">
 					</fieldset>
-					<div>
-						<p name="before-compression"></p>
-						<p name="after-compression"></p>
-					</div>
 				</form>
 			</div>
 		</div>
+		
     </main>
 	
-	<script th:src="@{js/html5-qrcode.js}"></script>
-	<div th:replace="fragments :: html_scripts"></div>
+	<div th:replace="fragments :: img_upd_modal"></div>
+	
+	<div th:replace="fragments :: main_scripts"></div>
+	<div th:replace="fragments :: add_edit_scripts"></div>
    </body>
 </html>

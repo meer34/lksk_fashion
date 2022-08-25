@@ -1,7 +1,6 @@
 package com.lksk.web.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,23 +16,23 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.google.gson.Gson;
 import com.lksk.web.model.Item;
 import com.lksk.web.model.Product;
-import com.lksk.web.model.StockOut;
 import com.lksk.web.service.ItemService;
 import com.lksk.web.service.ProductService;
+import com.lksk.web.service.StockOutService;
 
 @Controller
 public class ItemController {
 
-	@Autowired
-	ItemService itemService;
+	@Autowired ItemService itemService;
 	@Autowired ProductService productService;
+	@Autowired StockOutService stockOutService;
 
 	@GetMapping("/createItemPage")
 	public String showCreateItemPage(Model model) {
 		model.addAttribute("item", new Item());
 		model.addAttribute("products", productService.getAllProducts());
 		model.addAttribute("header", "Create Item");
-		return "item-popup";
+		return "item-create";
 	}
 
 	@RequestMapping(value = "/createItem",
@@ -42,10 +41,8 @@ public class ItemController {
 			@RequestParam Long productId) throws Exception{
 		
 		Product product = productService.findProductById(productId);
-		System.out.println("### Unit is:" + item.getUnit());
-		System.out.println("### Processed unit is:" + processUnit(item.getUnit()));
-		item.setUnit(processUnit(item.getUnit()));
-		System.out.println("### Set Unit is:" + item.getUnit());
+		System.out.println("### Unit is:" + item.getUnits());
+		System.out.println("### Processed unit is:" + item.getUnits());
 		item.setProduct(product);
 		item = itemService.saveItemToDB(item);
 
@@ -53,13 +50,6 @@ public class ItemController {
 		model.addAttribute("successMessage", item.getName() + " item added successfully!");
 		return "product-record";
 
-	}
-
-	private String processUnit(String unit) {
-		if(unit != null && !"".equalsIgnoreCase(unit) && !",".equalsIgnoreCase(unit)) {
-			return new StringBuffer(unit).deleteCharAt(0).deleteCharAt(unit.length()-2).deleteCharAt(unit.length()-3).toString();
-			
-		} else return "";
 	}
 
 	@RequestMapping(value = "/editItem",
@@ -72,7 +62,7 @@ public class ItemController {
 		model.addAttribute("item", itemService.findItemById(id));
 		model.addAttribute("products", productService.getAllProducts());
 		model.addAttribute("header", "Edit Item");
-		return "item-popup";
+		return "item-create";
 		
 	}
 	
@@ -121,38 +111,27 @@ public class ItemController {
 	@ResponseBody
 	public String loadUnitByItem(@RequestParam Long id) {
 		System.out.println("Searching units for item id " + id);
-		List<String> units = new ArrayList<>();
-		for (String unit : itemService.findUnitsByItemId(id)) {
-			units.addAll(Arrays.asList(unit.split("~~")));
-		}
-		return new Gson().toJson(units);
+		return new Gson().toJson(itemService.findItemById(id).getUnits());
 	}
 	
-	@RequestMapping(value = "/loadAvailableStockByItemId",
+	@RequestMapping(value = "/loadMaxQuantityByItemIdAndUnit",
 			method = RequestMethod.GET)
 	@ResponseBody
-	public String loadAvailableStockByItem(@RequestParam Long id) {
-		System.out.println("Searching available stock for item id " + id);
-		return String.valueOf(itemService.findItemById(id).getQuantity());
+	public String loadAvailableStockByItem(@RequestParam Long itemId, @RequestParam String unit) {
+		System.out.println("Searching available stock for item id - " + itemId + " and unit - " + unit);
+		return String.valueOf(itemService.findItemById(itemId).getQuantity(unit));
 	}
 	
-	@RequestMapping(value = "/checkIfQuantityPermittedByItem",
+	@RequestMapping(value = "/loadMaxQuantityByItemIdAndUnitAndStockOutId",
 			method = RequestMethod.GET)
 	@ResponseBody
-	public String checkIfQuantityPermittedByItem(@RequestParam Long id, @RequestParam Integer quantity) {
+	public String checkIfQuantityPermittedByItem(@RequestParam Long itemId, 
+			@RequestParam String unit, @RequestParam Long stockOutId) {
 		
-		System.out.println("Checking if quantity" + quantity + " peritted to stock out for item id " + id);
-		
-		StockOut stockOut = new StockOut();
-		stockOut.setQuantity(quantity);
-		
-		Item item = itemService.findItemById(id);
-		item.getStockOutList().add(stockOut);
-		
-		if(item.getQuantity() < 0) {
-			return "Exceeded";
-		}
-		return String.valueOf(itemService.findItemById(id).getQuantity());
+		Integer quantity = itemService.findItemById(itemId).getQuantity(unit)
+				+ stockOutService.findStockOutById(stockOutId).getQuantity();
+		System.out.println("Max quantity for stockOut edit: " + quantity + " for id: " + stockOutId );
+		return String.valueOf(quantity);
 		
 	}
 

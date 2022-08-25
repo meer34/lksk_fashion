@@ -14,12 +14,12 @@
 						<div class="col-lg-12 flexdisplay" >
 							<div class="col-lg-3 col-xs-6 stock-in-marg">
 								<div class="image-upload">
-									<label for="sPhoto">
-										<img th:src="*{'data:image/jpeg;base64,'+{stockIn.sPhotoBlob}}" class="after-ph stock-in-img" />
+									<label for="itemImage">
+										<img th:src="*{stockIn.itemImageBlob}" class="after-ph stock-in-img" />
 									</label>
 									<img src="" class="before-ph" style="display: none;" />
 									<canvas style="display: none;"></canvas>
-									<input type="file" name="sPhoto" id="sPhoto" th:disabled="${param.action[0]=='View'}">
+									<input type="file" name="itemImage" id="itemImage" th:disabled="${param.action[0]=='View'}">
 								</div>
 							</div>
 							<div class="col-lg-3 col-xs-6 stock-in-marg">
@@ -34,8 +34,8 @@
 									</div>
 								</div>
 								<div id="qr-reader-results">
-									<input type="text" name="scanCode" th:value="${stockIn.scanCode}" 
-										autocomplete="off" onClick="scanItemQRCode()" th:disabled="${param.action[0]=='View'}" >
+									<input type="text" name="scanCode" id="scanCode" th:value="${stockIn.scanCode}" autocomplete="off" th:disabled="${param.action[0]=='View'}">
+									<input type="button" name="stockInScan" id="scanCodeBtn" value="Scan" th:hidden="${param.action[0]=='View'}">
 								</div>
 							</div>
 							<div class="col-lg-3 col-xs-6 stock-in-marg">
@@ -59,12 +59,12 @@
 						<div class="col-lg-12 flexdisplay">
 							<div class="col-lg-3 col-xs-6 stock-in-marg">
 								<div class="image-upload">
-									<label for="colour">
-										<img th:src="*{'data:image/jpeg;base64,'+{stockIn.colourBlob}}" class="after-col stock-in-img" />
+									<label for="colourImage">
+										<img th:src="*{stockIn.colourImageBlob}" class="after-col stock-in-img" />
 									</label>
 									<img src="" class="before-col" style="display: none;" />
 									<canvas style="display: none;"></canvas>
-									<input type="file" name="colour" id="colour" th:disabled="${param.action[0]=='View'}">
+									<input type="file" name="colourImage" id="colourImage" th:disabled="${param.action[0]=='View'}">
 								</div>
 							</div>
 							<div class="col-lg-3 col-xs-6 stock-in-marg">
@@ -81,13 +81,14 @@
 							</div>
 							<div class="col-lg-3 col-xs-6 stock-in-marg">
 								<label style="text-align: left; display: block;">Quantity</label>
-								<input type="text" name="quantity" th:value="${stockIn.quantity}" th:readonly="${param.action[0]=='View'}" >
+								<input type="number" name="quantity" min="1" th:value="${stockIn.quantity}" th:readonly="${param.action[0]=='View'}" required 
+								oninvalid="this.setCustomValidity('Quantity cannot be 0 or blank')" oninput="this.setCustomValidity('')" onchange="calculateAmount()" >
 							</div>
 						</div>
 						<div class="col-lg-12 flexdisplay">
 							<div class="col-lg-3 col-xs-6 stock-in-marg">
-								<label style="text-align: left; display: block;">Price</label> <input
-									type="text" name="price" th:value="${stockIn.price}" th:readonly="${param.action[0]=='View'}" >
+								<label style="text-align: left; display: block;">Price</label>
+								<input type="number" name="price" min="0" step=".01" th:value="${stockIn.price}" th:readonly="${param.action[0]=='View'}" >
 							</div>
 							<div class="col-lg-3 col-xs-6 stock-in-marg">
 								<label style="text-align: left; display: block;">Amount</label>
@@ -143,8 +144,10 @@
 			</div>
 		</div>
 	</main>
-
-	<script th:src="@{js/html5-qrcode.js}"></script>
-	<div th:replace="fragments :: html_scripts"></div>
+	
+	<div th:replace="fragments :: img_upd_modal"></div>
+	
+	<div th:replace="fragments :: main_scripts"></div>
+	<div th:replace="fragments :: add_edit_scripts"></div>
 </body>
 </html>

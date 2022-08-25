@@ -38,19 +38,44 @@ function onItemChange(id) {
      $('#units').html(unitTag);
 }
 
-function setMaxQuantity(id) {
+function setMaxQuantity(unit) {
+    var quantityTagPrefix = `<input type="number" id="quantity" name="quantity" min="1" `;
+    var quantityTagSuffix = `required oninvalid="this.setCustomValidity('Quantity cannot be blank or 0 or more than available stock')" oninput="this.setCustomValidity('')"`
+  		  					+ ` onchange="calculateAmount()" >`;
+  	let itemId = document.getElementsByName("itemId")[0].value;
+    
+    if (unit) {
+    	$.ajax({
+    		url : '/loadMaxQuantityByItemIdAndUnit',
+    		data : { "itemId" : itemId, "unit" :  unit},
+    		success : function(result) {
+    			result = `max="` + result + `" ` +  `placeholder="` + result + ` available"`;
+    			$('#quantity').html(quantityTagPrefix + result + quantityTagSuffix);
+    		}
+    	});
+   }
+    //reset data
+    $('#quantity').html(quantityTagPrefix + quantityTagSuffix);
+}
+
+function setMaxQuantityForEdit() {
     var quantityTagPrefix = `<input type="number" id="quantity" name="quantity" placeholder="Quantity" min="1" `;
     var quantityTagSuffix = `required oninvalid="this.setCustomValidity('Quantity cannot be blank or 0 or more than available stock')" oninput="this.setCustomValidity('')"`
   		  					+ ` onchange="calculateAmount()" >`;
-    if (id) {
-    $.ajax({
-         url : '/loadAvailableStockByItemId',
-         data : { "id" : id },
-         success : function(result) {
-         	result = `max="` + result + `"`;
-         	$('#quantity').html(quantityTagPrefix + result + quantityTagSuffix);
-         }
-       });
-   }
+  	let itemId = document.getElementsByName("itemId")[0].value;
+  	let unit = document.getElementsByName("unit")[0].value;
+  	let stockOutId = document.getElementsByName("id")[0].value;
+  	let quantity = document.getElementsByName("quantity")[0].value;
     
+    if (unit) {
+    	$.ajax({
+    		url : '/loadMaxQuantityByItemIdAndUnitAndStockOutId',
+    		data : { "itemId" : itemId, "unit" :  unit, "stockOutId" : stockOutId},
+    		success : function(result) {
+    			result = `max="` + result + `" value="` + quantity + `" `;
+    			$('#quantity').html(quantityTagPrefix + result + quantityTagSuffix);
+    		}
+    	});
+    }
+    $('#quantity').html(quantityTagPrefix + quantityTagSuffix);
 }

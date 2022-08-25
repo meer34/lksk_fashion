@@ -11,10 +11,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -27,14 +25,10 @@ public class StockOut {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
-	@Transient
-	private MultipartFile sPhoto;
-	@Transient
-	private MultipartFile colour;
 	@Lob
-	private String sPhotoBlob;
+	private String itemImageBlob;
 	@Lob
-	private String colourBlob;
+	private String colourImageBlob;
 
 	private String scanCode;
 

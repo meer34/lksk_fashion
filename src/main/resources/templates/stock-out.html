@@ -55,10 +55,10 @@
 											<th class="table_heading">Code</th>
 											<th class="table_heading">Item Name</th>
 											<th class="table_heading">Party</th>
+											<th class="table_heading">Unit</th>
 											<th class="table_heading">Quantity</th>
 											<th class="table_heading">Price</th>
 											<th class="table_heading">Amount</th>
-											<th class="table_heading">Dispatched By</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -68,10 +68,10 @@
 											<td th:text="${stockOut.scanCode}" />
 											<td th:text="${stockOut.item?.name}" />
 											<td th:text="${stockOut.party?.name}" />
+											<td th:text="${stockOut.unit}" />
 											<td th:text="${stockOut.quantity}" />
 											<td th:text="${stockOut.price}" />
 											<td th:text="${stockOut.amount}" />
-											<td th:text="${stockOut.dispatchedBy?.name}" />
 										</tr>
 									</tbody>
 								</table>
@@ -83,7 +83,6 @@
 		</div>
 	</main>
 	
-	
-	<div th:replace="fragments :: html_scripts"></div>
+	<div th:replace="fragments :: main_scripts"></div>
 </body>
 </html>

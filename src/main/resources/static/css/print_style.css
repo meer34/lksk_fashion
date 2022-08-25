@@ -23,3 +23,8 @@ input {
 	height: 18px;
 	background-color: white;
 }
+
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    background-color: #fff;
+    opacity: 1;
+}

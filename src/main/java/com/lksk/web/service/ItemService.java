@@ -53,7 +53,7 @@ public class ItemService {
 	}
 
 	public List<String> findUnitsByItemId(Long id) {
-		return itemRepo.findUnitsByItemId(id);
+		return itemRepo.findUnitsById(id);
 	}
 
 }

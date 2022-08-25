@@ -1,13 +1,11 @@
 package com.lksk.web.controller;
 
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,22 +29,15 @@ public class OrderController {
 
 	@GetMapping("/addOrderPage")
 	public String createOrder() {
-		return "order-popup";
+		return "order-create";
 	}
 
 	@RequestMapping(value = "/addOrder",
 			method = RequestMethod.POST)
 	public String addOrder(Model model, CustOrder order, 
 			RedirectAttributes redirectAttributes) throws Exception{
-
-		if(StringUtils.cleanPath(order.getSPhoto().getOriginalFilename()).contains("..")) System.out.println("Photo not a a valid file");
-		order.setSPhotoBlob(Base64.getEncoder().encodeToString(order.getSPhoto().getBytes()));
-
-		if(StringUtils.cleanPath(order.getColour().getOriginalFilename()).contains("..")) System.out.println("Colour not a a valid file");
-		order.setColourBlob(Base64.getEncoder().encodeToString(order.getColour().getBytes()));
-
+		
 		orderService.saveOrderToDB(order);
-
 		redirectAttributes.addFlashAttribute("successMessage", "Order for mark " + order.getMark() + " placed successfully!");
 		return "redirect:/order";
 
@@ -117,11 +108,6 @@ public class OrderController {
 			@RequestParam("id") String id) throws Exception{
 
 		System.out.println("Got edit save request for id " + id);
-
-		String fileName = StringUtils.cleanPath(order.getSPhoto().getOriginalFilename());
-		if(fileName.contains("..")) System.out.println("not a a valid file");
-		order.setSPhotoBlob(Base64.getEncoder().encodeToString(order.getSPhoto().getBytes()));
-
 		order = orderService.saveOrderToDB(order);
 
 		redirectAttributes.addFlashAttribute("successMessage", "Order edited successfully!");

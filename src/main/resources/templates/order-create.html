@@ -23,12 +23,12 @@
                      <div class="col-lg-12 flexdisplay">
                         <div class="col-lg-3 col-xs-12">
                           <div class="image-upload">
-								<label for="sPhoto">
-									<img th:src="@{/images/item_image.jpg}" class="after-ph stock-in-img" />
+								<label for="itemImage">
+									<img th:src="@{/images/product_image.jpg}" class="after-ph stock-in-img" />
 								</label>
 								<img src="" class="before-ph" style="display: none;" />
 								<canvas style="display: none;"></canvas>
-								<input type="file" name="sPhoto" id="sPhoto" >
+								<input type="file" id="itemImage" >
 							</div>
                         </div>
                         <div class="col-lg-3 col-xs-12">
@@ -44,12 +44,12 @@
                      <div class="col-lg-12 flexdisplay">
                         <div class="col-lg-3 col-xs-12">
                            <div class="image-upload">
-								<label for="colour">
-									<img th:src="@{/images/item_colour.jpg}" class="after-col stock-in-img" />
+								<label for="colourImage">
+									<img th:src="@{/images/product_colour.jpg}" class="after-col stock-in-img" />
 								</label>
 								<img src="" class="before-col" style="display: none;" />
 								<canvas style="display: none;"></canvas>
-								<input type="file" name="colour" id="colour" >
+								<input type="file" id="colourImage" >
 							</div>
                         </div>
                         <div class="col-lg-9 col-xs-12">
@@ -94,7 +94,9 @@
          </div>
       </main>
     
+	<div th:replace="fragments :: img_upd_modal"></div>
 	
-	<div th:replace="fragments :: html_scripts"></div>
+	<div th:replace="fragments :: main_scripts"></div>
+	<div th:replace="fragments :: add_edit_scripts"></div>
   </body>
 </html>

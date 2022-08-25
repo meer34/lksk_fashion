@@ -13,10 +13,10 @@
                   <div class="notfound-404">
                      <h1>!</h1>
                   </div>
-                  <h2>Error</h2>
-                  <p style="margin-bottom: 0;">Something went wrong</p>
+                  <h2>Access Denied!</h2>
+                  <p style="margin-bottom: 0;">Hah, Caught you sticking your nose where it doesn't belong!</p>
                   <div class="dashboardicon2" style="text-align: left;">
-                     <a th:href="@{/}"><input type="button" name="goBack" class="submit action-button" value="Go Back"></a>
+                     <a th:href="@{/}"><input type="button" name="goBack" class="submit action-button" value="Go Back Now"></a>
                   </div>
                </div>
             </div>
@@ -24,6 +24,6 @@
       </main>
 	
 	
-    <div th:replace="fragments :: html_scripts"></div>
+    <div th:replace="fragments :: main_scripts"></div>
   </body>
 </html>

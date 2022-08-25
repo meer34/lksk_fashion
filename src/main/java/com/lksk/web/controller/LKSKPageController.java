@@ -26,6 +26,11 @@ public class LKSKPageController {
 	public String login() {
 		return "index";
 	}
+	
+	@RequestMapping("/accessDenied")
+	public String accessDenied() {
+		return "access-denied";
+	}
 
 	@GetMapping({"/", "/home"})
 	public String showLandingPage(Model model) {
@@ -39,7 +44,7 @@ public class LKSKPageController {
 	public String searchTotalStock(Model model, 
 			@RequestParam("fromDate") String fromDate,
 			@RequestParam("toDate") String toDate,
-			@RequestParam("item") String itemParam) throws Exception{
+			@RequestParam(value="item", required = false) String itemParam) throws Exception{
 
 		List<Item> itemList = new ArrayList<>();
 		Item tempItem = null;

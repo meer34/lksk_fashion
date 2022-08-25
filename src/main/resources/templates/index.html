@@ -8,7 +8,6 @@
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="shortcut icon" type="image/icon" href="images/favicon.png"/>
-      <link href="css/bootstrap.css" rel="stylesheet" type="text/css" />
       <link rel="stylesheet" type="text/css" href="css/main.css">
 	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
    </head>
@@ -18,38 +17,23 @@
             <div class="tile">
                <h1 class="tile-title text-center" style="font-size:16px;">LKSK FASHION</h1>
                <div class="dashboardicon">
-               <form th:action="@{login}" method="post">
-                  <input type="text" name="phone" id = "phone" placeholder="Phone Number" class="wow fadeInRight" style="animation-delay:.2s"/>
-				  <button type="button" class="btn new-login-button" onClick="generateOTP()" >Generate OTP</button>
-                  <input type="password" name="password" placeholder="Enter OTP" class="wow fadeInRight" style="animation-delay:.4s"/>
-                  <input type="button" name="cancel" class="previous action-button-previous" value="Cancel"/>
-                  <input type="submit" name="login" class="submit action-button" value="Login"/>
-                </form>
+					<form th:action="@{login}" method="post">
+					<input type="text" name="phone" id = "phone" placeholder="Phone Number" class="wow fadeInRight" style="animation-delay:.2s"/>
+					<button type="button" class="btn new-login-button" onClick="generateOTP()" >Generate OTP</button>
+					<input type="password" name="password" placeholder="Enter OTP" class="wow fadeInRight" style="animation-delay:.4s"/>
+					<input type="button" name="cancel" class="previous action-button-previous" value="Cancel"/>
+					<input type="submit" name="login" class="submit action-button" value="Login"/>
+					</form>
 				<div><p name="status" class="text-center"></p></div>
                </div>
             </div>
          </div>
       </main>
-	  <script>
-		function generateOTP() {
-			let phone = document.getElementById("phone").value;
-			$.ajax({
-			url : 'send-login-otp',
-			data : { "phone" : phone },
-			success : function(result) {
-				if(result == 'User Not Found'){
-					document.querySelector("p[name=status]").innerHTML = `The entered number is not registered!`;
-				} else if(result == 'Request Failed'){
-					document.querySelector("p[name=status]").innerHTML = `OTP request failed!`;
-				} else {
-					document.querySelector("p[name=status]").innerHTML = `OTP Sent successfully!`;
-				}
-			}
-			});
-		}
-	  </script>
-      <!-- Essential javascripts for application to work-->
+	  
+	  
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	  <div th:replace="fragments :: otp_generate_script"></div>
+	  
    </body>
 </html>
