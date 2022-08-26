@@ -20,8 +20,9 @@ public class ItemService {
 	}
 	
 	public Item findItemById(Long id) {
-		Optional<Item> op = itemRepo.findById(id);
-		return !op.isEmpty() ? op.get(): null;
+//		Optional<Item> op = itemRepo.findById(id);
+//		return !op.isEmpty() ? op.get(): null;
+		return itemRepo.findById(id).get();
 	}
 	
 	public Item findItemByName(String name) {
