@@ -17,8 +17,6 @@
 									<label for="itemImage">
 										<img th:src="@{/images/product_image.jpg}" class="after-ph stock-in-img" />
 									</label>
-									<img src="" class="before-ph" style="display: none;" />
-									<canvas style="display: none;"></canvas>
 									<input type="file" id="itemImage" >
 								</div>
 							</div>
@@ -27,8 +25,6 @@
 									<label for="colourImage">
 										<img th:src="@{/images/product_colour.jpg}" class="after-col stock-in-img" />
 									</label>
-									<img src="" class="before-col" style="display: none;" />
-									<canvas style="display: none;"></canvas>
 									<input type="file" id="colourImage" >
 								</div>
 							</div>
@@ -42,10 +38,8 @@
 										</div>
 									</div>
 								</div>
-								<div id="qr-reader-results">
-									<input type="text" name="scanCode" id="scanCode" placeholder="Scan Code" autocomplete="off" >
-									<input type="button" name="stockInScan" id="scanCodeBtn" value="Scan">
-								</div>
+								<input type="text" name="scanCode" id="scanCode" placeholder="Scan Code" autocomplete="off" >
+								<input type="button" name="stockInScan" id="scanCodeBtn" value="Scan">
 							</div>
 						</div>
 						<div class="col-lg-12 flexdisplay">
@@ -91,7 +85,7 @@
 								<input type="number" name="price" placeholder="Price" min="0" step=".01" onchange="calculateAmount()" >
 							</div>
 							<div class="col-lg-4 col-xs-4">
-								<input type="number" name="amount" placeholder="Amount" value="0" readonly>
+								<input type="number" name="amount" placeholder="Amount" readonly>
 							</div>
 						</div>
 						<div class="col-lg-12 flexdisplay">
@@ -115,7 +109,7 @@
 									placeholder="Remarks"></textarea>
 							</div>
 						</div>
-							<input type="button" name="cancel" class="previous action-button-previous" value="Cancel" th:attr="onclick=|location.href='@{/stock-in}'|" >
+							<input type="button" name="cancel" class="previous action-button-previous" value="Cancel" onclick="window.history.back()" >
 							<input type="submit" name="submit" class="submit action-button" value="Save">
 					</fieldset>
 				</form>

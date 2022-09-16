@@ -32,7 +32,7 @@
 								<th class="table_heading" style="width: 25%;">Product</th>
 								<th class="table_heading" style="width: 25%;">Unit</th>
 								<th class="table_heading" style="width: 25%;">Quantity</th>       
-								<th class="table_heading" style="width: 25%;">Action</th>
+								<th class="table_heading noPrint" style="width: 25%;">Action</th>
 							</tr>
 							</thead>
 							<tbody th:each="item: ${itemList}" >
@@ -40,7 +40,7 @@
 									<td th:text="${item.name}" />
 									<td th:text="${unit}" />
 									<td th:text="${item.getQuantity(unit)}" />
-									<td>
+									<td class="noPrint">
 										<div class="dashboardicon2" style="text-align: left;">
 											<input type="button" name="records" class="submit action-button" value="Stock Ins" 
 												th:attr="onclick=|location.href='searchStockIn?fromDate=&toDate=&keyword=~${item.name}~'|">

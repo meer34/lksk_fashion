@@ -10,13 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.lksk.web.model.StockOut;
+import com.lksk.web.service.CustomerService;
 import com.lksk.web.service.ItemService;
 import com.lksk.web.service.ModeratorService;
-import com.lksk.web.service.PartyService;
 import com.lksk.web.service.ProductService;
 import com.lksk.web.service.StockOutService;
 
@@ -26,7 +25,7 @@ public class StockOutController {
 	@Autowired StockOutService stockOutService;
 	@Autowired ProductService productService;
 	@Autowired ItemService itemService;
-	@Autowired PartyService partyService;
+	@Autowired CustomerService customerService;
 	@Autowired ModeratorService moderatorService;
 
 	@GetMapping("/stock-out")
@@ -39,7 +38,7 @@ public class StockOutController {
 	@GetMapping("/addStockOutPage")
 	public String showAddStockOutPage(Model model) {
 		model.addAttribute("products", productService.getAllProducts());
-		model.addAttribute("parties", partyService.getAllUsers());
+		model.addAttribute("customers", customerService.getAllUsers());
 		model.addAttribute("moderators", moderatorService.getAllUsers());
 		return "stock-out-create";
 	}
@@ -88,7 +87,7 @@ public class StockOutController {
 		model.addAttribute("submitValue", "Print");
 
 		model.addAttribute("products", productService.getAllProducts());
-		model.addAttribute("parties", partyService.getAllUsers());
+		model.addAttribute("customers", customerService.getAllUsers());
 		model.addAttribute("moderators", moderatorService.getAllUsers());
 
 		return "stock-out-view";
@@ -106,7 +105,7 @@ public class StockOutController {
 		model.addAttribute("submitValue", "Save");
 
 		model.addAttribute("products", productService.getAllProducts());
-		model.addAttribute("parties", partyService.getAllUsers());
+		model.addAttribute("customers", customerService.getAllUsers());
 		model.addAttribute("moderators", moderatorService.getAllUsers());
 
 		return "stock-out-view";
@@ -137,40 +136,6 @@ public class StockOutController {
 		redirectAttributes.addFlashAttribute("successMessage", "Stock Out edited successfully!");
 		return "redirect:/stock-out";
 
-	}
-	
-	@RequestMapping(value = "/addStockOutForScanCode",
-			method = RequestMethod.GET)
-	public String addStockOutForScanCode(Model model, @RequestParam("action") String action, 
-			@RequestParam("scanCode") String scanCode) throws Exception{
-
-		System.out.println("Got prefetch request for id " + scanCode);
-		
-		StockOut stockOut = stockOutService.findStockOutByScanCode(scanCode);
-		stockOut.setId(0);
-		
-		model.addAttribute("stockOut", stockOut);
-		model.addAttribute("header", "New Stock Out");
-		model.addAttribute("submitValue", "Save");
-
-		model.addAttribute("products", productService.getAllProducts());
-		model.addAttribute("parties", partyService.getAllUsers());
-		model.addAttribute("moderators", moderatorService.getAllUsers());
-
-		return "stock-out-view";
-
-	}
-
-	@RequestMapping(value = "/checkIfScanCodeExistsForStockOut",
-			method = RequestMethod.GET)
-	@ResponseBody
-	public String checkIfScanCodeExists(@RequestParam String scanCode) {
-		System.out.println("Searching StockOut for scan code - " + scanCode);
-		if(stockOutService.findStockOutByScanCode(scanCode) != null) {
-			return "Exist";
-		} else {
-			return "Not Exist";
-		}
 	}
 	
 }

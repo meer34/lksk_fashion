@@ -27,13 +27,15 @@
 						</div>
 					</form>
 					<div class="table-responsive table_size" style="margin-top: 50px;">
+						<div><p name="status" class="text-center"></p></div>
+						<div id="errorMessage"></div>
 						<table class="table table-bordered table-responsive table-hover" style="width: 100%;">
 							<thead class="thead-inverse" style="background-color: #446c9d; color: #FFF;">
 								<tr>
-									<th class="table_heading" style="width: 25%;">Name</th>
-									<th class="table_heading" style="width: 25%;">Phone</th>
-									<th class="table_heading" style="width: 25%;">Address</th>
-									<th class="table_heading" style="width: 25%;">Action</th>
+									<th class="table_heading" style="width: 23%;">Name</th>
+									<th class="table_heading" style="width: 23%;">Phone</th>
+									<th class="table_heading" style="width: 23%;">Address</th>
+									<th class="table_heading" style="width: 31%;">Action</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -45,11 +47,14 @@
 										<div class="dashboardicon2" style="text-align: left;">
 										  <form th:action="@{/admin}" method="get">
 											<input type="hidden" th:value="${admin.id}" id="id" name='id'>
+											<input type="hidden" th:value="${admin.phone}" id="phone" name='phone'>
 											<input type="hidden" th:value="${admin.name}" id="name" name='name'>
 											
 											<input type="submit" th:formaction="@{/viewAdmin}" name="action" class="submit action-button" value="View">
 											
 											<input type="submit" th:formaction="@{/editAdmin}" name="action" class="submit action-button" value="Edit" 
+																								sec:authorize="hasAuthority('ADMIN')" >
+											<input type="button" name="action" class="submit action-button2" value="New Pin" th:attr="onClick=|generatePin(${admin.phone})|"
 																								sec:authorize="hasAuthority('ADMIN')" >
 											<input type="submit" th:formaction="@{/deleteAdmin}" name="action" class="submit action-button2" value="Delete" 
 																								sec:authorize="hasAuthority('ADMIN')" >
@@ -68,5 +73,6 @@
 
 	<div th:replace="fragments :: main_scripts"></div>
 	<div th:replace="fragments :: user_search_script"></div>
+	<div th:replace="fragments :: otp_generate_script"></div>
 </body>
 </html>

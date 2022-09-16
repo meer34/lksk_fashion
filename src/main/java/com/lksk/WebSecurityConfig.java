@@ -74,7 +74,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			String authority = environment.getProperty(restrictedUrl);
 			if(authority == null) continue;
 			
-			urlRegistry.antMatchers("/" + restrictedUrl + "/**").permitAll(); //.hasAuthority(authority);
+			urlRegistry.antMatchers("/" + restrictedUrl + "/**").hasAuthority(authority); //.hasAuthority(authority);
 			
 		}
 
@@ -83,7 +83,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		}
 
 		for (String auth : authPermitUrls) {
-			urlRegistry.antMatchers("/" + auth).permitAll(); //.authenticated();
+			urlRegistry.antMatchers("/" + auth).authenticated(); //.authenticated();
 		}
 
 		return urlRegistry.anyRequest().authenticated();

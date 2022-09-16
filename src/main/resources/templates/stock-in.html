@@ -49,7 +49,7 @@
 								<table class="table table-bordered table-responsive table-hover" style="width: 100%;" id="printTable" >
 									<thead class="thead-inverse" style="background-color: #446c9d; color: #FFF;">
 										<tr>
-											<th class="table_heading"></th>
+											<th class="table_heading noPrint"></th>
 											<th class="table_heading">Date</th>
 											<th class="table_heading">Code</th>
 											<th class="table_heading">Item Name</th>
@@ -62,7 +62,7 @@
 									</thead>
 									<tbody>
 										<tr style="background-color: #FFF" th:each="stockIn: ${stockInList}">
-											<td><input type='radio' th:value="${stockIn.id}" class="radioBtn" name='id'></td>
+											<td class="noPrint"><input type='radio' th:value="${stockIn.id}" class="radioBtn" name='id'></td>
 											<td th:text="${stockIn.date}" />
 											<td th:text="${stockIn.scanCode}" />
 											<td th:text="${stockIn.item?.name}" />

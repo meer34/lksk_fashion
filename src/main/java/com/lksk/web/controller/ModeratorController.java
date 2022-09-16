@@ -95,5 +95,5 @@ public class ModeratorController {
 		return "redirect:/moderator";
 		
 	}
-
+	
 }

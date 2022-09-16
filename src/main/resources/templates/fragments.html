@@ -88,7 +88,7 @@
 						<div class="image_container">
 							<img id="blah" src="#" alt="your image" />
 						</div>
-						<button id="crop_button">Crop</button> 
+						<button id="crop_button" class="submit action-button">Crop</button> 
 					</div>
 				</div>
 			</div>
@@ -104,9 +104,10 @@
 	
 	<link th:fragment="add_edit_scripts" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.0.0/cropper.min.css" integrity="sha256-FeDcPwV8ZgxG1MU5L/b2i8clOmqZJKK0eyDHqrQaXxY=" crossorigin="anonymous">
 	<script th:fragment="add_edit_scripts" src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.0.0/cropper.min.js"></script>
+	<script th:fragment="add_edit_scripts" src="https://cdn.jsdelivr.net/npm/exif-js"></script>
 	<script th:fragment="add_edit_scripts" src="js/dynaDrop.js"></script>
 	<script th:fragment="add_edit_scripts" src="js/crop_compress.js"></script>
-	<!-- <script th:fragment="add_edit_scripts" src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script>-->
+	<!--<script th:fragment="add_edit_scripts" src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script>-->
 	<script th:fragment="add_edit_scripts" src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.2.1/html5-qrcode.min.js"></script>
 	<script th:fragment="add_edit_scripts" src="js/html5-qrcode.js"></script>
 	  
@@ -127,22 +128,40 @@
 	</script>
 	
 	<script th:fragment="otp_generate_script">
-		function generateOTP() {
-			let phone = document.getElementById("phone").value;
+		function generatePin(phone) {
 			$.ajax({
-			url : 'send-login-otp',
+			url : 'generatePin',
 			data : { "phone" : phone },
 			success : function(result) {
 				if(result == 'Success'){
 					document.querySelector("p[name=status]").innerHTML = `OTP Sent successfully!`;
+					$('#errorMessage').removeClass('alert');
+					$('#errorMessage').removeClass('alert-dismissible');
+					$('#errorMessage').removeClass('alert-danger error');
+					
 				} else if(result == 'User Not Found'){
-					document.querySelector("p[name=status]").innerHTML = `The entered number is not registered!`;
+					$('#errorMessage').html(`The entered number is not registered!`);
+					$('#errorMessage').addClass('alert');
+					$('#errorMessage').addClass('alert-dismissible');
+					$('#errorMessage').addClass('alert-danger error');
+					
 				} else {
-					document.querySelector("p[name=status]").innerHTML = `OTP request failed!`;
+					$('#errorMessage').html(`OTP request failed!`);
+					$('#errorMessage').addClass('alert');
+					$('#errorMessage').addClass('alert-dismissible');
+					$('#errorMessage').addClass('alert-danger error');
 				}
 			}
 			});
 		}
+
+		$(window).on('load', function(){
+			$('#errorMessage').html('');
+			$('#errorMessage').removeClass('alert');
+			$('#errorMessage').removeClass('alert-dismissible');
+			$('#errorMessage').removeClass('alert-danger error');
+		});
+		
 	</script>
 	
 	<script th:fragment="user_search_script">

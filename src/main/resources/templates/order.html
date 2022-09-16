@@ -46,7 +46,7 @@
 									<thead class="thead-inverse"
 										style="background-color: #446c9d; color: #FFF;">
 										<tr>
-											<th class="table_heading"></th>
+											<th class="table_heading noPrint"></th>
 											<th class="table_heading">Date</th>
 											<th class="table_heading">Mark</th>
 											<th class="table_heading">Supplier</th>
@@ -59,7 +59,7 @@
 									</thead>
 									<tbody>
 										<tr style="background-color: #FFF" th:each="order: ${orderList}">
-											<td><input type='radio' th:value="${order.id}" class="radioBtn" name='id'></td>
+											<td class="noPrint" ><input type='radio' th:value="${order.id}" class="radioBtn" name='id'></td>
 											<td th:text="${order.date}" />
 											<td th:text="${order.mark}" />
 											<td th:text="${order.supplier}" />

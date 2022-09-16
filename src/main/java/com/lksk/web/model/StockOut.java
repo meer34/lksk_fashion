@@ -37,8 +37,8 @@ public class StockOut {
 	private Item item;
 
 	@ManyToOne
-	@JoinColumn(name ="party")
-	private Party party;
+	@JoinColumn(name ="customer")
+	private Customer customer;
 
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -65,7 +65,7 @@ public class StockOut {
 			sb.append("~").append(item.getName());
 			if(item.getProduct() != null) sb.append("~").append(item.getProduct().getName());
 		}
-		if(party != null) sb.append("~").append(party.getName());
+		if(customer != null) sb.append("~").append(customer.getName());
 		if(dispatchedBy != null) sb.append("~").append(dispatchedBy.getName());
 
 		return sb.toString();

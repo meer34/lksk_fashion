@@ -30,4 +30,8 @@ public class AdminService {
 		adminRepo.deleteById(id);
 	}
 
+	public List<Admin> getAdminsByPhoneNumberAndIdNotMatching(String phone, Long id) {
+		return adminRepo.findByPhoneAndIdNot(phone, id);
+	}
+
 }

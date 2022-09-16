@@ -71,8 +71,4 @@ public class StockOutService {
 		stockOutRepo.deleteById(id);
 	}
 
-	public StockOut findStockOutByScanCode(String scanCode) {
-		return stockOutRepo.findFirstByScanCodeOrderByIdDesc(scanCode);
-	}
-
 }

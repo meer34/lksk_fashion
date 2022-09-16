@@ -26,9 +26,6 @@ public class Party {
 	@OneToMany(mappedBy="party")
 	private List<StockIn> stockInList;
 	
-	@OneToMany(mappedBy="party")
-	private List<StockOut> stockOutList;
-	
 	@Override
 	public String toString() {
 		return name + "~" + phone + "~" + address + "~" + gst;

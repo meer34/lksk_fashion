@@ -14,11 +14,13 @@ import com.lksk.web.model.Admin;
 import com.lksk.web.model.User;
 import com.lksk.web.repo.UserRepository;
 import com.lksk.web.service.AdminService;
+import com.lksk.web.service.ModeratorService;
 
 @Controller
 public class AdminController {
 
 	@Autowired AdminService adminService;
+	@Autowired ModeratorService moderatorService;
 	@Autowired UserRepository userRepository;
 
 	@GetMapping("/admin")
@@ -99,13 +101,30 @@ public class AdminController {
 		return "redirect:/admin";
 	}
 
-	@GetMapping("/checkIfNumberExistsForUser")
+	@GetMapping("/checkIfNumberExistsForOtherAdmins")
 	@ResponseBody
-	public String checkIfNumberExistsForUser(@RequestParam String number) {
-		if(userRepository.getUserByPhoneNumber(number) != null) {
+	public String checkIfNumberExistsForOtherAdmins(@RequestParam String phone, @RequestParam Long id) {
+		
+		if(adminService.getAdminsByPhoneNumberAndIdNotMatching(phone, id).size() > 0 ||
+				moderatorService.getModeratorsByPhoneNumberAndIdNotMatching(phone, 0L).size() > 0) {
 			return "Exist";
 		}
+		
 		return "Not Exist";
+		
 	}
-
+	
+	@GetMapping("/checkIfNumberExistsForOtherModerators")
+	@ResponseBody
+	public String checkIfNumberExistsForOtherModerators(@RequestParam String phone, @RequestParam Long id) {
+		
+		if(moderatorService.getModeratorsByPhoneNumberAndIdNotMatching(phone, id).size() > 0 ||
+				adminService.getAdminsByPhoneNumberAndIdNotMatching(phone, 0L).size() > 0) {
+			return "Exist";
+		}
+		
+		return "Not Exist";
+		
+	}
+	
 }

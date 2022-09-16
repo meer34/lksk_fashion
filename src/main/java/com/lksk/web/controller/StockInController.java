@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.lksk.web.model.Item;
 import com.lksk.web.model.StockIn;
+import com.lksk.web.model.StockOut;
+import com.lksk.web.service.CustomerService;
 import com.lksk.web.service.ItemService;
 import com.lksk.web.service.ModeratorService;
 import com.lksk.web.service.PartyService;
@@ -27,6 +30,7 @@ public class StockInController {
 	@Autowired ProductService productService;
 	@Autowired ItemService itemService;
 	@Autowired PartyService partyService;
+	@Autowired CustomerService customerService;
 	@Autowired ModeratorService moderatorService;
 
 	@GetMapping("/stock-in")
@@ -121,11 +125,20 @@ public class StockInController {
 
 	@RequestMapping(value = "/deleteStockIn",
 			method = RequestMethod.GET)
-	public String deleteStockIn(RedirectAttributes redirectAttributes, @RequestParam("id") String id) throws Exception{
+	public String deleteStockIn(RedirectAttributes redirectAttributes, @RequestParam("id") Long id) throws Exception{
 
 		System.out.println("Got delete request for stock-in id " + id);
-		stockInService.deleteStockInById(Long.parseLong(id));
-		redirectAttributes.addFlashAttribute("successMessage", "Stock In with id " + id + " deleted successfully!");
+		StockIn stockIn = stockInService.findStockInById(id);
+		Item item = stockIn.getItem();
+		Integer quantity = item.getQuantity(stockIn.getUnit());
+		if(quantity - stockIn.getQuantity() >= 0) {
+			stockInService.deleteStockInById(id);
+			redirectAttributes.addFlashAttribute("successMessage", "Stock In with id " + id + " deleted successfully!");
+		} else {
+			redirectAttributes.addFlashAttribute("successMessage", "Not allowed to deleted this Stock In since " 
+													+ item.getStockOutQuantity(stockIn.getUnit()) + " Stock Out quantity present for this item unit!");
+		}
+		
 		return "redirect:/stock-in";
 
 	}
@@ -173,6 +186,50 @@ public class StockInController {
 	@ResponseBody
 	public String checkIfScanCodeExistsForStockIn(@RequestParam String scanCode) {
 		System.out.println("Searching StockIn for scan code - " + scanCode);
+		if(stockInService.findStockInByScanCode(scanCode) != null) {
+			return "Exist";
+		} else {
+			return "Not Exist";
+		}
+	}
+	
+	@RequestMapping(value = "/addStockOutForScanCode",
+			method = RequestMethod.GET)
+	public String addStockOutForScanCode(Model model, @RequestParam("action") String action, 
+			@RequestParam("scanCode") String scanCode) throws Exception{
+
+		System.out.println("Got prefetch request for id " + scanCode);
+		
+		StockIn stockIn = stockInService.findStockInByScanCode(scanCode);
+		
+		StockOut stockOut = new StockOut();
+		stockOut.setId(0);
+		stockOut.setItemImageBlob(stockIn.getItemImageBlob());
+		stockOut.setColourImageBlob(stockIn.getColourImageBlob());
+		stockOut.setScanCode(stockIn.getScanCode());
+		stockOut.setItem(stockIn.getItem());
+		stockOut.setUnit(stockIn.getUnit());
+		stockOut.setSize(stockIn.getSize());
+		stockOut.setDispatchedBy(stockIn.getReceivedBy());
+		stockOut.setDispatchedFrom(stockIn.getReceivedIn());
+		
+		model.addAttribute("stockOut", stockOut);
+		model.addAttribute("header", "New Stock Out");
+		model.addAttribute("submitValue", "Save");
+
+		model.addAttribute("products", productService.getAllProducts());
+		model.addAttribute("customers", customerService.getAllUsers());
+		model.addAttribute("moderators", moderatorService.getAllUsers());
+
+		return "stock-out-view";
+
+	}
+
+	@RequestMapping(value = "/checkIfScanCodeExistsForStockOut",
+			method = RequestMethod.GET)
+	@ResponseBody
+	public String checkIfScanCodeExists(@RequestParam String scanCode) {
+		System.out.println("Searching StockOut for scan code - " + scanCode);
 		if(stockInService.findStockInByScanCode(scanCode) != null) {
 			return "Exist";
 		} else {

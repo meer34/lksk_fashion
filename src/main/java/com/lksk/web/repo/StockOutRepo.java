@@ -19,6 +19,4 @@ public interface StockOutRepo extends JpaRepository<StockOut, Long>{
 	List<StockOut> findByItemName(String item);
 	List<StockOut> findAllByOrderByIdDesc();
 	
-	StockOut findFirstByScanCodeOrderByIdDesc(String scanCode);
-
 }

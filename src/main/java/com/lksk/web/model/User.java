@@ -1,5 +1,6 @@
 package com.lksk.web.model;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,8 +35,11 @@ public class User {
 	private String username;
 	@Column(unique=true)
 	private String phone;
-	private String otp;
+	private String pin;
 	private Boolean enabled;
+    private Date pinGenerationTime;
+    
+    private static final long MIN_TO_LONG = 24L*60L*60L * 1000L;
 	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name="users_roles", joinColumns=@JoinColumn(name ="user_id"), inverseJoinColumns=@JoinColumn(name="role_id"))
@@ -47,5 +51,16 @@ public class User {
 		this.enabled = enabled;
 		this.roles.add(new Role(role));
 	}
+	
+    public boolean isOtpNonExpired(Long days) {
+        if (this.pinGenerationTime == null) return true;
+        
+        if(System.currentTimeMillis() > this.pinGenerationTime.getTime() + days*MIN_TO_LONG) {
+        	System.out.println("Entered PIN for " + this.phone + " has expired!");
+        	return false;
+        	
+        } else return true;
+        
+    }
 	
 }

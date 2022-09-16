@@ -30,5 +30,9 @@ public class ModeratorService {
 		moderatorRepo.deleteById(id);
 	}
 
+	public List<Moderator> getModeratorsByPhoneNumberAndIdNotMatching(String phone, Long id) {
+		return moderatorRepo.findByPhoneAndIdNot(phone, id);
+	}
+
 
 }

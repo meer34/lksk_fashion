@@ -17,7 +17,7 @@
 						<input type="text" name="phone" placeholder="Phone" th:value="${party.phone}" readonly >
 						<input type="text" name="address" placeholder="Address" th:value="${party.address}" readonly >
 						<input type="text" name="gst" placeholder="GST" th:value="${party.gst}" readonly >
-						<input type="button" name="cancel" class="previous action-button-previous" value="Back" th:attr="onclick=|location.href='@{/party}'|" >
+						<input type="button" name="cancel" class="previous action-button-previous" value="Back" onclick="window.history.back()" >
 						<input type="submit" name="print" class="submit action-button" value="Print" onclick="printData()">
 					</form>
 				</div>

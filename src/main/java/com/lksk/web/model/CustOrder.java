@@ -6,7 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -35,6 +37,11 @@ public class CustOrder {
 	private String sWidth;
 	private String color;
 	private Integer quantity;
+	
+	@ManyToOne
+	@JoinColumn(name="item")
+	private Item item;
+	
 	private String unit;
 	private String reference;
 	private Double price;

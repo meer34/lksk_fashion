@@ -1,17 +1,18 @@
 package com.lksk.web.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 @Entity
 public class Customer {
 	@Id
@@ -21,5 +22,13 @@ public class Customer {
 	private String phone;
 	private String address;
 	private String gst;
+	
+	@OneToMany(mappedBy="customer")
+	private List<StockOut> stockOutList;
+	
+	@Override
+	public String toString() {
+		return name + "~" + phone + "~" + address + "~" + gst;
+	}
 	
 }

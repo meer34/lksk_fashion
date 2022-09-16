@@ -4,6 +4,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletResponse;
@@ -35,29 +36,30 @@ public class OTPController {
 
 	@Autowired UserRepository userRepo;
 	
-	@GetMapping("/send-login-otp")
+	@GetMapping("/generatePin")
 	@ResponseBody 
 	public String showCreateItemPage(HttpServletResponse response, @RequestParam String phone) {
 		try {
 			response.setContentType("text/plain");
 			response.setCharacterEncoding("UTF-8");
 			
-			String otp= new DecimalFormat("000000").format(new Random().nextInt(999999));
+			String otp= new DecimalFormat("0000").format(new Random().nextInt(9999));
 			
 			User user = userRepo.getUserByPhoneNumber(phone);
 			if(user != null && phone.equals(user.getPhone())) {
-				user.setOtp(new BCryptPasswordEncoder().encode(otp));
+				user.setPin(new BCryptPasswordEncoder().encode(otp));
+				user.setPinGenerationTime(new Date());
 				userRepo.save(user);
 				
 			} else {
-				System.out.println("User Not Found");
+				System.out.println("User Not Found with phone number:" + phone);
 				return "User Not Found";
 			}
 
 			String requestBody = new StringBuilder("sender_id=")
 					.append("FTWSMS")
 					.append("&message=")
-					.append("Your login OTP is - ")
+					.append("Hi " + user.getUsername() + ",\nYour login OTP is - ")
 					.append(otp)
 					.append("&route=v3&numbers=")
 					.append(phone)

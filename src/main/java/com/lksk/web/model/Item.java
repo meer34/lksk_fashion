@@ -40,6 +40,9 @@ public class Item {
 
 	@OneToMany(mappedBy="item")
 	private List<StockOut> stockOutList;
+	
+	@OneToMany(mappedBy="item")
+	private List<CustOrder> orderList;
 
 	public int getQuantity(String unit) {
 		quantity = 0;
@@ -82,6 +85,14 @@ public class Item {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	public int getStockOutQuantity(String unit) {
+		int stockOutQuantity = 0;
+		for (StockOut stockOut : stockOutList) {
+			if(unit!=null && unit.equalsIgnoreCase(stockOut.getUnit())) stockOutQuantity += stockOut.getQuantity();
+		}
+		return stockOutQuantity;
 	}
 
 }

@@ -14,12 +14,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.lksk.web.model.CustOrder;
 import com.lksk.web.service.OrderService;
+import com.lksk.web.service.ProductService;
 
 @Controller
 public class OrderController {
 
-	@Autowired
-	OrderService orderService;
+	@Autowired OrderService orderService;
+	@Autowired ProductService productService;
 
 	@GetMapping("/order")
 	public String showStockIn(Model model) {
@@ -28,7 +29,8 @@ public class OrderController {
 	}
 
 	@GetMapping("/addOrderPage")
-	public String createOrder() {
+	public String createOrder(Model model) {
+		model.addAttribute("products", productService.getAllProducts());
 		return "order-create";
 	}
 
@@ -84,6 +86,7 @@ public class OrderController {
 		System.out.println("Got edit request for order id " + id);
 		CustOrder order = orderService.findOrderById(Long.parseLong(id));
 		model.addAttribute("order", order);
+		model.addAttribute("products", productService.getAllProducts());
 		model.addAttribute("header", order.getMark());
 		model.addAttribute("submitValue", "Edit");
 		return "order-view";

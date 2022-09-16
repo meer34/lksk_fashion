@@ -34,8 +34,7 @@ public class MyUserDetails implements UserDetails {
 
 	@Override
 	public String getPassword() {
-		return user.getOtp();
-//		return new BCryptPasswordEncoder().encode("1234");
+		return user.getPin();
 	}
 
 	@Override
@@ -55,7 +54,10 @@ public class MyUserDetails implements UserDetails {
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return true;
+		if(user.isOtpNonExpired(30L)) {
+			return true;
+			
+		} else return false;
 	}
 
 	@Override

@@ -16,8 +16,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.google.gson.Gson;
 import com.lksk.web.model.Item;
 import com.lksk.web.model.Product;
+import com.lksk.web.model.StockIn;
+import com.lksk.web.model.StockOut;
 import com.lksk.web.service.ItemService;
 import com.lksk.web.service.ProductService;
+import com.lksk.web.service.StockInService;
 import com.lksk.web.service.StockOutService;
 
 @Controller
@@ -25,6 +28,7 @@ public class ItemController {
 
 	@Autowired ItemService itemService;
 	@Autowired ProductService productService;
+	@Autowired StockInService stockInService;
 	@Autowired StockOutService stockOutService;
 
 	@GetMapping("/createItemPage")
@@ -41,10 +45,9 @@ public class ItemController {
 			@RequestParam Long productId) throws Exception{
 		
 		Product product = productService.findProductById(productId);
-		System.out.println("### Unit is:" + item.getUnits());
-		System.out.println("### Processed unit is:" + item.getUnits());
 		item.setProduct(product);
 		item = itemService.saveItemToDB(item);
+		System.out.println("Item created with name: " + item.getName() + " and id: " + item.getId());
 
 		model.addAttribute("product", product);
 		model.addAttribute("successMessage", item.getName() + " item added successfully!");
@@ -74,6 +77,7 @@ public class ItemController {
 		
 		System.out.println("Got delete request for item with id " + id);
 		itemService.deleteItemById(id);
+		System.out.println("Item deleted successfully.");
 		redirectAttributes.addFlashAttribute("successMessage", "Item deleted successfully!");
 		return "redirect:/product";
 		
@@ -125,13 +129,46 @@ public class ItemController {
 	@RequestMapping(value = "/loadMaxQuantityByItemIdAndUnitAndStockOutId",
 			method = RequestMethod.GET)
 	@ResponseBody
-	public String checkIfQuantityPermittedByItem(@RequestParam Long itemId, 
+	public String checkIfQuantityPermittedByItemForStockOut(@RequestParam Long itemId, 
 			@RequestParam String unit, @RequestParam Long stockOutId) {
 		
-		Integer quantity = itemService.findItemById(itemId).getQuantity(unit)
-				+ stockOutService.findStockOutById(stockOutId).getQuantity();
+		Integer quantity = itemService.findItemById(itemId).getQuantity(unit);
+		StockOut stockOut = stockOutService.findStockOutById(stockOutId);
+		
+		System.out.println(stockOut.getUnit() + " #### " + unit);
+		
+		if(stockOut.getUnit().equalsIgnoreCase(unit)) {
+			quantity += stockOut.getQuantity();
+			
+		}
 		System.out.println("Max quantity for stockOut edit: " + quantity + " for id: " + stockOutId );
+		
 		return String.valueOf(quantity);
+		
+	}
+	
+	
+	@RequestMapping(value = "/checkIfStockInEditAllowedByItemIdAndUnitAndStockInId",
+			method = RequestMethod.GET)
+	@ResponseBody
+	public String checkIfQuantityPermittedByItemForStockIn(@RequestParam Long itemId, 
+			@RequestParam String unit, @RequestParam Long stockInId, @RequestParam Integer quantity) {
+		
+		StockIn stockIn = stockInService.findStockInById(stockInId);
+		
+		Item oldItem = stockIn.getItem();
+		Item currItem = itemService.findItemById(itemId);
+		
+		if(itemId == oldItem.getId()) {
+			if(currItem.getQuantity(unit) + quantity >= stockIn.getQuantity()) {
+//				return String.valueOf(stockIn.getQuantity() - currItem.getQuantity(unit));
+				return "Allowed";
+			}
+		} else if(oldItem.getQuantity(stockIn.getUnit()) >= stockIn.getQuantity()) {
+				return "Allowed";
+		}
+		
+		return "Not Allowed";
 		
 	}
 

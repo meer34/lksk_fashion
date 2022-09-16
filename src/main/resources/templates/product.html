@@ -14,7 +14,7 @@
             <input type="button" name="nProduct" class="submit action-button" value="Create New Item" th:attr="onclick=|location.href='@{/createItemPage}'|" >
         </div>
           <div class="tile">
-            <h3 class="tile-title">Items</h3>
+            <h3 class="tile-title">Products</h3>
 					<form class="dashboardicon" th:action="@{/searchProductRecords}" method="get" >
 						<div class="form-group col-lg-12">
 							<div class="col-lg-12">
@@ -30,20 +30,19 @@
 							<div class="dashboardicon2" style="text-align: left;" th:if="${productList.size() > 0}">
 								<input type="submit" th:formaction="@{/viewProductRecords}" name="action" class="submit action-button" value="Records">
 								<input type="submit" th:formaction="@{/editProduct}" name="action" class="submit action-button" value="Edit">
-								<input type="submit" name="action" class="submit action-button2" value="Print">
+								<input type="button" name="action" class="submit action-button2" value="Print" onclick="printData()">
 							</div>
-							<table class="table table-bordered table-responsive table-hover"
-								style="width: 100%;">
+							<table class="table table-bordered table-responsive table-hover" style="width: 100%;" id="printTable">
 								<thead class="thead-inverse"
 									style="background-color: #446c9d; color: #FFF;">
 									<tr>
-										<th class="table_heading" style="width: 10%;"></th>
-										<th class="table_heading" style="width: 90%;">Item</th>
+										<th class="table_heading noPrint" style="width: 10%;"></th>
+										<th class="table_heading" style="width: 90%;">Product</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr style="background-color: #FFF" th:each="product: ${productList}">
-										<td><input type='radio' th:value="${product.id}" class="radioBtn" name='id'></td>
+										<td class="noPrint"><input type='radio' th:value="${product.id}" class="radioBtn" name='id'></td>
 										<td th:text="${product.name}" />
 										<td></td>
 									</tr>

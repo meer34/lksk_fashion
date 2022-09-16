@@ -50,11 +50,11 @@
 									<thead class="thead-inverse"
 										style="background-color: #446c9d; color: #FFF;">
 										<tr>
-											<th class="table_heading"></th>
+											<th class="table_heading noPrint"></th>
 											<th class="table_heading">Date</th>
 											<th class="table_heading">Code</th>
 											<th class="table_heading">Item Name</th>
-											<th class="table_heading">Party</th>
+											<th class="table_heading">Customer</th>
 											<th class="table_heading">Unit</th>
 											<th class="table_heading">Quantity</th>
 											<th class="table_heading">Price</th>
@@ -63,11 +63,11 @@
 									</thead>
 									<tbody>
 										<tr style="background-color: #FFF" th:each="stockOut: ${stockOutList}">
-											<td><input type='radio' th:value="${stockOut.id}" class="radioBtn" name='id'></td>
+											<td class="noPrint"><input type='radio' th:value="${stockOut.id}" class="radioBtn" name='id'></td>
 											<td th:text="${stockOut.date}" />
 											<td th:text="${stockOut.scanCode}" />
 											<td th:text="${stockOut.item?.name}" />
-											<td th:text="${stockOut.party?.name}" />
+											<td th:text="${stockOut.customer?.name}" />
 											<td th:text="${stockOut.unit}" />
 											<td th:text="${stockOut.quantity}" />
 											<td th:text="${stockOut.price}" />

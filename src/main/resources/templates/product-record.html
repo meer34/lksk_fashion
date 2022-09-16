@@ -13,7 +13,7 @@
 					<input type="button" name="nProduct" class="submit action-button" value="Create New Item" th:attr="onclick=|location.href='@{/createItemPage}'|" >
 				</div>
 				<div class="tile">
-					<h3 class="tile-title">Products</h3>
+					<h3 class="tile-title">Items</h3>
 					<form class="dashboardicon" th:action="@{/searchItemRecords}" method="get" >
 						<div class="form-group col-lg-12">
 							<div class="col-lg-12">
@@ -31,8 +31,8 @@
 							<thead class="thead-inverse"
 								style="background-color: #446c9d; color: #FFF;">
 								<tr>
-									<th class="table_heading" style="width: 25%;">Product</th>
 									<th class="table_heading" style="width: 25%;">Item</th>
+									<th class="table_heading" style="width: 25%;">Product</th>
 									<th class="table_heading" style="width: 15%;">Unit</th>
 									<th class="table_heading" style="width: 35%;">Action</th>
 								</tr>

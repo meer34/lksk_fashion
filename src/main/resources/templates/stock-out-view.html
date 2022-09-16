@@ -19,7 +19,7 @@
 									</label>
 									<img src="" class="before-ph" style="display: none;" />
 									<canvas style="display: none;"></canvas>
-									<input type="file" name="itemImage" id="itemImage" th:disabled="${param.action[0]=='View'}">
+									<input type="file" id="itemImage" th:disabled="${param.action[0]=='View'}">
 								</div>
 							</div>
 							<div class="col-lg-3 col-xs-6 stock-in-marg">
@@ -33,10 +33,8 @@
 										</div>
 									</div>
 								</div>
-								<div id="qr-reader-results">
-									<input type="text" name="scanCode" id="scanCode" th:value="${stockOut.scanCode}" autocomplete="off" th:disabled="${param.action[0]=='View'}">
-									<input type="button" name="stockOutScan" id="scanCodeBtn" value="Scan" th:hidden="${param.action[0]=='View'}">
-								</div>
+								<input type="text" name="scanCode" id="scanCode" th:value="${stockOut.scanCode}" autocomplete="off" th:disabled="${param.action[0]=='View'}">
+								<input type="button" name="stockOutScan" id="scanCodeBtn" value="Scan" th:hidden="${param.action[0]=='View'}">
 							</div>
 							<div class="col-lg-3 col-xs-6 stock-in-marg">
 								<label style="text-align: left; display: block;">Product</label>
@@ -68,11 +66,11 @@
 								</div>
 							</div>
 							<div class="col-lg-3 col-xs-6 stock-in-marg">
-								<label style="text-align: left; display: block;">Party</label>
-								<select class="form-control" name="party" id="select" style="height: 48px;" th:disabled="${param.action[0]=='View'}" >
-									<option selected disabled="disabled" value="">Party</option>
-									<option style="color: #333;" th:each="party : ${parties}" th:text="${party.name}"  th:value="${party.id}"
-										th:selected="${party.name==stockOut.party?.name}" ></option>
+								<label style="text-align: left; display: block;">Customer</label>
+								<select class="form-control" name="customer" id="select" style="height: 48px;" th:disabled="${param.action[0]=='View'}" >
+									<option selected disabled="disabled" value="">Customer</option>
+									<option style="color: #333;" th:each="customer : ${customers}" th:text="${customer.name}"  th:value="${customer.id}"
+										th:selected="${customer.name==stockOut.customer?.name}" ></option>
 								</select>
 							</div>
 							<div class="col-lg-3 col-xs-6 stock-in-marg">
@@ -82,9 +80,9 @@
 							<div class="col-lg-3 col-xs-6 stock-in-marg">
 								<label style="text-align: left; display: block;">Quantity</label>
 								<div id="quantity">
-									<input type="number" name="quantity" min="1" th:value="${stockOut.quantity}" th:readonly="${param.action[0]=='View'}" required 
+									<input type="number" name="quantity" min="1" th:max="${maxQuantity}" th:value="${stockOut.quantity}" th:readonly="${param.action[0]=='View'}" 
 									oninvalid="this.setCustomValidity('Quantity cannot be 0 or blank or more than available stock')" oninput="this.setCustomValidity('')" 
-									onchange="calculateAmount();" >
+									onchange="calculateAmount();" required >
 								</div>
 							</div>
 						</div>
@@ -132,7 +130,7 @@
 								<input type="text" name="remakrs" th:value="${stockOut.remakrs}" th:readonly="${param.action[0]=='View'}" >
 							</div>
 						</div>
-						<input type="button" name="cancel" class="previous action-button-previous" value="Cancel" th:attr="onclick=|location.href='@{/stock-out}'|" >
+						<input type="button" name="cancel" class="previous action-button-previous" value="Cancel" onclick="window.history.back()" >
 						<input type='hidden' th:value="${stockOut.id}" id="id" name='id'>
 						<input th:if="'Print' == ${submitValue}" type="button" name="action" class="submit action-button" value="Print" onclick="printData()" >
 						<input th:if="'Save' == ${submitValue}" type="submit" name="action" class="submit action-button" value="Save">
