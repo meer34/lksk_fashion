@@ -1,15 +1,17 @@
 package com.lksk.web.service;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.lksk.web.model.CustOrder;
 import com.lksk.web.repo.OrderRepo;
+import com.lksk.web.specification.CustOrderSearchSpecification;
+import com.lksk.web.util.SearchSpecificationBuilder;
 
 @Service
 public class OrderService {
@@ -25,26 +27,17 @@ public class OrderService {
 		return orderRepo.findById(id).get();
 	}
 
-	public List<CustOrder> getAllOrders() {
-		return orderRepo.findAllByOrderByIdDesc();
+	public Page<CustOrder> getAllOrders(int pageNo, int pageSize) {
+		return orderRepo.findAll(PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.DESC, "id")));
 	}
 
-	public List<CustOrder> searchOrderByDate(String fromDate, String toDate) throws ParseException {
+	public Page<CustOrder> searchOrdersByDateAndKeyword(String keyword, 
+			String fromDate, String toDate, int pageNo, Integer pageSize) throws ParseException {
 
-		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		
-		if(fromDate != null && !fromDate.equalsIgnoreCase("") && toDate != null && !toDate.equalsIgnoreCase("")) {
-			return orderRepo.findByDateBetween(formatter.parse(fromDate), formatter.parse(toDate));
-		} else if((fromDate == null || fromDate.equalsIgnoreCase("")) && toDate != null && !toDate.equalsIgnoreCase("")) {
-			return orderRepo.findByDateLessThanEqual(formatter.parse(toDate));
-			
-		} else if((toDate == null || toDate.equalsIgnoreCase("")) && fromDate != null && !fromDate.equalsIgnoreCase("")) {
-			return orderRepo.findByDateGreaterThanEqual(formatter.parse(fromDate));
-			
-		} else {
-			return orderRepo.findAll();
-		}
-		
+		PageRequest pageRequest = PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.DESC, "id"));
+		CustOrderSearchSpecification spec = (CustOrderSearchSpecification) SearchSpecificationBuilder.build(fromDate, toDate, keyword, CustOrder.class);
+		return orderRepo.findAll(spec, pageRequest);
+
 	}
 
 	public void deleteOrderById(Long id) {

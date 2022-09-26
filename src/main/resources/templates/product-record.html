@@ -17,7 +17,7 @@
 					<form class="dashboardicon" th:action="@{/searchItemRecords}" method="get" >
 						<div class="form-group col-lg-12">
 							<div class="col-lg-12">
-								<input type="text" name="item" placeholder="Search Items">
+								<input type="text" name="item" id="keyWord" placeholder="Search Items">
 								<input type="hidden" name="product" th:value="${product.name}">
 							</div>
 						</div>
@@ -64,5 +64,6 @@
 
 
 	<div th:replace="fragments :: main_scripts"></div>
+	<div th:replace="fragments :: table_search_script"></div>
 </body>
 </html>

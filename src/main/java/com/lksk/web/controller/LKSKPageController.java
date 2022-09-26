@@ -1,8 +1,16 @@
 package com.lksk.web.controller;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -87,6 +95,25 @@ public class LKSKPageController {
 		model.addAttribute("itemList", itemList);
 		return "stock";
 
+	}
+	
+	@GetMapping("/downloadAndroidApp")
+	public ResponseEntity<Resource> downloadFileFromLocal() {
+		System.out.println("Received download request for android app");
+
+		String fileBasePath = "/files/lksk/app/android/";
+		Path path = Paths.get(fileBasePath + "lksk_fashion.apk");
+		Resource resource = null;
+		try {
+			resource = new UrlResource(path.toUri());
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return ResponseEntity.ok()
+				.contentType(MediaType.parseMediaType("application/octet-stream"))
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+				.body(resource);
 	}
 
 }

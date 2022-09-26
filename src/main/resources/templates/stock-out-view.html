@@ -19,23 +19,30 @@
 									</label>
 									<img src="" class="before-ph" style="display: none;" />
 									<canvas style="display: none;"></canvas>
-									<input type="file" id="itemImage" th:disabled="${param.action[0]=='View'}">
+									<input type="file" id="itemImage" accept="image/*" th:disabled="${param.action[0]=='View'}">
+								</div>
+							</div>
+							<div class="col-lg-3 col-xs-6 stock-in-marg">
+								<div class="image-upload">
+									<label for="colourImage">
+										<img th:src="*{stockOut.colourImageBlob}" class="after-col stock-in-img" />
+									</label>
+									<img src="" class="before-col" style="display: none;" />
+									<canvas style="display: none;"></canvas>
+									<input type="file" name="colourImage" id="colourImage" accept="image/*" th:disabled="${param.action[0]=='View'}">
 								</div>
 							</div>
 							<div class="col-lg-3 col-xs-6 stock-in-marg">
 								<label style="text-align: left; display: block;">Code</label>
-								<div class="modal fade" id="scanModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-									<div class="modal-dialog" role="document">
-										<div class="modal-content">
-											<div class="modal-body">
-												<div id="qr-reader"></div>
-											</div>
-										</div>
-									</div>
-								</div>
 								<input type="text" name="scanCode" id="scanCode" th:value="${stockOut.scanCode}" autocomplete="off" th:disabled="${param.action[0]=='View'}">
 								<input type="button" name="stockOutScan" id="scanCodeBtn" value="Scan" th:hidden="${param.action[0]=='View'}">
 							</div>
+							<div class="col-lg-3 col-xs-6 stock-in-marg">
+								<label style="text-align: left; display: block;">Date</label>
+								<input type="Date" name="date" th:value="${stockOut.date}" th:readonly="${param.action[0]=='View'}" ><i class="moz-cover-clear"></i>
+							</div>
+						</div>
+						<div class="col-lg-12 flexdisplay">
 							<div class="col-lg-3 col-xs-6 stock-in-marg">
 								<label style="text-align: left; display: block;">Product</label>
 								<select class="form-control" name="productId" id="products" style="height: 48px;" onchange="onProductChange(this.value)" 
@@ -47,37 +54,35 @@
 							</div>
 							<div class="col-lg-3 col-xs-6 stock-in-marg">
 								<label style="text-align: left; display: block;">Item</label>
-								<select class="form-control" name="itemId" id="items" style="height: 48px;" onchange="onItemChange(this.value)" 
+								<select class="form-control" name="item" id="items" style="height: 48px;" onchange="onItemChange(this.value)" 
 									th:disabled="${param.action[0]=='View'}" required>
 									<option selected disabled="disabled" value="">Item</option>
 									<option selected th:text="${stockOut.item?.name}" th:value="${stockOut.item?.id}"></option>
 								</select>
 							</div>
-						</div>
-						<div class="col-lg-12 flexdisplay">
-							<div class="col-lg-3 col-xs-6 stock-in-marg">
-								<div class="image-upload">
-									<label for="colourImage">
-										<img th:src="*{stockOut.colourImageBlob}" class="after-col stock-in-img" />
-									</label>
-									<img src="" class="before-col" style="display: none;" />
-									<canvas style="display: none;"></canvas>
-									<input type="file" name="colourImage" id="colourImage" th:disabled="${param.action[0]=='View'}">
-								</div>
-							</div>
 							<div class="col-lg-3 col-xs-6 stock-in-marg">
 								<label style="text-align: left; display: block;">Customer</label>
-								<select class="form-control" name="customer" id="select" style="height: 48px;" th:disabled="${param.action[0]=='View'}" >
+								<select class="form-control" name="customer" id="customer" style="height: 48px;" th:disabled="${param.action[0]=='View'}" >
 									<option selected disabled="disabled" value="">Customer</option>
 									<option style="color: #333;" th:each="customer : ${customers}" th:text="${customer.name}"  th:value="${customer.id}"
 										th:selected="${customer.name==stockOut.customer?.name}" ></option>
 								</select>
 							</div>
-							<div class="col-lg-3 col-xs-6 stock-in-marg">
-								<label style="text-align: left; display: block;">Date</label>
-								<input type="Date" name="date" th:value="${stockOut.date}" th:readonly="${param.action[0]=='View'}" ><i class="moz-cover-clear"></i>
+							<div class="col-lg-3 stock-in-marg">
+								<label style="text-align: left; display: block;">Unit</label>
+								<select class="form-control" name="unit" id="units" style="height: 48px;" 
+										th:disabled="${param.action[0]=='View'}" onchange="setMaxQuantityForEdit();" required>
+									<option selected disabled="disabled" value="">Unit</option>
+									<option selected th:text="${stockOut.unit}" ></option>
+								</select>
 							</div>
-							<div class="col-lg-3 col-xs-6 stock-in-marg">
+						</div>
+						<div class="col-lg-12 flexdisplay">
+							<div class="col-lg-3 stock-in-marg elem-5">
+								<label style="text-align: left; display: block;">Size</label>
+								<input type="text" name="size" th:value="${stockOut.size}" th:readonly="${param.action[0]=='View'}" >
+							</div>
+							<div class="col-lg-3 col-xs-6 stock-in-marg elem-5">
 								<label style="text-align: left; display: block;">Quantity</label>
 								<div id="quantity">
 									<input type="number" name="quantity" min="1" th:max="${maxQuantity}" th:value="${stockOut.quantity}" th:readonly="${param.action[0]=='View'}" 
@@ -85,16 +90,20 @@
 									onchange="calculateAmount();" required >
 								</div>
 							</div>
-						</div>
-						<div class="col-lg-12 flexdisplay">
-							<div class="col-lg-3 col-xs-6 stock-in-marg">
+							<div class="col-lg-3 col-xs-6 stock-in-marg elem-5">
 								<label style="text-align: left; display: block;">Price</label>
 								<input type="number" name="price" th:value="${stockOut.price}" min="0" step=".01" onchange="calculateAmount()" th:readonly="${param.action[0]=='View'}" >
 							</div>
-							<div class="col-lg-3 col-xs-6 stock-in-marg">
+							<div class="col-lg-3 col-xs-6 stock-in-marg elem-5">
 								<label style="text-align: left; display: block;">Amount</label>
 								<input type="text" name="amount" placeholder="0.00" th:value="${stockOut.amount}" th:readonly="${param.action[0]=='View'}" >
 							</div>
+							<div class="col-lg-3 col-xs-6 stock-in-marg elem-5">
+								<label style="text-align: left; display: block;">Colour</label>
+								<input type="text" name="colour" th:value="${stockOut.colour}" th:readonly="${param.action[0]=='View'}" >
+							</div>
+						</div>
+						<div class="col-lg-12 flexdisplay">
 							<div class="col-lg-3 col-xs-12 stock-in-marg">
 								<label style="text-align: left; display: block;">Dispatched By</label>
 								<select class="form-control" name="dispatchedBy" id="select" style="height: 48px;" th:disabled="${param.action[0]=='View'}" >
@@ -111,20 +120,6 @@
 									<option style="color: #333;" th:selected="${stockOut.dispatchedFrom=='Barabazar'}" >Barabazar</option>
 								</select>
 							</div>
-						</div>
-						<div class="col-lg-12 flexdisplay">
-							<div class="col-lg-3 stock-in-marg">
-								<label style="text-align: left; display: block;">Size</label>
-								<input type="text" name="size" th:value="${stockOut.size}" th:readonly="${param.action[0]=='View'}" >
-							</div>
-							<div class="col-lg-3 stock-in-marg">
-								<label style="text-align: left; display: block;">Unit</label>
-								<select class="form-control" name="unit" id="units" style="height: 48px;" 
-										th:disabled="${param.action[0]=='View'}" onchange="setMaxQuantityForEdit();" required>
-									<option selected disabled="disabled" value="">Unit</option>
-									<option selected th:text="${stockOut.unit}" ></option>
-								</select>
-							</div>
 							<div class="col-lg-6 stock-in-marg">
 								<label style="text-align: left; display: block;">Remarks</label>
 								<input type="text" name="remakrs" th:value="${stockOut.remakrs}" th:readonly="${param.action[0]=='View'}" >
@@ -135,16 +130,13 @@
 						<input th:if="'Print' == ${submitValue}" type="button" name="action" class="submit action-button" value="Print" onclick="printData()" >
 						<input th:if="'Save' == ${submitValue}" type="submit" name="action" class="submit action-button" value="Save">
 					</fieldset>
-					<div>
-						<p name="before-compression"></p>
-						<p name="after-compression"></p>
-					</div>
 				</form>
 			</div>
 		</div>
 	</main>
 	
 	<div th:replace="fragments :: img_upd_modal"></div>
+	<div th:replace="fragments :: scan_qr_modal"></div>
 	
 	<div th:replace="fragments :: main_scripts"></div>
 	<div th:replace="fragments :: add_edit_scripts"></div>

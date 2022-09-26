@@ -6,10 +6,15 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.lksk.web.model.StockIn;
 import com.lksk.web.repo.StockInRepo;
+import com.lksk.web.specification.StockInSearchSpecification;
+import com.lksk.web.util.SearchSpecificationBuilder;
 
 @Service
 public class StockInService {
@@ -21,30 +26,24 @@ public class StockInService {
 		return stockInRepo.save(stockIn);
 	}
 
-	public List<StockIn> getAllStockIns() {
-		return stockInRepo.findAllByOrderByIdDesc();
+	public Page<StockIn> getAllStockIns(int pageNo, int pageSize) {
+		return stockInRepo.findAll(PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.DESC, "id")));
+	}
+	
+	public Page<StockIn> getAllStockInsByItemId(Long itemId, int pageNo, int pageSize) {
+		return stockInRepo.findByItemId(itemId, PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.DESC, "id")));
 	}
 
 	public StockIn findStockInById(long id) {
 		return stockInRepo.findById(id).get();
 	}
 
-	public List<StockIn> searchStockInByDate(String fromDate, String toDate) throws ParseException {
+	public Page<StockIn> searchStocksInByDateAndKeyword(String keyword, 
+			String fromDate, String toDate, int pageNo, Integer pageSize) throws ParseException {
 
-		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		
-		if(fromDate != null && !fromDate.equalsIgnoreCase("") && toDate != null && !toDate.equalsIgnoreCase("")) {
-			return stockInRepo.findByDateBetween(formatter.parse(fromDate), formatter.parse(toDate));
-			
-		} else if((fromDate == null || fromDate.equalsIgnoreCase("")) && toDate != null && !toDate.equalsIgnoreCase("")) {
-			return stockInRepo.findByDateLessThanEqual(formatter.parse(toDate));
-			
-		} else if((toDate == null || toDate.equalsIgnoreCase("")) && fromDate != null && !fromDate.equalsIgnoreCase("")) {
-			return stockInRepo.findByDateGreaterThanEqual(formatter.parse(fromDate));
-			
-		} else {
-			return stockInRepo.findAll();
-		}
+		PageRequest pageRequest = PageRequest.of(pageNo, pageSize);
+		StockInSearchSpecification spec = (StockInSearchSpecification) SearchSpecificationBuilder.build(fromDate, toDate, keyword, StockIn.class);
+		return stockInRepo.findAll(spec, pageRequest);
 
 	}
 

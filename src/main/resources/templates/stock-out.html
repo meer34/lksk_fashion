@@ -16,29 +16,14 @@
 					
 					<div class="tile">
 						<h3 class="tile-title"></h3>
-						<form class="dashboardicon" th:action="@{/searchStockOut}" method="get">
-							<div class="col-lg-12 flexdisplay">
-								<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-									<label>From Date</label>
-									<input type="date" name="fromDate" placeholder="" >
-								</div>
-								<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-									<label>To Date</label>
-									<input type="date" name="toDate" placeholder="" style="animation-delay: .2s" >
-								</div>
-								<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-									<label>Search By Keyword</label>
-									<input type="text" name="keyword" placeholder="Keyword" style="animation-delay: .2s">
-								</div>
-							</div>
-							<div class="col-lg-12 flexdisplay">
-								<input type="submit" class="submit action-button" value="Search">
-							</div>
-							<div></div>
+						
+						<form class="dashboardicon" th:action="@{/stock-out}" method="get">
+							<div th:replace="fragments :: search_bar"></div>
 						</form>
+						
 						<div class="table-responsive table_size" style="margin-top: 50px;">
 							<form th:action="@{/openStockOutActionPage}" method="get">
-								<div class="dashboardicon2" style="text-align: left;" th:if="${stockOutList.size() > 0}">
+								<div class="dashboardicon2" style="text-align: left;" th:if="${listPage.content.size() > 0}">
 									<input type="submit" th:formaction="@{/viewStockOut}" name="action" class="submit action-button" value="View">
 									<input type="submit" th:formaction="@{/editStockOut}" name="action" class="submit action-button" value="Edit" 
 																										sec:authorize="hasAuthority('ADMIN')" >
@@ -62,7 +47,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr style="background-color: #FFF" th:each="stockOut: ${stockOutList}">
+										<tr style="background-color: #FFF" th:each="stockOut: ${listPage.content}">
 											<td class="noPrint"><input type='radio' th:value="${stockOut.id}" class="radioBtn" name='id'></td>
 											<td th:text="${stockOut.date}" />
 											<td th:text="${stockOut.scanCode}" />
@@ -76,6 +61,9 @@
 									</tbody>
 								</table>
 							</form>
+							
+							<div th:replace="fragments :: pagination"></div>
+							
 						</div>
 					</div>
 				</div>
@@ -84,5 +72,6 @@
 	</main>
 	
 	<div th:replace="fragments :: main_scripts"></div>
+	<div th:replace="fragments :: table_search_script"></div>
 </body>
 </html>

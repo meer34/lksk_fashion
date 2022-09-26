@@ -14,7 +14,7 @@
 				<form class="dashboardicon" th:action="@{/searchTotalStock}" method="get">
 					<div class="form-group col-lg-12">
 					<div class="col-lg-12">
-						<input type="text" name="item" placeholder="Search Item">
+						<input type="text" name="item" id="keyWord" placeholder="Search Item">
 					</div>
 					<div class="col-lg-12 flexdisplay">
 							<input type="submit" class="submit action-button" value="Search">
@@ -43,9 +43,9 @@
 									<td class="noPrint">
 										<div class="dashboardicon2" style="text-align: left;">
 											<input type="button" name="records" class="submit action-button" value="Stock Ins" 
-												th:attr="onclick=|location.href='searchStockIn?fromDate=&toDate=&keyword=~${item.name}~'|">
+												th:attr="onclick=|location.href='stock-in?itemId=${item.id}'|">
 											<input type="button" name="records" class="submit action-button" value="Stock Outs" 
-												th:attr="onclick=|location.href='searchStockOut?fromDate=&toDate=&keyword=~${item.name}~'|">
+												th:attr="onclick=|location.href='stock-out?itemId=${item.id}'|">
 										</div>
 									</td>
 								</tr>
@@ -60,5 +60,6 @@
     
 	
 	<div th:replace="fragments :: main_scripts"></div>
+	<div th:replace="fragments :: table_search_script"></div>
   </body>
 </html>

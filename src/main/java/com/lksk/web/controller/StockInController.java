@@ -1,9 +1,13 @@
 package com.lksk.web.controller;
 
-import java.util.ArrayList;
+import java.text.ParseException;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,13 +38,43 @@ public class StockInController {
 	@Autowired ModeratorService moderatorService;
 
 	@GetMapping("/stock-in")
-	public String showStockIn(Model model) {
-		System.out.println("Inside stock-in");
-		model.addAttribute("stockInList", stockInService.getAllStockIns());
-		for (StockIn si : stockInService.getAllStockIns()) {
-			System.out.println("Product is: " + si.getItem().getProduct().getName());
-			System.out.println("Item is: " + si.getItem().getName());
+	public String showStockIn(Model model,
+			@RequestParam("page") Optional<Integer> page,
+			@RequestParam("size") Optional<Integer> size,
+			@RequestParam(value="fromDate", required = false) String fromDate,
+			@RequestParam(value="toDate", required = false) String toDate,
+			@RequestParam(value="keyword", required = false) String keyword,
+			@RequestParam(value="itemId", required = false) Long itemId) throws ParseException {
+		
+		Page<StockIn> listPage = null;
+		
+		if(keyword == null && fromDate == null && toDate == null) {
+			System.out.println("StockIn home page");
+			if(itemId == null) {
+				listPage = stockInService.getAllStockIns(page.orElse(1) - 1, size.orElse(4));
+			} else {
+				listPage = stockInService.getAllStockInsByItemId(itemId, page.orElse(1) - 1, size.orElse(4));
+			}
+			
+		} else {
+			System.out.println("Searching StockIns for fromDate:" + fromDate + " and toDate:" +toDate +" and keyword:" + keyword);
+			listPage = stockInService.searchStocksInByDateAndKeyword(keyword, fromDate, toDate, page.orElse(1) - 1, size.orElse(4));
+			
+			model.addAttribute("fromDate", fromDate);
+			model.addAttribute("toDate", toDate);
+			model.addAttribute("keyword", keyword);
+			
 		}
+		
+		model.addAttribute("listPage", listPage);
+		int totalPages = listPage.getTotalPages();
+		if (totalPages > 0) {
+			List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+					.boxed()
+					.collect(Collectors.toList());
+			model.addAttribute("pageNumbers", pageNumbers);
+		}
+
 		return "stock-in";
 	}
 
@@ -54,36 +88,13 @@ public class StockInController {
 
 	@RequestMapping(value = "/addStockIn",
 			method = RequestMethod.POST)
-	public String addStock(Model model, StockIn stockIn, @RequestParam Long itemId,
+	public String addStock(Model model, StockIn stockIn, 
 			RedirectAttributes redirectAttributes) throws Exception{
 
-		stockIn.setItem(itemService.findItemById(itemId));
 		stockInService.saveStockInToDB(stockIn);
 
 		redirectAttributes.addFlashAttribute("successMessage", "Stock In added successfully!");
 		return "redirect:/stock-in";
-
-	}
-
-	@RequestMapping(value = "/searchStockIn",
-			method = RequestMethod.GET)
-	public String searchStockIn(Model model, 
-			@RequestParam("fromDate") String fromDate,
-			@RequestParam("toDate") String toDate,
-			@RequestParam("keyword") String keyword ) throws Exception{
-
-		List<StockIn> stockInList = new ArrayList<StockIn>();
-
-		for (StockIn StockIn : stockInService.searchStockInByDate(fromDate, toDate)) {
-			if(StockIn.toString().toLowerCase().contains(keyword.toLowerCase())) {
-				stockInList.add(StockIn);
-			}
-		}
-
-		System.out.println("Search size for fromDate:" + fromDate + " and toDate:" +toDate +" and keyword:" + keyword + " is - " + stockInList.size());
-
-		model.addAttribute("stockInList", stockInList);
-		return "stock-in";
 
 	}
 
@@ -145,13 +156,11 @@ public class StockInController {
 
 	@RequestMapping(value = "/saveStockInEdit",
 			method = RequestMethod.POST)
-	public String saveStockInEdit(RedirectAttributes redirectAttributes, StockIn stockIn,
-			@RequestParam Long itemId,
+	public String saveStockInEdit(RedirectAttributes redirectAttributes, StockIn stockIn, 
 			@RequestParam("id") String id) throws Exception{
 
 		System.out.println("Got save edit request for stock_in id " + id);
 
-		stockIn.setItem(itemService.findItemById(itemId));
 		stockInService.saveStockInToDB(stockIn);
 
 		redirectAttributes.addFlashAttribute("successMessage", "Stock In edited successfully!");

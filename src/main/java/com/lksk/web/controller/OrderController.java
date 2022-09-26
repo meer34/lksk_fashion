@@ -1,9 +1,13 @@
 package com.lksk.web.controller;
 
-import java.util.ArrayList;
+import java.text.ParseException;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +27,38 @@ public class OrderController {
 	@Autowired ProductService productService;
 
 	@GetMapping("/order")
-	public String showStockIn(Model model) {
-		model.addAttribute("orderList", orderService.getAllOrders());
+	public String showStockIn(Model model,
+			@RequestParam("page") Optional<Integer> page,
+			@RequestParam("size") Optional<Integer> size,
+			@RequestParam(value="fromDate", required = false) String fromDate,
+			@RequestParam(value="toDate", required = false) String toDate,
+			@RequestParam(value="keyword", required = false) String keyword) throws ParseException {
+		
+		Page<CustOrder> listPage = null;
+		
+		if(keyword == null && fromDate == null && toDate == null) {
+			System.out.println("Order home page");
+			listPage = orderService.getAllOrders(page.orElse(1) - 1, size.orElse(4));
+			
+		} else {
+			System.out.println("Searching Orders for fromDate:" + fromDate + " and toDate:" +toDate +" and keyword:" + keyword);
+			listPage = orderService.searchOrdersByDateAndKeyword(keyword, fromDate, toDate, page.orElse(1) - 1, size.orElse(4));
+			
+			model.addAttribute("fromDate", fromDate);
+			model.addAttribute("toDate", toDate);
+			model.addAttribute("keyword", keyword);
+			
+		}
+		
+		model.addAttribute("listPage", listPage);
+		int totalPages = listPage.getTotalPages();
+		if (totalPages > 0) {
+			List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+					.boxed()
+					.collect(Collectors.toList());
+			model.addAttribute("pageNumbers", pageNumbers);
+		}
+
 		return "order";
 	}
 
@@ -42,27 +76,6 @@ public class OrderController {
 		orderService.saveOrderToDB(order);
 		redirectAttributes.addFlashAttribute("successMessage", "Order for mark " + order.getMark() + " placed successfully!");
 		return "redirect:/order";
-
-	}
-
-	@RequestMapping(value = "/searchOrder",
-			method = RequestMethod.GET)
-	public String searchOrder(Model model, 
-			@RequestParam("fromDate") String fromDate,
-			@RequestParam("toDate") String toDate,
-			@RequestParam("keyword") String keyword ) throws Exception{
-
-		List<CustOrder> orderList = new ArrayList<CustOrder>();
-
-		for (CustOrder order : orderService.searchOrderByDate(fromDate, toDate)) {
-			if(order.toString().toLowerCase().contains(keyword.toLowerCase())) {
-				orderList.add(order);
-			}
-		}
-		System.out.println("Search size for fromDate:" + fromDate + " and toDate:" +toDate +" and keyword:" + keyword + " is - "+ orderList.size());
-
-		model.addAttribute("orderList", orderList);
-		return "order";
 
 	}
 
@@ -110,7 +123,7 @@ public class OrderController {
 	public String saveOrderEdit(RedirectAttributes redirectAttributes, CustOrder order,
 			@RequestParam("id") String id) throws Exception{
 
-		System.out.println("Got edit save request for id " + id);
+		System.out.println("Got edit save request for order id " + id);
 		order = orderService.saveOrderToDB(order);
 
 		redirectAttributes.addFlashAttribute("successMessage", "Order edited successfully!");

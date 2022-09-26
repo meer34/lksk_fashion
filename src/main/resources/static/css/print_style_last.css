@@ -18,10 +18,6 @@
 label{
   margin-bottom: 14px;
 }
-.legend{
-  padding-bottom: 0px !important;
-  padding-top: 20px;
-}
 .col-lg-3{
   width: 25% !important;
 }
@@ -452,10 +448,8 @@ li{
   padding: 20px;
   border: 1px solid #bdb9b9;
   margin: 5px;
+  width: 32% !important;
 }
-  .col-lg-6{
-    width:100%;
-  }
 select {
   appearance: none;
   border: none !important;
@@ -565,33 +559,33 @@ input[type=text]::-ms-clear {
 }
 
 input[type="button"]{
-      display: none;
+    	display: none;
 }
 
 .noPrint {
-  display: none;
+	display: none;
 }
 
 body{
-  background-image: none;
+	background-image: none;
 }
 
 input {
-  border:none;  
+	border:none;	
     font-family: Myriad Pro;
     color: #2C3E50;
     font-size: 15px;
 }
 
 .moz-cover-clear {
-  position: relative;
-  z-index: 0;
-  display: inline-block;
-  left: -20px;
-  top: 6px;
-  width: 18px;
-  height: 18px;
-  background-color: white;
+	position: relative;
+	z-index: 0;
+	display: inline-block;
+	left: -20px;
+	top: 6px;
+	width: 18px;
+	height: 18px;
+	background-color: white;
 }
 
 .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
@@ -600,8 +594,8 @@ input {
 }
 
 table {
-  font-family:"Courier New", Courier, monospace;
-  font-size: 14px;
+	font-family:"Courier New", Courier, monospace;
+	font-size: 14px;
 }
 
 .stock-in-marg {
@@ -630,5 +624,5 @@ table {
 }
 
 .elem-5{
-  width: 19% !important;
+	width: 19% !important;
 }

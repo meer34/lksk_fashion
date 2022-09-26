@@ -6,10 +6,15 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.lksk.web.model.StockOut;
 import com.lksk.web.repo.StockOutRepo;
+import com.lksk.web.specification.StockOutSearchSpecification;
+import com.lksk.web.util.SearchSpecificationBuilder;
 
 @Service
 public class StockOutService {
@@ -25,26 +30,20 @@ public class StockOutService {
 		return stockOutRepo.findById(id).get();
 	}
 
-	public List<StockOut> getAllStockOuts() {
-		return stockOutRepo.findAllByOrderByIdDesc();
+	public Page<StockOut> getAllStockOuts(int pageNo, int pageSize) {
+		return stockOutRepo.findAll(PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.DESC, "id")));
 	}
 	
-	public List<StockOut> searchStockOutByDate(String fromDate, String toDate) throws ParseException {
+	public Page<StockOut> getAllStockOutsByItemId(Long itemId, int pageNo, int pageSize) {
+		return stockOutRepo.findByItemId(itemId, PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.DESC, "id")));
+	}
+	
+	public Page<StockOut> searchStockOutsByDateAndKeyword(String keyword, 
+			String fromDate, String toDate, int pageNo, Integer pageSize) throws ParseException {
 
-		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		
-		if(fromDate != null && !fromDate.equalsIgnoreCase("") && toDate != null && !toDate.equalsIgnoreCase("")) {
-			return stockOutRepo.findByDateBetween(formatter.parse(fromDate), formatter.parse(toDate));
-			
-		} else if((fromDate == null || fromDate.equalsIgnoreCase("")) && toDate != null && !toDate.equalsIgnoreCase("")) {
-			return stockOutRepo.findByDateLessThanEqual(formatter.parse(toDate));
-			
-		} else if((toDate == null || toDate.equalsIgnoreCase("")) && fromDate != null && !fromDate.equalsIgnoreCase("")) {
-			return stockOutRepo.findByDateGreaterThanEqual(formatter.parse(fromDate));
-			
-		} else {
-			return stockOutRepo.findAll();
-		}
+		PageRequest pageRequest = PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.DESC, "id"));
+		StockOutSearchSpecification spec = (StockOutSearchSpecification) SearchSpecificationBuilder.build(fromDate, toDate, keyword, StockOut.class);
+		return stockOutRepo.findAll(spec, pageRequest);
 
 	}
 	
@@ -70,5 +69,6 @@ public class StockOutService {
 	public void deleteStockOutById(Long id) {
 		stockOutRepo.deleteById(id);
 	}
+
 
 }

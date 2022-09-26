@@ -19,7 +19,7 @@
 									</label>
 									<img src="" class="before-ph" style="display: none;" />
 									<canvas style="display: none;"></canvas>
-									<input type="file" id="itemImage" >
+									<input type="file" id="itemImage" accept="image/*">
 								</div>
 							</div>
 							<div class="col-lg-4">
@@ -29,19 +29,10 @@
 									</label>
 									<img src="" class="before-col" style="display: none;" />
 									<canvas style="display: none;"></canvas>
-									<input type="file" id="colourImage" >
+									<input type="file" id="colourImage" accept="image/*">
 								</div>
 							</div>
 							<div class="col-lg-4" >
-								<div class="modal fade" id="scanModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-									<div class="modal-dialog" role="document">
-										<div class="modal-content">
-											<div class="modal-body">
-												<div id="qr-reader"></div>
-											</div>
-										</div>
-									</div>
-								</div>
 								<input type="text" name="scanCode" id="scanCode" placeholder="Scan Code" autocomplete="off" >
 								<input type="button" name="stockOutScan" id="scanCodeBtn" value="Scan">
 							</div>
@@ -54,28 +45,28 @@
 							</select>
 						</div>
 						<div class="col-lg-4">
-							<select class="form-control" name="itemId" id="items" style="height: 48px;" onchange="onItemChange(this.value);" required>
+							<select class="form-control" name="item" id="items" style="height: 48px;" onchange="onItemChange(this.value);" required>
 								<option selected disabled="disabled" value="">Item</option>
 							</select>
+						</div>
+						<div class="col-lg-4 col-xs-12">
+								<select class="form-control" name="unit" id="units" style="height: 48px;" onchange="setMaxQuantity(this.value);" required>
+									<option selected disabled="disabled" value="">Unit</option>
+								</select>
+						</div>
+                     </div>
+                     <div class="col-lg-12 flexdisplay">
+						<div class="col-lg-4">
+							<input type="text" class="form-control" name="size" id="size" placeholder="Size">
+						</div>
+						<div class="col-lg-4 col-xs-6">
+								<input type="text" class="form-control" name="colour" id="colour" placeholder="Colour">
 						</div>
 						<div class="col-lg-4">
 							<select class="form-control" name="customer" id="customer" style="height: 48px;" >
 								<option selected disabled="disabled" value="">Customer</option>
 								<option style="color: #333;" th:each="customer : ${customers}" th:text="${customer.name}" th:value="${customer.id}" ></option>
 							</select>
-						</div>
-                     </div>
-                     <div class="col-lg-12 flexdisplay">
-                        <div class="col-lg-4 col-xs-12">
-                           <input type="Date" class="form-control" name="date" id="inputDate" placeholder="Date of Birth">
-                        </div>
-						<div class="col-lg-4">
-							<input type="text" class="form-control" name="size" id="size" placeholder="Size">
-						</div>
-                        <div class="col-lg-4 col-xs-12">
-								<select class="form-control" name="unit" id="units" style="height: 48px;" onchange="setMaxQuantity(this.value);" required>
-									<option selected disabled="disabled" value="">Unit</option>
-								</select>
 						</div>
                      </div>
                      <div class="col-lg-12 flexdisplay">
@@ -90,13 +81,16 @@
                         </div>
                      </div>
                      <div class="col-lg-12 flexdisplay">
-                        <div class="col-lg-6 col-xs-12">
+                     	<div class="col-lg-4 col-xs-12">
+                           <input type="Date" class="form-control" name="date" id="inputDate" placeholder="Date">
+                        </div>
+                        <div class="col-lg-4 col-xs-12">
 							<select class="form-control" name="dispatchedBy" id="select" style="height:48px;">
 								<option selected disabled="disabled">Dispatched By</option>
 								<option style="color: #333;" th:each=" moderator : ${ moderators }" th:text="${moderator.name}" th:value="${moderator.id}"></option>
                            </select>
                         </div>
-                        <div class="col-lg-6 col-xs-12">
+                        <div class="col-lg-4 col-xs-12">
                            <select class="form-control" name="dispatchedFrom" id="select" style="height:48px;">
                               <option selected disabled="disabled">Dispatched From</option>
                               <option style="color:#333;">Metiya Bruz</option>
@@ -112,16 +106,13 @@
                      <input type="button" name="cancel" class="previous action-button-previous" value="Cancel" onclick="window.history.back()" >
                      <input type="submit" name="submit" class="submit action-button" value="Save">
                </fieldset>
-			   <div>
-					<p name="before-compression"></p>
-					<p name="after-compression"></p>
-				</div>
                </form>
             </div>
          </div>
       </main>
 	  
 	  <div th:replace="fragments :: img_upd_modal"></div>
+	  <div th:replace="fragments :: scan_qr_modal"></div>
 	  
       <div th:replace="fragments :: main_scripts"></div>
 	  <div th:replace="fragments :: add_edit_scripts"></div>

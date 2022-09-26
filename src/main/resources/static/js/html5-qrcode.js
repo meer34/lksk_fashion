@@ -1,36 +1,52 @@
 function scanItemQRCode(entryType) {
 	$('#scanModal').modal('show');
-	var resultContainer = document.getElementById('qr-reader-results');
-	var lastResult, countResults = 0;
 
-	var html5QrcodeScanner = new Html5QrcodeScanner(
-			"qr-reader", { fps: 10, qrbox: 250 });
+	var scanCodeInput = document.getElementsByName('scanCode')[0];
+	const html5QrCode = new Html5Qrcode("qr-reader");
+	const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+	const onScanSuccess = (decodedText, decodedResult) => {
+		console.log(`Scan result = ${decodedText}`, decodedResult);
+		scanCodeInput.value = decodedText;
 
-	function onScanSuccess(decodedText, decodedResult) {
-		if (decodedText !== lastResult) {
-			++countResults;
-			lastResult = decodedText;
-			console.log(`Scan result = ${decodedText}`, decodedResult);
+		html5QrCode.stop().then((ignore) => {}).catch((err) => {
+			console.log(`Error stopping scanner. Reason: ${err}`)
+		});
 
-			var scanCodeInput = document.getElementsByName('scanCode')[0];
+		$('#scanModal').modal('hide');
+		if(entryType != null) {
+			populateDataIfScanCodeExists(entryType, decodedText);
+		}
+	}
+
+	html5QrCode.start({ facingMode: "environment" }, config, onScanSuccess);
+
+	const fileinput = document.getElementById('qr-input-file');
+	fileinput.addEventListener('change', e => {
+
+		html5QrCode.stop().then((ignore) => {}).catch((err) => {console.log(`Error stopping scanner. Reason: ${err}`)});
+
+		if (e.target.files.length == 0) {
+			return;
+		}
+
+		const imageFile = e.target.files[0];
+
+		html5QrCode.scanFile(imageFile, true)
+		.then(decodedText => {
+
 			scanCodeInput.value = decodedText;
-
-			// Optional: To close the QR code scannign after the result is found
-			html5QrcodeScanner.clear();
 			$('#scanModal').modal('hide');
 			if(entryType != null) {
 				populateDataIfScanCodeExists(entryType, decodedText);
 			}
-		}
-	}
 
-	// Optional callback for error, can be ignored.
-	function onScanError(qrCodeError) {
-		// This callback would be called in case of qr code scan error or setup error.
-		// You can avoid this callback completely, as it can be very verbose in nature.
-	}
+		})
+		.catch(err => {
+			$('#scanModal').modal('hide');
+			alert(`Error scanning file. Reason: ${err}`);
+		});
+	});
 
-	html5QrcodeScanner.render(onScanSuccess, onScanError);
 };
 
 function populateDataIfScanCodeExists(entryType, scanCode){
@@ -87,4 +103,8 @@ $(document).ready(() => {
 })
 
 
+
+$("#scanModal").on('hidden.bs.modal', function () {
+	$(this).data('bs.modal', null);
+});
 

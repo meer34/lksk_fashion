@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:fragment="html_head" id="html_head">
+	<meta name="description" content="">
+	<title>LKSK FASHION</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" type="image/icon" href="images/favicon.png" />
+	<!-- Main CSS-->
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<!-- Font-icon css-->
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body class="app sidebar-mini rtl">
+	<div th:fragment="app-layout">
+		<!-- Navbar-->
+		<header class="app-header">
+			<a class="app-header__logo" th:href="@{/home}">LKSK FASHION</a>
+			<!-- Sidebar toggle button-->
+			<a class="app-sidebar__toggle" href="#" data-toggle="sidebar"
+				aria-label="Hide Sidebar"></a>
+			<!-- Navbar Right Menu-->
+			<ul class="app-nav">
+				<li><a class="app-nav__product" th:href="@{/logout}"><i
+						class="fa fa-sign-out fa-lg" title="LOG OUT"></i></a></li>
+			</ul>
+		</header>
+		<!-- Sidebar menu-->
+		<div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+		<aside class="app-sidebar">
+			<div class="app-sidebar__user">
+				<img class="app-sidebar__user-avatar" src="images/logo_contact.jpg"
+					alt="Logo">
+				<div sec:authorize="isAuthenticated()">
+					<p class="app-sidebar__user-name">
+						<span sec:authentication="principal.user.username">User</span>
+					</p>
+					<p class="app-sidebar__user-name">
+						<span sec:authentication="principal.authorities">Role</span>
+					</p>
+				</div>
+			</div>
+			<ul class="app-menu">
+				<li><a class="app-menu__product" th:href="@{/home}"><i
+						class="app-menu__icon fa fa-square"></i><span
+						class="app-menu__label">Dashboard</span></a></li>
+				<li class="treeview"><a class="app-menu__product" href="#"
+					data-toggle="treeview"><i class="app-menu__icon fa fa-user"></i><span
+						class="app-menu__label">User Management</span><i
+						class="treeview-indicator fa fa-angle-right"></i></a>
+					<ul class="treeview-menu">
+						<li><a class="treeview-product" th:href="@{/admin}"><i
+								class="icon fa fa-user"></i> Admin</a></li>
+						<li><a class="treeview-product" th:href="@{/moderator}"><i
+								class="icon fa fa-user-plus"></i>Moderator </a></li>
+						<li><a class="treeview-product" th:href="@{/party}"><i
+								class="icon fa fa-users"></i>Party</a></li>
+						<li><a class="treeview-product" th:href="@{/customer}"><i
+								class="icon fa fa-users"></i>Customer</a></li>
+					</ul></li>
+
+				<li><a class="app-menu__product" th:href="@{/stock-in}"><i
+						class="app-menu__icon fa fa-arrow-right"></i><span
+						class="app-menu__label">Stock In</span></a></li>
+				<li><a class="app-menu__product" th:href="@{/stock-out}"><i
+						class="app-menu__icon fa fa-arrow-left"></i><span
+						class="app-menu__label">Stock Out</span></a></li>
+				<li><a class="app-menu__product" th:href="@{/stock}"><i
+						class="app-menu__icon fa fa-list-ol"></i><span
+						class="app-menu__label">Total Stocks</span></a></li>
+				<li sec:authorize="hasAuthority('ADMIN')"><a class="app-menu__product" th:href="@{/order}"><i
+						class="app-menu__icon fa fa-archive"></i><span
+						class="app-menu__label">Orders</span></a></li>
+				<li><a class="app-menu__product" th:href="@{/product}"><i
+						class="app-menu__icon fa fa-plus"></i><span
+						class="app-menu__label">Products</span></a></li>
+			</ul>
+		</aside>
+	</div>
+	
+	<!-- Essential javascripts for application to work-->
+	<script th:fragment="main_scripts" src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script th:fragment="main_scripts1" src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+	<script th:fragment="main_scripts1" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<script th:fragment="main_scripts1" th:src="@{js/main.js}"></script>
+	
+	<!-- jQuery library -->
+
+
+	<!-- Latest compiled JavaScript -->
+	<!-- The javascript plugin to display page loading on top-->
+	<script th:fragment="main_scripts" src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js"></script>
+	
+	<!-- Page specific javascripts-->
+	<script th:fragment="main_scripts" th:src="@{js/dynaDrop.js}"></script>
+	<script th:fragment="main_scripts" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+	
+	<script th:fragment="html5qr_scripts" src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.2.1/html5-qrcode.min.js"></script>
+	<script th:fragment="main_scripts" >
+		sindow.addEventListener("load", function() {
+			checkFirstRadioButton();
+			cons script = document.createElement("script");
+			script.src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js";
+			document.body.appendChild(script);
+			script.src="js/main.js";
+			document.body.appendChild(script);
+			script.src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js";
+			document.body.appendChild(script);
+			script.src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js";
+			document.body.appendChild(script);
+			script.src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js";
+			document.body.appendChild(script);
+			
+		});
+	</script>
+	<script th:fragment="table_search_script" >
+		$("#keyWord").on("keyup", function() {
+		var value = $(this).val();
+	
+		$("table tr").each(function(index) {
+			if (index !== 0) {
+	
+				$row = $(this);
+	
+				var id = $row.text();
+	
+				if (!id.includes(value)) {
+					$row.hide();
+				}
+				else {
+					$row.show();
+				}
+			}
+		});
+		});
+	</script>
+	
+</body>
+</html>

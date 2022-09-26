@@ -1,9 +1,13 @@
 package com.lksk.web.controller;
 
-import java.util.ArrayList;
+import java.text.ParseException;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,9 +33,43 @@ public class StockOutController {
 	@Autowired ModeratorService moderatorService;
 
 	@GetMapping("/stock-out")
-	public String showStockIn(Model model) {
-		System.out.println("Inside stock-out");
-		model.addAttribute("stockOutList", stockOutService.getAllStockOuts());
+	public String showStockIn(Model model,
+			@RequestParam("page") Optional<Integer> page,
+			@RequestParam("size") Optional<Integer> size,
+			@RequestParam(value="fromDate", required = false) String fromDate,
+			@RequestParam(value="toDate", required = false) String toDate,
+			@RequestParam(value="keyword", required = false) String keyword,
+			@RequestParam(value="itemId", required = false) Long itemId) throws ParseException {
+		
+		Page<StockOut> listPage = null;
+		
+		if(keyword == null && fromDate == null && toDate == null) {
+			System.out.println("StockOut home page");
+			if(itemId == null) {
+				listPage = stockOutService.getAllStockOuts(page.orElse(1) - 1, size.orElse(4));
+			} else {
+				listPage = stockOutService.getAllStockOutsByItemId(itemId, page.orElse(1) - 1, size.orElse(4));
+			}
+			
+		} else {
+			System.out.println("Searching StockOuts for fromDate:" + fromDate + " and toDate:" +toDate +" and keyword:" + keyword);
+			listPage = stockOutService.searchStockOutsByDateAndKeyword(keyword, fromDate, toDate, page.orElse(1) - 1, size.orElse(4));
+			
+			model.addAttribute("fromDate", fromDate);
+			model.addAttribute("toDate", toDate);
+			model.addAttribute("keyword", keyword);
+			
+		}
+		
+		model.addAttribute("listPage", listPage);
+		int totalPages = listPage.getTotalPages();
+		if (totalPages > 0) {
+			List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+					.boxed()
+					.collect(Collectors.toList());
+			model.addAttribute("pageNumbers", pageNumbers);
+		}
+
 		return "stock-out";
 	}
 
@@ -45,34 +83,13 @@ public class StockOutController {
 
 	@RequestMapping(value = "/addStockOut",
 			method = RequestMethod.POST)
-	public String addStockOut(Model model, StockOut stockOut, @RequestParam Long itemId,
+	public String addStockOut(Model model, StockOut stockOut, 
 			RedirectAttributes redirectAttributes) throws Exception{
 
-		stockOut.setItem(itemService.findItemById(itemId));
 		stockOutService.saveStockOutToDB(stockOut);
 
 		redirectAttributes.addFlashAttribute("successMessage", "Stock Out added successfully!");
 		return "redirect:/stock-out";
-
-	}
-
-	@RequestMapping(value = "/searchStockOut",
-			method = RequestMethod.GET)
-	public String searchStockOut(Model model, 
-			@RequestParam("fromDate") String fromDate,
-			@RequestParam("toDate") String toDate,
-			@RequestParam("keyword") String keyword) throws Exception{
-		List<StockOut> stockOutList = new ArrayList<StockOut>();
-
-		for (StockOut stockOut : stockOutService.searchStockOutByDate(fromDate, toDate)) {
-			if(stockOut.toString().toLowerCase().contains(keyword.toLowerCase())) {
-				stockOutList.add(stockOut);
-			}
-		}
-		System.out.println("Search size for fromDate:" + fromDate + " and toDate:" +toDate +" and keyword:" + keyword + " is - " +  stockOutList.size());
-
-		model.addAttribute("stockOutList", stockOutList);
-		return "stock-out";
 
 	}
 	
@@ -126,11 +143,9 @@ public class StockOutController {
 	@RequestMapping(value = "/saveStockOutEdit",
 			method = RequestMethod.POST)
 	public String saveStockOutEdit(RedirectAttributes redirectAttributes, StockOut stockOut,
-			@RequestParam Long itemId,
 			@RequestParam("id") String id) throws Exception{
 
 		System.out.println("Got save edit request for stock_out id " + id);
-		stockOut.setItem(itemService.findItemById(itemId));
 		stockOutService.saveStockOutToDB(stockOut);
 
 		redirectAttributes.addFlashAttribute("successMessage", "Stock Out edited successfully!");

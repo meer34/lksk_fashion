@@ -41,6 +41,27 @@
                         </div>
                      </div>
                      <div class="col-lg-12 flexdisplay">
+						<div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+							<select class="form-control" name="productId" id="products" style="height: 48px;" onchange="onProductChange(this.value)" required>
+								<option selected disabled="disabled" value="">Product</option>
+								<option style="color: #333;" th:each="product : ${products}" th:text="${product.name}" th:value="${product.id}"></option>
+							</select>
+						</div>
+						<div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+							<select class="form-control" name="item" id="items" style="height: 48px;" onchange="onItemChange(this.value)" required>
+								<option selected disabled="disabled" value="">Item</option>
+							</select>
+						</div>
+                        <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+                           <select class="form-control" name="unit" id="units" style="height: 48px;" >
+								<option selected disabled="disabled" value="">Unit</option>
+							</select>
+                        </div>
+                        <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+                           <input type="text" name="colour" placeholder="Colour">
+                        </div>
+                     </div>
+                     <div class="col-lg-12 flexdisplay">
                        <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
                            <input type="number" id="quantity" name="quantity" placeholder="Quantity" min="1" required 
 									oninvalid="this.setCustomValidity('Quantity cannot be 0 or blank')" oninput="this.setCustomValidity('')"
@@ -56,41 +77,25 @@
                            <input type="text" name="sWidth" placeholder="Size(Width)">
                         </div>
                      </div>
-					 
                      <div class="col-lg-12 flexdisplay">
-						<div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
-							<select class="form-control" name="productId" id="products" style="height: 48px;" onchange="onProductChange(this.value)" required>
-								<option selected disabled="disabled" value="">Product</option>
-								<option style="color: #333;" th:each="product : ${products}" th:text="${product.name}" th:value="${product.id}"></option>
-							</select>
-						</div>
-						<div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
-							<select class="form-control" name="itemId" id="items" style="height: 48px;" onchange="onItemChange(this.value)" required>
-								<option selected disabled="disabled" value="">Item</option>
-							</select>
-						</div>
-                        <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
-                           <select class="form-control" name="unit" id="units" style="height: 48px;" >
-								<option selected disabled="disabled" value="">Unit</option>
-							</select>
+                        <div class="col-lg-3 col-xs-12">
+                           <input type="number" name="price" placeholder="Price" min="0" step=".01" onchange="calculateAmount()" >
+                        </div>
+                        <div class="col-lg-3 col-xs-12">
+                           <input type="number" name="amount" placeholder="Amount" readonly>
                         </div>
                         <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
                            <input type="text" name="reference" placeholder="Reference">
                         </div>
-                     </div>
-                     <div class="col-lg-12 flexdisplay">
-                        <div class="col-lg-6 col-xs-12">
-                           <input type="number" name="price" placeholder="Price" min="0" step=".01" onchange="calculateAmount()" >
-                        </div>
-                        <div class="col-lg-6 col-xs-12">
-                           <input type="number" name="amount" placeholder="Amount" readonly>
-                        </div>
-                     </div>
-                     <div class="col-lg-12 flexdisplay">
-                        <div class="col-lg-6 col-xs-12">
+                        <div class="col-lg-3 col-xs-12">
                            <input type="date" name="date" placeholder="Date">
                         </div>
-                        <div class="col-lg-6 col-xs-12">
+                     </div>
+                     <div class="col-lg-12 flexdisplay">
+                        <div class="col-lg-3 col-xs-12">
+                           <input type="date" name="deliveryDate" placeholder="Delivery Date">
+                        </div>
+                        <div class="col-lg-9 col-xs-12">
                            <textarea name="remarks" class="form-control" placeholder="Remarks" style="height: 52px;"></textarea>
                      </div>
                    </div>
@@ -98,10 +103,6 @@
                      <input type="submit" name="submit" class="submit action-button" value="Save">
                </fieldset>
                </form>
-			   <div>
-					<p name="before-compression"></p>
-					<p name="after-compression"></p>
-				</div>
             </div>
          </div>
       </main>

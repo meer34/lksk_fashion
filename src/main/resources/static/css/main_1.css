@@ -734,7 +734,7 @@ select.form-control:focus::-ms-value {
 	z-index: 1030;
 }
 
-@supports ((position: -webkit-sticky) or (position: sticky)) {
+@supports ((position: -webkit-sticky) or (position: sticky))  { 
 	.sticky-top {
 		position:-webkit-sticky;
 		position: sticky;
@@ -1467,7 +1467,7 @@ li {
 }
 /*inputs*/
 .dashboardicon input, .dashboardicon textarea {
-	padding: 12px;
+	padding: 15px;
 	border: 1px solid #ccc;
 	border-radius: 0px;
 	margin-bottom: 10px;
@@ -1479,7 +1479,7 @@ li {
 }
 
 .dashboardicon select {
-	padding-left: 10px;
+	padding-left: 15px;
 	border: 1px solid #ccc;
 	border-radius: 0px;
 	margin-bottom: 15px;
@@ -1599,6 +1599,7 @@ li {
 }
 
 .dashboardicon2 {
+	position: relative;
 	text-align: center;
 }
 
@@ -1664,7 +1665,7 @@ li {
 	border: 0 none;
 	border-radius: 25px;
 	cursor: pointer;
-	padding: 10px 11px;
+	padding: 10px 5px;
 	margin: 10px 5px;
 }
 
@@ -1894,7 +1895,6 @@ li {
 
 .add-unit-group {
 	margin-bottom: 2px !important;
-	display: flex !important;
 }
 
 .new-login-button {
@@ -1982,7 +1982,6 @@ li {
 
 legend {
 	padding-top: 40px !important;
-	padding-bottom: 0 !important;
 }
 
 .app-content-login {
@@ -1998,127 +1997,57 @@ legend {
 	}
 }
 
-.select2-container--default .select2-selection--single {
-	height: 47px !important;
-	margin-bottom: 10px;
-}
-
-.select2-container--default .select2-selection--single .select2-selection__rendered
-	{
-	line-height: 45px !important;
-	text-align: left;
-	padding-left: 15px;
-}
-
-.select2-container {
-	width: 100% !important;
-	display: block !important;
-}
-
-.select2-container--default .select2-selection--single {
-	border-radius: 0 !important;
-}
-
-.form-control {
-	margin-top: 10px;
-}
-
-.dashboardicon textarea {
-	margin-top: 0;
+.sticky {
+	position: fixed;
+	top: 0;
+	width: 100%;
 }
 
 .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover,
 	.pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover
 	{
-	background-color: #2a3492;
-	border-color: #2a3492;
+	background-color: #446c9d !important;
+	border-color: #446c9d !important;
+	color: #fff !important;
 }
 
 .pagination>li>a, .pagination>li>span {
-	color: #2a3492;
-	font-weight: bold;
+	color: #446c9d !important;
+}
+
+.pagination {
+	margin: 0 !important;
 }
 
 .goTo {
-	height: 31px;
+	height: 33px;
+	width: 100px;
 	margin-left: 5px;
-	border: 1px solid #2a349257;
 }
 
-@media print {
-	.col-lg-6 {
-		width: 50% !important;
+@media ( max-width : 760px) {
+	.goTo {
+		height: 33px;
+		width: 66px;
+		margin-left: 5px;
 	}
 }
 
-.select2-container .select2-selection--single .select2-selection__rendered
+.select2-container--default .select2-selection--single {
+	height: 48px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered
 	{
-	display: block;
-	padding-left: 15px;
-	font-size: 12px;
+	line-height: 48px !important;
 }
 
-.input-group-prepend {
-	padding-top: 10px;
+.select2-container {
+	width: 100% !important;
+	display: block !important;
+	margin-bottom: 10px !important;
 }
 
-.btn-danger {
-	color: #fff;
-	background-color: #ff3731;
-	border-color: #df2e28;
-	margin-top: 0;
-	margin-right: 0;
+.elem-5 {
+	width: 19% !important;
 }
-
-.add-unit {
-	height: 34px !important;
-}
-
-audio, canvas, progress, video {
-    display: inline-block;
-    vertical-align: baseline;
-    width: 100% !important;
-}
-
-.custom-file-input {
-  margin-top: 10px;
-  color: transparent;
-  width: 100%;
-}
-
-.custom-file-input::-webkit-file-upload-button {
-  visibility: hidden;
-}
-
-.custom-file-input::before {
-    content: 'Scan from File';
-    color: black;
-    display: inherit;
-    background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
-    border: 1px solid #999;
-    border-radius: 3px;
-    padding: 5px 8px;
-    outline: none;
-    white-space: nowrap;
-    -webkit-user-select: none;
-    cursor: pointer;
-    text-shadow: 1px 1px #fff;
-    font-weight: 700;
-    font-size: 10pt;
-    text-align: center;
-    margin-right: 30%;
-    margin-left: 30%;
-}
-
-.custom-file-input:hover::before {
-  border-color: black;
-}
-
-.custom-file-input:active {
-  outline: 0;
-}
-
-.custom-file-input:active::before {
-  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9); 
-}
-

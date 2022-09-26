@@ -18,7 +18,7 @@
 					<form class="dashboardicon" th:action="@{/searchProductRecords}" method="get" >
 						<div class="form-group col-lg-12">
 							<div class="col-lg-12">
-								<input type="text" name="product" placeholder="Search Products">
+								<input type="text" name="product" id="keyWord" placeholder="Search Products">
 							</div>
 						</div>
 						<div class="col-lg-12 flexdisplay">
@@ -44,7 +44,6 @@
 									<tr style="background-color: #FFF" th:each="product: ${productList}">
 										<td class="noPrint"><input type='radio' th:value="${product.id}" class="radioBtn" name='id'></td>
 										<td th:text="${product.name}" />
-										<td></td>
 									</tr>
 								</tbody>
 							</table>
@@ -57,5 +56,6 @@
 	
 	
     <div th:replace="fragments :: main_scripts"></div>
+    <div th:replace="fragments :: table_search_script"></div>
   </body>
 </html>

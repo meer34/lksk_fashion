@@ -49,6 +49,7 @@ public class StockIn {
 	private Integer quantity;
 	private Double price;
 	private Double amount;
+	private String colour;
 	
 	@ManyToOne
 	@JoinColumn(name ="receivedBy")

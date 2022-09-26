@@ -45,7 +45,7 @@ function setMaxQuantity(unit) {
 	var quantityTagPrefix = `<input type="number" id="quantity" name="quantity" min="1" `;
 	var quantityTagSuffix = `required oninvalid="this.setCustomValidity('Quantity cannot be blank or 0 or more than available stock')" oninput="this.setCustomValidity('')"`
 			+ ` onchange="calculateAmount()" >`;
-	let itemId = document.getElementsByName("itemId")[0].value;
+	let itemId = document.getElementsByName("item")[0].value;
 
 	if (unit) {
 		$.ajax({
@@ -72,7 +72,7 @@ function setMaxQuantityForEdit() {
 		var quantityTagPrefix = `<input type="number" id="quantity" name="quantity" placeholder="Quantity" min="1" `;
 		var quantityTagSuffix = `required oninvalid="this.setCustomValidity('Quantity cannot be blank or 0 or more than available stock')" oninput="this.setCustomValidity('')"`
 				+ ` onchange="calculateAmount()" >`;
-		let itemId = document.getElementsByName("itemId")[0].value;
+		let itemId = document.getElementsByName("item")[0].value;
 		let quantity = document.getElementsByName("quantity")[0].value;
 
 		if (unit) {
@@ -92,7 +92,7 @@ function setMaxQuantityForEdit() {
 
 //StockIn Validation for quantity
 function checkIfStockInEditAllowed() {
-	let itemId = document.getElementsByName("itemId")[0].value;
+	let itemId = document.getElementsByName("item")[0].value;
 	let unit = document.getElementsByName("unit")[0].value;
 	let stockInId = document.getElementsByName("id")[0].value;
 	let quantity = document.getElementsByName("quantity")[0].value;

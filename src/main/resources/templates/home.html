@@ -11,18 +11,18 @@
 			<div class="col-lg-12">
 				<div class="tile">
 					<div class="dashboardicon2">
-						<a th:href="@{/stock-in}"><input type="button" name="sIn" class="submit action-button" value="Stock In"></a>
-						<a th:href="@{/stock-out}"><input type="button" name="sOut" class="submit action-button" value="Stock Out"></a>
 						<a th:href="@{/addStockInPage}"><input type="button" name="addSIn" class="submit action-button" value="Add Stock In"></a>
 						<a th:href="@{/addStockOutPage}"><input type="button" name="addSOut" class="submit action-button" value="Add Stock Out"></a>
 						<a th:href="@{/order}"><input type="button" name="order" class="submit action-button" value="Orders"></a>
+						<a th:href="@{/stock-in}"><input type="button" name="sIn" class="submit action-button" value="Stock In"></a>
+						<a th:href="@{/stock-out}"><input type="button" name="sOut" class="submit action-button" value="Stock Out"></a>
 						<a th:href="@{/stock}"><input type="button" name="stock" class="submit action-button" value="Total Stock"></a>
 					
 					</div>
 				</div>
 			</div>
          </div>
-                   <div class="row">
+        <div class="row">
         <div class="col-md-12">
           <div class="tile">
             <h3 class="tile-title">View Stock Report</h3>
@@ -38,7 +38,7 @@
 					</div>
 					<div class="col-lg-6 col-xs-12">
 						<label>Item</label>
-						<select name="item" style="height: 52px;">
+						<select name="item" style="height: 52px;" id="items">
 							<option selected disabled value="" >Select Item</option>
 							<option style="color: #333;" th:each=" itemName : ${itemNames}" th:text="${itemName}" ></option>
 						</select>

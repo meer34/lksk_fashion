@@ -77,6 +77,9 @@
 				<li><a class="app-menu__product" th:href="@{/product}"><i
 						class="app-menu__icon fa fa-plus"></i><span
 						class="app-menu__label">Products</span></a></li>
+				<li><a class="app-menu__product" th:href="@{/downloadAndroidApp}"><i
+						class="app-menu__icon fa fa-android"></i><span
+						class="app-menu__label">Download Android App</span></a></li>
 			</ul>
 		</aside>
 	</div>
@@ -94,28 +97,86 @@
 			</div>
 	</div>
 	
+	<div th:fragment="scan_qr_modal" class="modal fade" id="scanModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div id="qr-reader"></div>
+					<p style="text-align:center;"><input type="file" id="qr-input-file" accept="image/*" class="custom-file-input" ></p>
+					<!-- <input type="file" id="qr-input-file" accept="image/*" capture> -->
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div th:fragment="search_bar">
+		<div class="col-lg-12 flexdisplay">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+				<label>From Date</label> <input type="date" name="fromDate" id="fromDate" placeholder="From Date" th:value="${fromDate}">
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+				<label>To Date</label> <input type="date" name="toDate" id="toDate" placeholder="To Date" th:value="${toDate}" style="animation-delay: .2s">
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+				<label>Search</label> <input type="text" name="keyword" id="keyWord" placeholder="Search" th:value="${keyword}" style="animation-delay: .2s">
+			</div>
+		</div>
+		<div class="col-lg-12">
+			<input type="button" name="clear" class="previous action-button-previous" value=" Clear " 
+				onClick="document.getElementById('fromDate').value='';document.getElementById('toDate').value='';document.getElementById('keyWord').value='';">
+			<input type="submit" class="submit action-button" value="Search">
+		</div>
+	</div>
+	
+	<div th:fragment="pagination" id="footer">
+		<div class="col-lg-1 col-xs-4" style="display: flex; float: right;">
+			<label style="margin-top: 10px; margin-right: 10px; margin-left: 2px;">View</label>
+			<select id="pageSize" style="height: 41px; background-color: #fff;"
+				class="pageSizeChange">
+				<option style="color: #333;" th:selected="${listPage.size == 2}">2</option>
+				<option style="color: #333;" th:selected="${listPage.size == 3}">3</option>
+				<option style="color: #333;" th:selected="${listPage.size == 4}">4</option>
+			</select>
+		</div>
+		<nav class="pagination-outer" aria-label="Page navigation">
+			<input type="hidden" id="navUrl" th:value="${navigationUrl}">
+			<ul class="pagination" th:if="${listPage.totalPages > 0}">
+				<li class="page-item"><a href="#" class="page-link-prev"
+					aria-label="Previous"> <span aria-hidden="true">&lt;&lt;Previous</span>
+				</a></li>
+				<li th:each="pageNumber : ${pageNumbers}"
+					th:class="${pageNumber==listPage.number + 1} ? 'page-item active' : 'page-item'">
+
+					<a
+					th:class="${pageNumber==listPage.number + 1} ? 'pageElement active' : 'pageElement'"
+					th:text=${pageNumber}></a>
+				</li>
+				<li class="page-item"><a href="#" class="page-link-next"
+					aria-label="Next"> <span aria-hidden="true">Next&gt;&gt;</span>
+`				</a></li>
+				<li><input type="text" id="goToPageNo" placeholder="Go To"
+					class="goTo"></li>
+			</ul>
+		</nav>
+	</div>
+	
+	
 	<!-- Essential javascripts for application to work-->
 	<script th:fragment="main_scripts" src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script th:fragment="main_scripts" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 	<script th:fragment="main_scripts" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
 	<script th:fragment="main_scripts" src="js/main.js"></script>
 	<script th:fragment="main_scripts" src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js"></script>
-	
-	
-	<link th:fragment="add_edit_scripts" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.0.0/cropper.min.css" integrity="sha256-FeDcPwV8ZgxG1MU5L/b2i8clOmqZJKK0eyDHqrQaXxY=" crossorigin="anonymous">
-	<script th:fragment="add_edit_scripts" src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.0.0/cropper.min.js"></script>
-	<script th:fragment="add_edit_scripts" src="https://cdn.jsdelivr.net/npm/exif-js"></script>
-	<script th:fragment="add_edit_scripts" src="js/dynaDrop.js"></script>
-	<script th:fragment="add_edit_scripts" src="js/crop_compress.js"></script>
-	<!--<script th:fragment="add_edit_scripts" src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script>-->
-	<script th:fragment="add_edit_scripts" src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.2.1/html5-qrcode.min.js"></script>
-	<script th:fragment="add_edit_scripts" src="js/html5-qrcode.js"></script>
-	  
+	<link th:fragment="main_scripts" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+	<script th:fragment="main_scripts" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+	<script th:fragment="main_scripts">
+		$("#products, #items, #units, #party, #customer").select2();
+	</script>
 	<script th:fragment="main_scripts" >
 		document.addEventListener("DOMContentLoaded", function() {
 			var radio = document.querySelectorAll('.radioBtn'),
 			checked = false;
-			if(radio){
+			if(radio[0] != null){
 				for (var i = 0; i < radio.length; i++) {
 					if (radio[i].checked) {
 						checked = true;
@@ -127,6 +188,15 @@
 		});
 	</script>
 	
+	<link th:fragment="add_edit_scripts" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.0.0/cropper.min.css" integrity="sha256-FeDcPwV8ZgxG1MU5L/b2i8clOmqZJKK0eyDHqrQaXxY=" crossorigin="anonymous">
+	<script th:fragment="add_edit_scripts" src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.0.0/cropper.min.js"></script>
+	<script th:fragment="add_edit_scripts" src="https://cdn.jsdelivr.net/npm/exif-js"></script>
+	<script th:fragment="add_edit_scripts" src="js/dynaDrop.js"></script>
+	<script th:fragment="add_edit_scripts" src="js/crop_compress.js"></script>
+	<!--<script th:fragment="add_edit_scripts" src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script>-->
+	<script th:fragment="add_edit_scripts" src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.2.1/html5-qrcode.min.js"></script>
+	<script th:fragment="add_edit_scripts" src="js/html5-qrcode.js"></script>
+	  
 	<script th:fragment="otp_generate_script">
 		function generatePin(phone) {
 			$.ajax({
@@ -164,8 +234,8 @@
 		
 	</script>
 	
-	<script th:fragment="user_search_script">
-		$("#searchUser").on("keyup", function() {
+	<script th:fragment="table_search_script">
+		$("#keyWord").on("keyup", function() {
 		var value = $(this).val();
 	
 		$("table tr").each(function(index) {

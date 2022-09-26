@@ -35,7 +35,7 @@ public class CustOrder {
 	private String size;
 	private String sLength;
 	private String sWidth;
-	private String color;
+	private String colour;
 	private Integer quantity;
 	
 	@ManyToOne
@@ -50,6 +50,10 @@ public class CustOrder {
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date date;
+	
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date deliveryDate;
 	
 	private String remarks;
 
