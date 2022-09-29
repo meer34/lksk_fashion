@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.lksk.web.model.CustOrder;
 import com.lksk.web.service.OrderService;
 import com.lksk.web.service.ProductService;
+import com.lksk.web.util.LKSKConstants;
 
 @Controller
 public class OrderController {
@@ -38,11 +39,11 @@ public class OrderController {
 		
 		if(keyword == null && fromDate == null && toDate == null) {
 			System.out.println("Order home page");
-			listPage = orderService.getAllOrders(page.orElse(1) - 1, size.orElse(4));
+			listPage = orderService.getAllOrders(page.orElse(1) - 1, size.orElse(LKSKConstants.INITIAL_PAGE_SIZE));
 			
 		} else {
 			System.out.println("Searching Orders for fromDate:" + fromDate + " and toDate:" +toDate +" and keyword:" + keyword);
-			listPage = orderService.searchOrdersByDateAndKeyword(keyword, fromDate, toDate, page.orElse(1) - 1, size.orElse(4));
+			listPage = orderService.searchOrdersByDateAndKeyword(keyword, fromDate, toDate, page.orElse(1) - 1, size.orElse(LKSKConstants.INITIAL_PAGE_SIZE));
 			
 			model.addAttribute("fromDate", fromDate);
 			model.addAttribute("toDate", toDate);

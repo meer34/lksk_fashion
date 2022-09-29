@@ -34,8 +34,8 @@ public class StockOutService {
 		return stockOutRepo.findAll(PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.DESC, "id")));
 	}
 	
-	public Page<StockOut> getAllStockOutsByItemId(Long itemId, int pageNo, int pageSize) {
-		return stockOutRepo.findByItemId(itemId, PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.DESC, "id")));
+	public Page<StockOut> getAllStockOutsByItemAndUnit(Long itemId, String unit, int pageNo, int pageSize) {
+		return stockOutRepo.findByItemAndUnit(itemId, unit, PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.DESC, "id")));
 	}
 	
 	public Page<StockOut> searchStockOutsByDateAndKeyword(String keyword, 

@@ -26,7 +26,7 @@
 									<input type="submit" th:formaction="@{/viewOrder}" name="action" class="submit action-button" value="View">
 									<input type="submit" th:formaction="@{/editOrder}" name="action" class="submit action-button" value="Edit">
 									<input type="button" name="action" class="submit action-button" value="Print" onclick="printData()">
-									<input type="submit" th:formaction="@{/deleteOrder}" name="action" class="submit action-button2" value="Delete">
+									<input type="submit" th:formaction="@{/deleteOrder}" name="action" class="submit action-button2" value="Delete" onClick="return confirmDelete()">
 								</div>
 								<table class="table table-bordered table-responsive table-hover" style="width: 100%;" id="printTable" >
 									<thead class="thead-inverse"

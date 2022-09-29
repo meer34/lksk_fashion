@@ -57,7 +57,7 @@
 											<input type="button" name="action" class="submit action-button2" value="New Pin" th:attr="onClick=|generatePin(${moderator.phone})|" 
 																								sec:authorize="hasAuthority('ADMIN')" >
 											<input type="submit" th:formaction="@{/deleteModerator}" name="action" class="submit action-button2" value="Delete" 
-																									sec:authorize="hasAuthority('ADMIN')" >
+																									onClick="return confirmDelete()" sec:authorize="hasAuthority('ADMIN')" >
 										  </form>
 										</div>
 									</td>

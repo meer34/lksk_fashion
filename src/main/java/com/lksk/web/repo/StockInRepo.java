@@ -13,10 +13,6 @@ import com.lksk.web.model.StockIn;
 
 public interface StockInRepo extends JpaRepository<StockIn, Long>, JpaSpecificationExecutor<StockIn>{
 	
-	List<StockIn> findByDateBetween(Date  fromDate, Date  toDate);
-	List<StockIn> findByDateGreaterThanEqual(Date  fromDate);
-	List<StockIn> findByDateLessThanEqual(Date  toDate);
-	
 	List<StockIn> findByItemNameAndDateBetween(String item, Date fromDate, Date toDate);
 	List<StockIn> findByItemNameAndDateLessThanEqual(String item, Date toDate);
 	List<StockIn> findByItemNameAndDateGreaterThanEqual(String item, Date fromDate);
@@ -24,7 +20,7 @@ public interface StockInRepo extends JpaRepository<StockIn, Long>, JpaSpecificat
 	
 	StockIn findFirstByScanCodeOrderByIdDesc(String scanCode);
 	
-	@Query("FROM StockIn si where si.item = (FROM Item item where item.id = :itemId)")
-	Page<StockIn> findByItemId(Long itemId, PageRequest of);
+	@Query("FROM StockIn si where si.item = (FROM Item item WHERE item.id = :itemId ) AND unit = :unit")
+	Page<StockIn> findByItemAndUnit(Long itemId, String unit, PageRequest of);
 	
 }

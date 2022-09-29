@@ -29,7 +29,7 @@
 																										sec:authorize="hasAuthority('ADMIN')" >
 									<input type="button" name="action" class="submit action-button" value="Print" onclick="printData()" >
 									<input type="submit" th:formaction="@{/deleteStockIn}" name="action" class="submit action-button2" value="Delete" 
-																										sec:authorize="hasAuthority('ADMIN')" >
+																										onClick="return confirmDelete()" sec:authorize="hasAuthority('ADMIN')" >
 								</div>
 								<table class="table table-bordered table-responsive table-hover" style="width: 100%;" id="printTable" >
 									<thead class="thead-inverse" style="background-color: #446c9d; color: #FFF;">

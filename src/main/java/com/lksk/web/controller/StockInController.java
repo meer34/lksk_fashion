@@ -26,6 +26,7 @@ import com.lksk.web.service.ModeratorService;
 import com.lksk.web.service.PartyService;
 import com.lksk.web.service.ProductService;
 import com.lksk.web.service.StockInService;
+import com.lksk.web.util.LKSKConstants;
 
 @Controller
 public class StockInController {
@@ -36,7 +37,7 @@ public class StockInController {
 	@Autowired PartyService partyService;
 	@Autowired CustomerService customerService;
 	@Autowired ModeratorService moderatorService;
-
+	
 	@GetMapping("/stock-in")
 	public String showStockIn(Model model,
 			@RequestParam("page") Optional<Integer> page,
@@ -44,21 +45,22 @@ public class StockInController {
 			@RequestParam(value="fromDate", required = false) String fromDate,
 			@RequestParam(value="toDate", required = false) String toDate,
 			@RequestParam(value="keyword", required = false) String keyword,
-			@RequestParam(value="itemId", required = false) Long itemId) throws ParseException {
+			@RequestParam(value="itemId", required = false) Long itemId,
+			@RequestParam(value="unit", required = false) String unit) throws ParseException {
 		
 		Page<StockIn> listPage = null;
 		
 		if(keyword == null && fromDate == null && toDate == null) {
 			System.out.println("StockIn home page");
-			if(itemId == null) {
-				listPage = stockInService.getAllStockIns(page.orElse(1) - 1, size.orElse(4));
+			if(itemId == null && unit == null) {
+				listPage = stockInService.getAllStockIns(page.orElse(1) - 1, size.orElse(LKSKConstants.INITIAL_PAGE_SIZE));
 			} else {
-				listPage = stockInService.getAllStockInsByItemId(itemId, page.orElse(1) - 1, size.orElse(4));
+				listPage = stockInService.getAllStockInsByItemAndUnit(itemId, unit , page.orElse(1) - 1, size.orElse(LKSKConstants.INITIAL_PAGE_SIZE));
 			}
 			
 		} else {
 			System.out.println("Searching StockIns for fromDate:" + fromDate + " and toDate:" +toDate +" and keyword:" + keyword);
-			listPage = stockInService.searchStocksInByDateAndKeyword(keyword, fromDate, toDate, page.orElse(1) - 1, size.orElse(4));
+			listPage = stockInService.searchStocksInByDateAndKeyword(keyword, fromDate, toDate, page.orElse(1) - 1, size.orElse(LKSKConstants.INITIAL_PAGE_SIZE));
 			
 			model.addAttribute("fromDate", fromDate);
 			model.addAttribute("toDate", toDate);

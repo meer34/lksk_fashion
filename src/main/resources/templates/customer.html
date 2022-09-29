@@ -48,7 +48,7 @@
 											<input type="hidden" th:value="${customer.name}" id="name" name='name'>
 											<input type="submit" th:formaction="@{/viewCustomer}" name="action" class="submit action-button" value="View">
 											<input type="submit" th:formaction="@{/editCustomer}" name="action" class="submit action-button" value="Edit">
-											<input type="submit" th:formaction="@{/deleteCustomer}" name="action" class="submit action-button2" value="Delete">
+											<input type="submit" th:formaction="@{/deleteCustomer}" name="action" class="submit action-button2" value="Delete" onClick="return confirmDelete()">
 										  </form>
 										</div>
 									</td>

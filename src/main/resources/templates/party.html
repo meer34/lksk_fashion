@@ -48,7 +48,7 @@
 											<input type="hidden" th:value="${party.name}" id="name" name='name'>
 											<input type="submit" th:formaction="@{/viewParty}" name="action" class="submit action-button" value="View">
 											<input type="submit" th:formaction="@{/editParty}" name="action" class="submit action-button" value="Edit">
-											<input type="submit" th:formaction="@{/deleteParty}" name="action" class="submit action-button2" value="Delete">
+											<input type="submit" th:formaction="@{/deleteParty}" name="action" class="submit action-button2" value="Delete" onClick="return confirmDelete()">
 										  </form>
 										</div>
 									</td>

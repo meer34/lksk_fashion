@@ -43,9 +43,9 @@
 									<td class="noPrint">
 										<div class="dashboardicon2" style="text-align: left;">
 											<input type="button" name="records" class="submit action-button" value="Stock Ins" 
-												th:attr="onclick=|location.href='stock-in?itemId=${item.id}'|">
+												th:attr="onclick=|location.href='stock-in?itemId=${item.id}&unit=${unit}'|">
 											<input type="button" name="records" class="submit action-button" value="Stock Outs" 
-												th:attr="onclick=|location.href='stock-out?itemId=${item.id}'|">
+												th:attr="onclick=|location.href='stock-out?itemId=${item.id}&unit=${unit}'|">
 										</div>
 									</td>
 								</tr>

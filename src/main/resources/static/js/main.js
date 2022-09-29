@@ -119,3 +119,7 @@ $('.pageElement, .page-link-next, .page-link-prev, .pageSizeChange, .goTo').on("
 });
 
 
+function confirmDelete() {
+	return confirm('Sure you want to delete this record?');
+}
+

@@ -30,8 +30,8 @@ public class StockInService {
 		return stockInRepo.findAll(PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.DESC, "id")));
 	}
 	
-	public Page<StockIn> getAllStockInsByItemId(Long itemId, int pageNo, int pageSize) {
-		return stockInRepo.findByItemId(itemId, PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.DESC, "id")));
+	public Page<StockIn> getAllStockInsByItemAndUnit(Long itemId, String unit, int pageNo, int pageSize) {
+		return stockInRepo.findByItemAndUnit(itemId, unit, PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.DESC, "id")));
 	}
 
 	public StockIn findStockInById(long id) {

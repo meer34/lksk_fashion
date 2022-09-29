@@ -22,6 +22,7 @@ import com.lksk.web.service.ItemService;
 import com.lksk.web.service.ModeratorService;
 import com.lksk.web.service.ProductService;
 import com.lksk.web.service.StockOutService;
+import com.lksk.web.util.LKSKConstants;
 
 @Controller
 public class StockOutController {
@@ -39,21 +40,22 @@ public class StockOutController {
 			@RequestParam(value="fromDate", required = false) String fromDate,
 			@RequestParam(value="toDate", required = false) String toDate,
 			@RequestParam(value="keyword", required = false) String keyword,
-			@RequestParam(value="itemId", required = false) Long itemId) throws ParseException {
+			@RequestParam(value="itemId", required = false) Long itemId,
+			@RequestParam(value="unit", required = false) String unit) throws ParseException {
 		
 		Page<StockOut> listPage = null;
 		
 		if(keyword == null && fromDate == null && toDate == null) {
 			System.out.println("StockOut home page");
-			if(itemId == null) {
-				listPage = stockOutService.getAllStockOuts(page.orElse(1) - 1, size.orElse(4));
+			if(itemId == null && unit == null) {
+				listPage = stockOutService.getAllStockOuts(page.orElse(1) - 1, size.orElse(LKSKConstants.INITIAL_PAGE_SIZE));
 			} else {
-				listPage = stockOutService.getAllStockOutsByItemId(itemId, page.orElse(1) - 1, size.orElse(4));
+				listPage = stockOutService.getAllStockOutsByItemAndUnit(itemId, unit, page.orElse(1) - 1, size.orElse(LKSKConstants.INITIAL_PAGE_SIZE));
 			}
 			
 		} else {
 			System.out.println("Searching StockOuts for fromDate:" + fromDate + " and toDate:" +toDate +" and keyword:" + keyword);
-			listPage = stockOutService.searchStockOutsByDateAndKeyword(keyword, fromDate, toDate, page.orElse(1) - 1, size.orElse(4));
+			listPage = stockOutService.searchStockOutsByDateAndKeyword(keyword, fromDate, toDate, page.orElse(1) - 1, size.orElse(LKSKConstants.INITIAL_PAGE_SIZE));
 			
 			model.addAttribute("fromDate", fromDate);
 			model.addAttribute("toDate", toDate);
