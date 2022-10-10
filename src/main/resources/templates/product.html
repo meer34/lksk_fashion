@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head th:replace="fragments :: html_head" />
+  <body class="app sidebar-mini rtl">
+    <div th:replace="fragments :: app-layout"></div>
+	
+	
+    <main class="app-content">   
+                   <div class="row">
+        <div class="col-md-12">
+          <div class="dashboardicon2" style="text-align: left;">
+            <input type="button" name="nProduct" class="submit action-button" value="Create New Product" th:attr="onclick=|location.href='@{/createProductPage}'|" >
+            <input type="button" name="nProduct" class="submit action-button" value="Create New Item" th:attr="onclick=|location.href='@{/createItemPage}'|" >
+        </div>
+          <div class="tile">
+            <h3 class="tile-title">Products</h3>
+					<form class="dashboardicon" th:action="@{/searchProductRecords}" method="get" >
+						<div class="form-group col-lg-12">
+							<div class="col-lg-12">
+								<input type="text" name="product" id="keyWord" placeholder="Search Products">
+							</div>
+						</div>
+						<div class="col-lg-12 flexdisplay">
+								<input type="submit" class="submit action-button" value="Search">
+						</div>
+					</form>
+					<div class="table-responsive table_size" style="margin-top: 50px;">
+						<form th:action="@{/performProductAction}" method="get">
+							<div class="dashboardicon2" style="text-align: left;" th:if="${productList.size() > 0}">
+								<input type="submit" th:formaction="@{/viewProductRecords}" name="action" class="submit action-button" value="Records">
+								<input type="submit" th:formaction="@{/editProduct}" name="action" class="submit action-button" value="Edit">
+								<input type="button" name="action" class="submit action-button2" value="Print" onclick="printData()">
+							</div>
+							<table class="table table-bordered table-responsive table-hover" style="width: 100%;" id="printTable">
+								<thead class="thead-inverse"
+									style="background-color: #446c9d; color: #FFF;">
+									<tr>
+										<th class="table_heading noPrint" style="width: 10%;"></th>
+										<th class="table_heading" style="width: 90%;">Product</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr style="background-color: #FFF" th:each="product: ${productList}">
+										<td class="noPrint"><input type='radio' th:value="${product.id}" class="radioBtn" name='id'></td>
+										<td th:text="${product.name}" />
+									</tr>
+								</tbody>
+							</table>
+						</form>
+					</div>
+				</div>
+        </div>
+      </div>
+    </main>
+	
+	
+    <div th:replace="fragments :: main_scripts"></div>
+    <div th:replace="fragments :: table_search_script"></div>
+  </body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments :: html_head" />
+<body class="app sidebar-mini rtl">
+	<div th:replace="fragments :: app-layout"></div>
+
+	<main class="app-content">
+		<div class="row">
+			<div class="col-md-12" >
+				<form class="dashboardicon" style="margin-top: 0;" th:action="@{/saveStockInEdit}" method="post" enctype="multipart/form-data" >
+					<fieldset style="margin-top: 0;" id="printTable">
+						<legend style="text-align: center; padding-bottom: 40px;" th:text="${header}" ></legend>
+						<div class="col-lg-12 flexdisplay" >
+							<div class="col-lg-3 col-xs-6 stock-in-marg">
+								<div class="image-upload">
+									<label for="itemImage">
+										<img th:src="*{stockIn.itemImageBlob}" class="after-ph stock-in-img" />
+									</label>
+									<img src="" class="before-ph" style="display: none;" />
+									<canvas style="display: none;"></canvas>
+									<input type="file" id="itemImage" accept="image/*" th:disabled="${param.action[0]=='View'}">
+								</div>
+							</div>
+							<div class="col-lg-3 col-xs-6 stock-in-marg">
+								<div class="image-upload">
+									<label for="colourImage">
+										<img th:src="*{stockIn.colourImageBlob}" class="after-col stock-in-img" />
+									</label>
+									<img src="" class="before-col" style="display: none;" />
+									<canvas style="display: none;"></canvas>
+									<input type="file" name="colourImage" id="colourImage" accept="image/*" th:disabled="${param.action[0]=='View'}">
+								</div>
+							</div>
+							<div class="col-lg-3 col-xs-6 stock-in-marg">
+								<label style="text-align: left; display: block;">Code</label>
+								<input type="text" name="scanCode" id="scanCode" th:value="${stockIn.scanCode}" autocomplete="off" th:disabled="${param.action[0]=='View'}">
+								<input type="button" name="stockInScan" id="scanCodeBtn" value="Scan" th:hidden="${param.action[0]=='View'}">
+							</div>
+							<div class="col-lg-3 col-xs-6 stock-in-marg">
+								<label style="text-align: left; display: block;">Date</label>
+								<input type="Date" name="date" th:value="${stockIn.date}" th:readonly="${param.action[0]=='View'}" ><i class="moz-cover-clear"></i>
+							</div>
+						</div>
+						<div class="col-lg-12 flexdisplay">
+							<div class="col-lg-3 col-xs-6 stock-in-marg">
+								<label style="text-align: left; display: block;">Product</label>
+								<select class="form-control" name="productId" id="products" style="height: 48px;" onchange="onProductChange(this.value)" 
+									th:disabled="${param.action[0]=='View'}" required>
+									<option selected disabled="disabled" value="">Product</option>
+									<option style="color: #333;" th:each="product : ${products}" th:text="${product.name}" 
+										th:value="${product.id}" th:selected="${product.name==stockIn.item?.product?.name}"></option>
+								</select>
+							</div>
+							<div class="col-lg-3 col-xs-6 stock-in-marg">
+								<label style="text-align: left; display: block;">Item</label>
+								<select class="form-control" name="item" id="items" style="height: 48px;" onchange="onItemChange(this.value)" 
+									th:disabled="${param.action[0]=='View'}" required>
+									<option selected disabled="disabled" value="">Item</option>
+									<option selected th:text="${stockIn.item?.name}" th:value="${stockIn.item?.id}"></option>
+								</select>
+							</div>
+							<div class="col-lg-3 col-xs-6 stock-in-marg">
+								<label style="text-align: left; display: block;">Party</label>
+								<select class="form-control" name="party" id="party" style="height: 48px;" th:disabled="${param.action[0]=='View'}" >
+									<option selected disabled="disabled" value="">Party</option>
+									<option style="color: #333;" th:each="party : ${parties}" th:text="${party.name}"  th:value="${party.id}"
+										th:selected="${party.name==stockIn.party?.name}" ></option>
+								</select>
+							</div>
+							<div class="col-lg-3 stock-in-marg">
+								<label style="text-align: left; display: block;">Unit</label>
+								<select class="form-control" name="unit" id="units" style="height: 48px;" th:disabled="${param.action[0]=='View'}" 
+										onchange="resetQuantity();" required>
+									<option selected disabled="disabled" value="">Unit</option>
+									<option selected th:text="${stockIn.unit}" ></option>
+								</select>
+							</div>
+						</div>
+						<div class="col-lg-12 flexdisplay">
+							<div class="col-lg-3 stock-in-marg elem-5">
+								<label style="text-align: left; display: block;">Size</label>
+								<input type="text" name="size" th:value="${stockIn.size}" th:readonly="${param.action[0]=='View'}" >
+							</div>
+							<div class="col-lg-3 col-xs-6 stock-in-marg elem-5">
+								<label style="text-align: left; display: block;">Quantity</label>
+									<input type="number" name="quantity" min="1" th:value="${stockIn.quantity}" th:readonly="${param.action[0]=='View'}" required 
+										oninvalid="this.setCustomValidity('Quantity cannot be 0 or blank')" oninput="this.setCustomValidity('')" 
+										onchange="calculateAmount(); checkIfStockInEditAllowed();" >
+							</div>
+							<div class="col-lg-3 col-xs-6 stock-in-marg elem-5">
+								<label style="text-align: left; display: block;">Price</label>
+								<input type="number" name="price" min="0" step=".01" th:value="${stockIn.price}" onchange="calculateAmount()" th:readonly="${param.action[0]=='View'}" >
+							</div>
+							<div class="col-lg-3 col-xs-6 stock-in-marg elem-5" style="width: 20%">
+								<label style="text-align: left; display: block;">Amount</label>
+								<input type="text" name="amount" th:value="${stockIn.amount}" th:readonly="${param.action[0]=='View'}" >
+							</div>
+							<div class="col-lg-3 col-xs-6 stock-in-marg elem-5">
+								<label style="text-align: left; display: block;">Colour</label>
+								<input type="text" name="colour" th:value="${stockIn.colour}" th:readonly="${param.action[0]=='View'}" >
+							</div>
+						</div>
+						<div class="col-lg-12 flexdisplay">
+							<div class="col-lg-3 col-xs-6 stock-in-marg">
+								<label style="text-align: left; display: block;">Received By</label>
+								<select class="form-control" name="receivedBy" id="select" style="height: 48px;" th:disabled="${param.action[0]=='View'}" >
+									<option disabled="disabled" value="">Received By</option>
+									<option style="color: #333;" th:each="moderator : ${moderators}" th:text="${moderator.name}"  th:value="${moderator.id}"
+										th:selected="${moderator.name==stockIn.receivedBy?.name}" ></option>
+								</select>
+							</div>
+							<div class="col-lg-3 col-xs-6 stock-in-marg">
+								<label style="text-align: left; display: block;">Received In</label>
+								<select class="form-control" name="receivedIn" id="select" style="height: 48px;" th:disabled="${param.action[0]=='View'}" >
+									<option disabled="disabled">Received In</option>
+									<option style="color: #333;" th:selected="${stockIn.receivedIn=='Metiya Bruz'}" >Metiya Bruz</option>
+									<option style="color: #333;" th:selected="${stockIn.receivedIn=='Barabazar'}" >Barabazar</option>
+								</select>
+							</div>
+							<div class="col-lg-6 stock-in-marg">
+								<label style="text-align: left; display: block;">Remarks</label>
+								<input type="text" name="remakrs" th:value="${stockIn.remakrs}" th:readonly="${param.action[0]=='View'}" >
+							</div>
+						</div>
+						<input type='hidden' th:value="${stockIn.id}" id="id" name='id'>
+						
+						<input type="button" name="cancel" class="previous action-button-previous" value="Cancel" onclick="window.history.back()" >
+						
+						<input th:if="'Save' == ${submitValue}" type="submit" name="action" class="submit action-button" value="Save" >
+						<input th:if="'Print' == ${submitValue}" type="button" name="action" class="submit action-button" value="Print" onclick="printData()" >
+						
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</main>
+	
+	<div th:replace="fragments :: img_upd_modal"></div>
+	<div th:replace="fragments :: scan_qr_modal"></div>
+	
+	<div th:replace="fragments :: main_scripts"></div>
+	<div th:replace="fragments :: add_edit_scripts"></div>
+</body>
+</html>

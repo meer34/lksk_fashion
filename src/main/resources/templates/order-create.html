@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+   <head th:replace="fragments :: html_head" />
+  <body class="app sidebar-mini rtl">
+    <div th:replace="fragments :: app-layout"></div>
+	
+	
+      <main class="app-content">
+         <div class="row">
+            <div class="col-md-12">
+               <form class="dashboardicon" style="margin-top: 0;" action="addOrder" method="post" enctype="multipart/form-data">
+                  <fieldset style="margin-top: 0;">
+                     <legend class="order-style">New Order</legend>
+                     <div class="col-lg-12 flexdisplay">
+					  <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12 margin-img">
+                          <div class="image-upload">
+								<label for="itemImage">
+									<img th:src="@{/images/product_image.jpg}" class="after-ph stock-in-img" />
+								</label>
+								<img src="" class="before-ph" style="display: none;" />
+								<canvas style="display: none;"></canvas>
+								<input type="file" id="itemImage" >
+							</div>
+                        </div>
+						 <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12 margin-img">
+                           <div class="image-upload">
+								<label for="colourImage">
+									<img th:src="@{/images/product_colour.jpg}" class="after-col stock-in-img" />
+								</label>
+								<img src="" class="before-col" style="display: none;" />
+								<canvas style="display: none;"></canvas>
+								<input type="file" id="colourImage" >
+							</div>
+                        </div>
+                        <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+                           <input type="text" name="mark" placeholder="Mark">
+                        </div>
+                        <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+                           <input type="text" name="supplier" placeholder="Supplier">
+                        </div>
+                     </div>
+                     <div class="col-lg-12 flexdisplay">
+						<div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+							<select class="form-control" name="productId" id="products" style="height: 48px;" onchange="onProductChange(this.value)" required>
+								<option selected disabled="disabled" value="">Product</option>
+								<option style="color: #333;" th:each="product : ${products}" th:text="${product.name}" th:value="${product.id}"></option>
+							</select>
+						</div>
+						<div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+							<select class="form-control" name="item" id="items" style="height: 48px;" onchange="onItemChange(this.value)" required>
+								<option selected disabled="disabled" value="">Item</option>
+							</select>
+						</div>
+                        <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+                           <select class="form-control" name="unit" id="units" style="height: 48px;" >
+								<option selected disabled="disabled" value="">Unit</option>
+							</select>
+                        </div>
+                        <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+                           <input type="text" name="colour" placeholder="Colour">
+                        </div>
+                     </div>
+                     <div class="col-lg-12 flexdisplay">
+                       <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+                           <input type="number" id="quantity" name="quantity" placeholder="Quantity" min="1" required 
+									oninvalid="this.setCustomValidity('Quantity cannot be 0 or blank')" oninput="this.setCustomValidity('')"
+									onchange="calculateAmount()" >
+                        </div>
+                        <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+                           <input type="text" name="size" placeholder="Size">
+                        </div>
+                        <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+                           <input type="text" name="sLength" placeholder="Size(Length)">
+                        </div>
+                        <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+                           <input type="text" name="sWidth" placeholder="Size(Width)">
+                        </div>
+                     </div>
+                     <div class="col-lg-12 flexdisplay">
+                        <div class="col-lg-3 col-xs-12">
+                           <input type="number" name="price" placeholder="Price" min="0" step=".01" onchange="calculateAmount()" >
+                        </div>
+                        <div class="col-lg-3 col-xs-12">
+                           <input type="number" name="amount" placeholder="Amount" readonly>
+                        </div>
+                        <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+                           <input type="text" name="reference" placeholder="Reference">
+                        </div>
+                        <div class="col-lg-3 col-xs-12">
+                           <input type="date" name="date" placeholder="Date">
+                        </div>
+                     </div>
+                     <div class="col-lg-12 flexdisplay">
+                        <div class="col-lg-3 col-xs-12">
+                           <input type="date" name="deliveryDate" placeholder="Delivery Date">
+                        </div>
+                        <div class="col-lg-9 col-xs-12">
+                           <textarea name="remarks" class="form-control" placeholder="Remarks" style="height: 52px;"></textarea>
+                     </div>
+                   </div>
+                     <input type="button" name="cancel" class="previous action-button-previous" value="Cancel" onclick="window.history.back()" >
+                     <input type="submit" name="submit" class="submit action-button" value="Save">
+               </fieldset>
+               </form>
+            </div>
+         </div>
+      </main>
+    
+	<div th:replace="fragments :: img_upd_modal"></div>
+	
+	<div th:replace="fragments :: main_scripts"></div>
+	<div th:replace="fragments :: add_edit_scripts"></div>
+  </body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head th:replace="fragments :: html_head" />
+  <body class="app sidebar-mini rtl">
+    <div th:replace="fragments :: app-layout"></div>
+	
+	
+    <main class="app-content">   
+      <div class="row">
+        <div class="col-md-12">
+          <div class="tile">
+            <h3 class="tile-title">Stocks</h3>
+				<form class="dashboardicon" th:action="@{/searchTotalStock}" method="get">
+					<div class="form-group col-lg-12">
+					<div class="col-lg-12">
+						<input type="text" name="item" id="keyWord" placeholder="Search Item">
+					</div>
+					<div class="col-lg-12 flexdisplay">
+							<input type="submit" class="submit action-button" value="Search">
+					</div>
+					</div>
+				</form>
+				<div class="dashboardicon2" style="text-align: left;" >
+					<input type="button" name="action" class="submit action-button" value="Print Stocks" onclick="printData()" >
+				</div>
+				<div class="table-responsive table_size" >   
+						<form th:action="@{/performTotalStockAction}" method="get">					   
+						<table class="table table-bordered table-responsive table-hover" style=" width: 100%;" id="printTable" >
+							<thead class="thead-inverse" style="background-color:#446c9d; color:#FFF;">
+							<tr>
+								<th class="table_heading" style="width: 25%;">Product</th>
+								<th class="table_heading" style="width: 25%;">Unit</th>
+								<th class="table_heading" style="width: 25%;">Quantity</th>       
+								<th class="table_heading noPrint" style="width: 25%;">Action</th>
+							</tr>
+							</thead>
+							<tbody th:each="item: ${itemList}" >
+								<tr style="background-color:#FFF" th:each="unit: ${item.units}" >
+									<td th:text="${item.name}" />
+									<td th:text="${unit}" />
+									<td th:text="${item.getQuantity(unit)}" />
+									<td class="noPrint">
+										<div class="dashboardicon2" style="text-align: left;">
+											<input type="button" name="records" class="submit action-button" value="Stock Ins" 
+												th:attr="onclick=|location.href='stock-in?itemId=${item.id}&unit=${unit}'|">
+											<input type="button" name="records" class="submit action-button" value="Stock Outs" 
+												th:attr="onclick=|location.href='stock-out?itemId=${item.id}&unit=${unit}'|">
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</form>
+				</div>
+			</div>
+        </div>
+      </div>
+    </main>
+    
+	
+	<div th:replace="fragments :: main_scripts"></div>
+	<div th:replace="fragments :: table_search_script"></div>
+  </body>
+</html>

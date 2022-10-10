@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+   <head th:replace="fragments :: html_head" />
+  <body class="app sidebar-mini rtl">
+    <div th:replace="fragments :: app-layout"></div>
+	
+      <main class="app-content">
+         <div class="row">
+			<div class="col-md-12">
+				<form class="dashboardicon" style="margin-top: 0;" th:action="@{addStockIn}" method="post" enctype="multipart/form-data">
+					 <fieldset style="margin-top: 0;">
+						<legend style="text-align:center; padding-top: 80px;" >New Stock In</legend>
+						<div class="col-lg-12 flexdisplay">
+							<div class="col-lg-4">
+								<div class="image-upload">
+									<label for="itemImage">
+										<img th:src="@{/images/product_image.jpg}" class="after-ph stock-in-img" />
+									</label>
+									<input type="file" id="itemImage" accept="image/*">
+								</div>
+							</div>
+							<div class="col-lg-4">
+								<div class="image-upload">
+									<label for="colourImage">
+										<img th:src="@{/images/product_colour.jpg}" class="after-col stock-in-img" />
+									</label>
+									<input type="file" id="colourImage" accept="image/*">
+								</div>
+							</div>
+							<div class="col-lg-4" >
+								<input type="text" name="scanCode" id="scanCode" placeholder="Scan Code" autocomplete="off" >
+								<input type="button" name="stockInScan" id="scanCodeBtn" value="Scan">
+							</div>
+						</div>
+						<div class="col-lg-12 flexdisplay">
+							<div class="col-lg-4 col-xs-6">
+								<select class="form-control" name="productId" id="products" style="height: 48px;" onchange="onProductChange(this.value)" required>
+									<option selected disabled="disabled" value="">Product</option>
+									<option style="color: #333;" th:each="product : ${products}" th:text="${product.name}" th:value="${product.id}"></option>
+								</select>
+							</div>
+							<div class="col-lg-4 col-xs-6">
+								<select class="form-control" name="item" id="items" style="height: 48px;" onchange="onItemChange(this.value)" required>
+									<option selected disabled="disabled" value="">Item</option>
+								</select>
+							</div>
+							<div class="col-lg-4 col-xs-6">
+								<select class="form-control" name="unit" id="units" style="height: 48px;" >
+									<option selected disabled="disabled" value="">Unit</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-lg-12 flexdisplay">
+							<div class="col-lg-4 col-xs-6">
+								<input type="text" class="form-control" name="size" id="size" placeholder="Size">
+							</div>
+							<div class="col-lg-4 col-xs-6">
+								<input type="text" class="form-control" name="colour" id="colour" placeholder="Colour">
+							</div>
+							<div class="col-lg-4 col-xs-6">
+								<select class="form-control" name="party" id="party" style="height: 48px;" >
+									<option selected disabled="disabled" value="">Party</option>
+									<option style="color: #333;" th:each="party : ${parties}" th:text="${party.name}" th:value="${party.id}" ></option>
+								</select>
+							</div>
+						</div>
+						<div class="col-lg-12 flexdisplay">
+							<div class="col-lg-4 col-xs-4">
+								<input type="number" id="quantity" name="quantity" placeholder="Quantity" min="1" required 
+									oninvalid="this.setCustomValidity('Quantity cannot be 0 or blank')" oninput="this.setCustomValidity('')"
+									onchange="calculateAmount()" >
+							</div>
+							<div class="col-lg-4 col-xs-4">
+								<input type="number" name="price" placeholder="Price" min="0" step=".01" onchange="calculateAmount()" >
+							</div>
+							<div class="col-lg-4 col-xs-4">
+								<input type="number" name="amount" placeholder="Amount" readonly>
+							</div>
+						</div>
+						<div class="col-lg-12 flexdisplay">
+							<div class="col-lg-4 col-xs-6">
+								<input type="Date" class="form-control" name="date" id="inputDate" placeholder="Date">
+							</div>
+							<div class="col-lg-4 col-xs-6">
+								<select class="form-control" name="receivedBy" id="select" style="height: 48px;">
+									<option selected="selected" disabled="disabled">Received By</option>
+									<option style="color: #333;" th:each=" moderator : ${ moderators }" th:text="${moderator.name}" th:value="${moderator.id}"></option>
+								</select>
+							</div>
+							<div class="col-lg-4 col-xs-6">
+								<select class="form-control" name="receivedIn" id="select" style="height: 48px;">
+									<option selected="selected" disabled="disabled">Received In</option>
+									<option style="color: #333;">Metiya Bruz</option>
+									<option style="color: #333;">Barabazar</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group col-lg-12">
+							<div class="col-lg-12">
+								<textarea name="remakrs" class="form-control"
+									placeholder="Remarks"></textarea>
+							</div>
+						</div>
+							<input type="button" name="cancel" class="previous action-button-previous" value="Cancel" onclick="window.history.back()" >
+							<input type="submit" name="submit" class="submit action-button" value="Save">
+					</fieldset>
+				</form>
+			</div>
+		</div>
+		
+    </main>
+	
+	<div th:replace="fragments :: img_upd_modal"></div>
+	<div th:replace="fragments :: scan_qr_modal"></div>
+	
+	<div th:replace="fragments :: main_scripts"></div>
+	<div th:replace="fragments :: add_edit_scripts"></div>
+   </body>
+</html>
